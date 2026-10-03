@@ -1,0 +1,4 @@
+-- Seed para desarrollo local (supabase db reset lo ejecuta automáticamente).
+-- Vacío por ahora: el primer usuario que se registre será 'trainer' (Manu)
+-- gracias al trigger handle_new_user. Añade aquí datos de ejemplo si te hace
+-- falta para probar la UI sin registrarte a mano.
