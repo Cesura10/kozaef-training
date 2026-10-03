@@ -46,10 +46,10 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
             ))}
           </nav>
           <div className="flex items-center gap-1">
-            <ButtonLink href="/login" variant="ghost" size="sm" className="hidden sm:inline-flex">
+            <ButtonLink href="/login" variant="ghost" size="sm" className="hidden sm:inline-flex" data-track="cta_click" data-cta="login" data-location="nav">
               {t.nav.login}
             </ButtonLink>
-            <ButtonLink href="#coaching" size="sm" className="whitespace-nowrap px-4">
+            <ButtonLink href="#coaching" size="sm" className="whitespace-nowrap px-4" data-track="cta_click" data-cta="apply" data-location="nav">
               {t.nav.apply}
             </ButtonLink>
           </div>
@@ -70,11 +70,11 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
               {t.hero.subtitle}
             </p>
             <div className="mt-9 flex flex-wrap gap-3">
-              <ButtonLink href="#herramientas" className="h-12 px-6">
+              <ButtonLink href="#herramientas" className="h-12 px-6" data-track="cta_click" data-cta="tools" data-location="hero">
                 {t.hero.ctaTools}
                 <ArrowRight size={16} weight="bold" />
               </ButtonLink>
-              <ButtonLink href="#coaching" variant="outline" className="h-12 px-6">
+              <ButtonLink href="#coaching" variant="outline" className="h-12 px-6" data-track="cta_click" data-cta="apply" data-location="hero">
                 {t.nav.apply}
               </ButtonLink>
             </div>
@@ -224,7 +224,7 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
                 ))}
               </ul>
               <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3">
-                <ButtonLink href="#coaching" className="h-12 px-7">
+                <ButtonLink href="#coaching" className="h-12 px-7" data-track="cta_click" data-cta="apply" data-location="coaching">
                   {t.nav.apply}
                   <ArrowRight size={16} weight="bold" />
                 </ButtonLink>
@@ -273,6 +273,8 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
                   key={l}
                   href={`/${l}`}
                   hrefLang={l}
+                  data-track="language_switch"
+                  data-to={l}
                   aria-current={l === locale ? 'page' : undefined}
                   className="uppercase text-faint hover:text-fg aria-[current=page]:text-primary"
                 >

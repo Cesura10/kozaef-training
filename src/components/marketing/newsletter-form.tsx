@@ -2,6 +2,7 @@
 
 import { useId, useState } from 'react';
 import type { Dictionary } from '@/i18n/dictionaries/es';
+import { track } from '@/lib/analytics/client';
 
 type Status = 'idle' | 'error' | 'preview';
 
@@ -16,7 +17,9 @@ export function NewsletterForm({ t }: { t: Dictionary['newsletter'] }) {
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const email = String(new FormData(e.currentTarget).get('email') ?? '').trim();
-    setStatus(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? 'preview' : 'error');
+    const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    setStatus(valid ? 'preview' : 'error');
+    track('newsletter_submit', { status: valid ? 'ok' : 'invalid' });
   }
 
   return (
