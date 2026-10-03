@@ -1,7 +1,10 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import { ArrowSquareOut, CheckCircle, Prohibit, WarningCircle } from '@phosphor-icons/react/dist/ssr';
+import { ArrowSquareOut, CheckCircle, Info, Prohibit, WarningCircle } from '@phosphor-icons/react/dist/ssr';
+import { getTraffic } from '@/lib/analytics/traffic';
+import { TimeSeries } from '@/components/charts/time-series';
+import { BarList } from '@/components/charts/bar-list';
 import { createClient } from '@/lib/supabase/server';
 import { getSessionProfile } from '@/lib/auth';
 import { FREE_PLAN_QUOTAS, LIMITS, MONTHLY_COSTS_EUR } from '@/lib/limits';
@@ -55,9 +58,10 @@ export default async function AnalyticsPage({ searchParams }: PageProps<'/analit
   const days = RANGES.find((r) => String(r) === sp.d) ?? 30;
 
   const supabase = await createClient();
-  const [{ data, error }, { data: flags }] = await Promise.all([
+  const [{ data, error }, { data: flags }, traffic] = await Promise.all([
     supabase.rpc('analytics_overview', { p_days: days }),
     supabase.from('feature_flags').select('key, enabled').in('key', Object.keys(FLAG_LABELS)),
+    getTraffic(days),
   ]);
   const o = data as unknown as Overview | null;
 
@@ -90,19 +94,84 @@ export default async function AnalyticsPage({ searchParams }: PageProps<'/analit
         <p className="card p-6 text-sm text-danger">No se pudieron cargar los datos ({error?.message ?? 'sin respuesta'}).</p>
       ) : (
         <>
+          {traffic.demo && (
+            <p role="note" className="flex items-start gap-3 rounded-2xl border border-primary/40 bg-primary/10 p-4 text-sm text-fg">
+              <Info size={20} weight="fill" className="mt-0.5 shrink-0 text-primary" aria-hidden />
+              <span>
+                <strong className="font-semibold">Tráfico con datos de ejemplo.</strong> Los gráficos de visitas y clics
+                muestran cómo se verá el panel. Se llenarán con datos reales al conectar PostHog. Los datos de
+                negocio (emails, solicitudes, clientes) ya son reales.
+              </span>
+            </p>
+          )}
+
           {/* KPIs */}
           <section aria-label="Resumen" className="grid grid-cols-2 gap-3 md:grid-cols-5">
-            <Kpi label="Emails captados" value={fmt(o.funnel.leads)} />
-            <Kpi label="Solicitudes" value={fmt(o.funnel.applications)} />
-            <Kpi label="Llamadas" value={fmt(o.funnel.calls)} />
+            <Kpi label="Visitas" value={fmt(traffic.totals.views)} hint={traffic.demo ? 'Ejemplo' : 'Páginas vistas'} />
+            <Kpi label="Visitantes" value={fmt(traffic.totals.visitors)} hint={traffic.demo ? 'Ejemplo' : 'Sesiones'} />
+            <Kpi label="Emails captados" value={fmt(o.funnel.leads)} hint={traffic.demo ? 'Dato real' : `${pct(o.funnel.leads, traffic.totals.visitors)} de los visitantes`} />
+            <Kpi label="Solicitudes" value={fmt(o.funnel.applications)} hint={`${fmt(o.funnel.calls)} llamadas`} />
             <Kpi label="Clientes nuevos" value={fmt(o.funnel.won)} />
-            <Kpi label="Coste este mes" value={`${monthlyCost.toLocaleString('es-ES')} €`} hint="Infraestructura" />
           </section>
+
+          {/* Tráfico */}
+          <section aria-labelledby="visits-h" className="card p-6">
+            <h2 id="visits-h" className="text-lg font-semibold">Visitas por día</h2>
+            <p className="mb-5 mt-1 text-sm text-muted">Los picos suelen ser un vídeo que ha funcionado: mira qué publicaste ese día.</p>
+            <TimeSeries
+              data={traffic.daily}
+              series={[
+                { key: 'views', label: 'Páginas vistas' },
+                { key: 'visitors', label: 'Visitantes' },
+              ]}
+            />
+          </section>
+
+          <div className="grid gap-6 lg:grid-cols-2">
+            <ChartCard id="channels" title="De dónde vienen" subtitle="Visitantes por canal de origen.">
+              <BarList data={traffic.channels} total={traffic.channels.reduce((a, b) => a + b.value, 0)} />
+            </ChartCard>
+            <ChartCard id="devices" title="Dispositivo" subtitle="Si casi todo es móvil, diseña y prueba primero en móvil.">
+              <BarList data={traffic.devices} total={traffic.devices.reduce((a, b) => a + b.value, 0)} />
+            </ChartCard>
+          </div>
+
+          <section aria-labelledby="inter-h" className="card p-6">
+            <h2 id="inter-h" className="text-lg font-semibold">Interacciones por día</h2>
+            <p className="mb-5 mt-1 text-sm text-muted">Visitas que hacen algo: usar una calculadora o intentar dejar su email.</p>
+            <TimeSeries
+              data={traffic.interactions}
+              series={[
+                { key: 'tools', label: 'Usos de herramientas' },
+                { key: 'emails', label: 'Intentos de dejar email' },
+              ]}
+            />
+          </section>
+
+          <div className="grid gap-6 lg:grid-cols-2">
+            <ChartCard id="pages" title="Páginas más vistas" subtitle="Qué contenido atrae. Haz más de lo que funciona.">
+              <BarList data={traffic.pages} />
+            </ChartCard>
+            <ChartCard id="countries" title="Países" subtitle="Si crece Latinoamérica o el inglés, adapta contenido.">
+              <BarList data={traffic.countries} total={traffic.countries.reduce((a, b) => a + b.value, 0)} />
+            </ChartCard>
+          </div>
+
+          <div className="grid gap-6 lg:grid-cols-2">
+            <ChartCard id="ctas" title="Clics en botones" subtitle="Qué botón y en qué posición convence más.">
+              <BarList data={traffic.ctas} />
+            </ChartCard>
+            <ChartCard id="tools" title="Herramientas más usadas" subtitle="La que más se usa merece estar más visible.">
+              <BarList data={traffic.tools} total={traffic.tools.reduce((a, b) => a + b.value, 0)} />
+            </ChartCard>
+          </div>
+
+          <h2 className="display pt-4 text-2xl font-bold">Negocio</h2>
 
           {!hasData && (
             <p className="card p-5 text-sm text-muted">
-              Aún no hay datos en estos {days} días. El panel se llena solo en cuanto la web empiece a captar
-              emails y solicitudes. Las visitas y los clics se ven en PostHog y Cloudflare (enlaces abajo).
+              Aún no hay emails ni solicitudes en estos {days} días. Esta parte se llena sola en cuanto la web
+              empiece a captar datos.
             </p>
           )}
 
@@ -253,6 +322,28 @@ export default async function AnalyticsPage({ searchParams }: PageProps<'/analit
         </>
       )}
     </div>
+  );
+}
+
+function ChartCard({
+  id,
+  title,
+  subtitle,
+  children,
+}: {
+  id: string;
+  title: string;
+  subtitle: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section aria-labelledby={`${id}-h`} className="card p-6">
+      <h2 id={`${id}-h`} className="text-lg font-semibold">
+        {title}
+      </h2>
+      <p className="mb-4 mt-1 text-sm text-muted">{subtitle}</p>
+      {children}
+    </section>
   );
 }
 
