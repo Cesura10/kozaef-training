@@ -136,3 +136,14 @@ body {
 
 .no-scrollbar { scrollbar-width: none; }
 .no-scrollbar::-webkit-scrollbar { display: none; }
+
+/* Campos numéricos sin flechas: en móvil se usa el teclado numérico y las flechas tapan el valor. */
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type='number'] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}

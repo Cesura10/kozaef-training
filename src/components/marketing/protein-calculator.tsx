@@ -1,9 +1,10 @@
 'use client';
 
-import { useEffect, useId, useRef, useState } from 'react';
+import { useId, useRef, useState } from 'react';
 import { track } from '@/lib/analytics/client';
 import { saveLastToolResult } from '@/lib/analytics/last-tool';
-import { animate, motion, useMotionValue, useReducedMotion, useTransform } from 'motion/react';
+import { motion } from 'motion/react';
+import { AnimatedNumber } from '@/components/calculators/animated-number';
 import { ArrowRight } from '@phosphor-icons/react/dist/ssr';
 import {
   PROTEIN_GOALS,
@@ -17,24 +18,6 @@ const GOALS = Object.keys(PROTEIN_GOALS) as ProteinGoal[];
 
 function fill(template: string, values: Record<string, number>) {
   return template.replace(/\{(\w+)\}/g, (_, k: string) => String(values[k] ?? ''));
-}
-
-/** Número que se desliza hasta el nuevo valor (estático con reduced motion). */
-function AnimatedNumber({ value }: { value: number }) {
-  const reduce = useReducedMotion();
-  const mv = useMotionValue(value);
-  const rounded = useTransform(mv, (v) => Math.round(v).toString());
-
-  useEffect(() => {
-    if (reduce) {
-      mv.set(value);
-      return;
-    }
-    const controls = animate(mv, value, { type: 'spring', stiffness: 140, damping: 22 });
-    return () => controls.stop();
-  }, [value, reduce, mv]);
-
-  return <motion.span>{rounded}</motion.span>;
 }
 
 export function ProteinCalculator({ t }: { t: Dictionary['calculator'] }) {
@@ -75,7 +58,7 @@ export function ProteinCalculator({ t }: { t: Dictionary['calculator'] }) {
                 markUsed(key);
               }}
               aria-pressed={goal === key}
-              className="relative rounded-full px-2 py-2 text-xs font-medium text-muted transition-colors hover:text-fg aria-pressed:text-primary-fg sm:text-[13px]"
+              className="relative rounded-full px-1 py-2 text-[11px] font-medium text-muted transition-colors hover:text-fg aria-pressed:text-primary-fg min-[400px]:px-2 min-[400px]:text-xs sm:text-[13px]"
             >
               {goal === key && (
                 <motion.span

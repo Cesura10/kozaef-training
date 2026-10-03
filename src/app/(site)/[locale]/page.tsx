@@ -14,6 +14,8 @@ import { ProteinCalculator } from '@/components/marketing/protein-calculator';
 import { NewsletterForm } from '@/components/marketing/newsletter-form';
 import { Reveal } from '@/components/marketing/reveal';
 import { hasLocale } from '@/i18n/config';
+import Link from 'next/link';
+import { toolPath } from '@/content/tools';
 import { SiteHeader } from '@/components/site/site-header';
 import { SiteFooter } from '@/components/site/site-footer';
 import { getDictionary } from '@/i18n/dictionaries';
@@ -69,12 +71,16 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
 
             <div className="mt-12 grid gap-4 md:grid-cols-3 md:grid-rows-2">
               <Reveal className="md:col-span-2 md:row-span-2">
-                <article className="gold-sheen relative flex h-full min-h-[22rem] flex-col justify-between overflow-hidden rounded-[var(--radius-xl)] border border-primary/25 p-8 md:p-10">
+                <Link
+                  href={toolPath('calories', locale)}
+                  className="group gold-sheen relative flex h-full min-h-[22rem] flex-col justify-between overflow-hidden rounded-[var(--radius-xl)] border border-primary/25 p-8 transition-colors hover:border-primary/60 md:p-10"
+                >
                   <div className="flex items-center justify-between">
                     <Fire size={28} weight="duotone" className="text-primary" />
-                    <span className="rounded-full border border-primary/30 px-3 py-1 text-xs text-primary">
-                      {t.tools.soon}
-                    </span>
+                    <ArrowUpRight
+                      size={22}
+                      className="text-primary/70 transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-primary"
+                    />
                   </div>
                   <div>
                     <p className="display text-[5.5rem] font-bold leading-none text-fg/10 sm:text-[8rem]" aria-hidden>
@@ -85,12 +91,12 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
                       {t.tools.calories.body}
                     </p>
                   </div>
-                </article>
+                </Link>
               </Reveal>
 
               <Reveal delay={0.08}>
-                <a
-                  href="#calculadora"
+                <Link
+                  href={toolPath('protein', locale)}
                   className="group flex h-full flex-col justify-between gap-10 rounded-[var(--radius-xl)] border border-border bg-surface p-7 transition-colors hover:border-primary/50"
                 >
                   <div className="flex items-center justify-between">
@@ -104,20 +110,26 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
                     <h3 className="text-xl font-semibold">{t.tools.protein.title}</h3>
                     <p className="mt-2 text-sm text-muted">{t.tools.protein.body}</p>
                   </div>
-                </a>
+                </Link>
               </Reveal>
 
               <Reveal delay={0.16}>
-                <article className="flex h-full flex-col justify-between gap-10 rounded-[var(--radius-xl)] border border-border bg-surface-2 p-7">
+                <Link
+                  href={toolPath('bodyfat', locale)}
+                  className="group flex h-full flex-col justify-between gap-10 rounded-[var(--radius-xl)] border border-border bg-surface-2 p-7 transition-colors hover:border-primary/50"
+                >
                   <div className="flex items-center justify-between">
                     <Ruler size={26} weight="duotone" className="text-primary" />
-                    <span className="text-xs text-faint">{t.tools.soon}</span>
+                    <ArrowUpRight
+                      size={20}
+                      className="text-faint transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-primary"
+                    />
                   </div>
                   <div>
                     <h3 className="text-xl font-semibold">{t.tools.bodyfat.title}</h3>
                     <p className="mt-2 text-sm text-muted">{t.tools.bodyfat.body}</p>
                   </div>
-                </article>
+                </Link>
               </Reveal>
             </div>
           </div>
