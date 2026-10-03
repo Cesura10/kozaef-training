@@ -26,3 +26,25 @@ export const LIMITS = {
 
 export type RateLimitKey = keyof typeof LIMITS.perIp;
 export type DailyCounter = keyof typeof LIMITS.daily;
+
+/**
+ * Coste mensual real de la infraestructura, en euros. Actualizar al contratar algo.
+ * El panel de analítica lo compara con los ingresos (regla: subir de plan solo si
+ * ingresos >= 3 x coste; docs/ecosistema.md §14).
+ */
+export const MONTHLY_COSTS_EUR = {
+  cloudflare: 0,
+  supabase: 0,
+  email: 0,
+  analytics: 0,
+  domain: 0, // ~1,25 €/mes cuando se compre (15 €/año)
+} as const;
+
+/** Topes de los planes gratis, para mostrar el margen en el panel. */
+export const FREE_PLAN_QUOTAS = {
+  emailsPerDay: 100,
+  emailsPerMonth: 3_000,
+  workerRequestsPerDay: 100_000,
+  dbMegabytes: 500,
+  monthlyActiveUsers: 50_000,
+} as const;

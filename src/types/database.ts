@@ -980,6 +980,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      analytics_overview: { Args: { p_days?: number }; Returns: Json }
       bump_daily_counter: {
         Args: { p_cap: number; p_name: string }
         Returns: boolean

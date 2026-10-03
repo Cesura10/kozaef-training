@@ -20,6 +20,7 @@ export default async function AppLayout({
     role === 'trainer'
       ? [
           { href: '/dashboard', label: 'Panel' },
+          { href: '/analitica', label: 'Analítica' },
           { href: '/clientes', label: 'Clientes' },
           { href: '/ejercicios', label: 'Ejercicios' },
         ]

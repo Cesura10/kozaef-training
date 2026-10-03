@@ -18,6 +18,7 @@ export const config = {
     '/revisiones/:path*',
     '/app/:path*',
     '/panel/:path*',
+    '/analitica/:path*',
     '/login',
     '/signup',
     '/entrar',
