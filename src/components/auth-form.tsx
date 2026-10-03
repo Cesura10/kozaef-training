@@ -1,23 +1,26 @@
 'use client';
 
-import { useState, useTransition } from 'react';
+import { useActionState, useState, useTransition } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
+import { EnvelopeSimple } from '@phosphor-icons/react';
 import { createClient } from '@/lib/supabase/client';
 import { Button } from '@/components/ui/button';
+import { AUTH_METHODS } from '@/lib/auth-flags';
+import { requestMagicLink, type MagicLinkState } from '@/lib/auth-actions';
 
 type Mode = 'login' | 'signup';
 
 const COPY: Record<Mode, { title: string; cta: string; alt: string; altHref: string; altLabel: string }> = {
   login: {
-    title: 'Inicia sesión',
+    title: 'Entra en Kozaef',
     cta: 'Entrar',
     alt: '¿Aún no tienes cuenta?',
     altHref: '/signup',
     altLabel: 'Crear cuenta',
   },
   signup: {
-    title: 'Crea tu cuenta',
+    title: 'Crea tu cuenta en Kozaef',
     cta: 'Crear cuenta',
     alt: '¿Ya tienes cuenta?',
     altHref: '/login',
@@ -34,7 +37,6 @@ export function AuthForm({ mode }: { mode: Mode }) {
     ? 'No se pudo completar la autenticación. Inténtalo de nuevo.'
     : null;
 
-  const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(initialError);
@@ -43,6 +45,9 @@ export function AuthForm({ mode }: { mode: Mode }) {
   const [pending, startTransition] = useTransition();
 
   const copy = COPY[mode];
+  const [magic, sendMagic, magicPending] = useActionState<MagicLinkState, FormData>(requestMagicLink, {
+    status: 'idle',
+  });
 
   async function signInWithGoogle() {
     setError(null);
@@ -89,7 +94,7 @@ export function AuthForm({ mode }: { mode: Mode }) {
         email,
         password,
         options: {
-          data: { full_name: fullName.trim() || null },
+          data: { full_name: null },
           emailRedirectTo: `${window.location.origin}/auth/confirm?next=${encodeURIComponent(next)}`,
         },
       });
@@ -108,73 +113,102 @@ export function AuthForm({ mode }: { mode: Mode }) {
     });
   }
 
-  const busy = pending || googleLoading;
+  const busy = pending || googleLoading || magicPending;
+
+  if (magic.status === 'sent') {
+    return (
+      <div className="animate-[rise_0.5s_cubic-bezier(0.22,1,0.36,1)_both] w-full max-w-sm">
+        <div className="card p-6 text-center sm:p-8">
+          <EnvelopeSimple size={36} weight="duotone" className="mx-auto text-primary" />
+          <h1 className="display mt-4 text-2xl font-bold">Revisa tu email</h1>
+          <p className="mt-2 text-sm text-muted">
+            Hemos enviado un enlace a <span className="text-fg">{magic.email}</span>. Ábrelo en este
+            dispositivo para entrar. Caduca en 1 hora.
+          </p>
+          <p className="mt-4 text-xs text-faint">¿No llega? Mira en spam o promociones.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="animate-[rise_0.5s_cubic-bezier(0.22,1,0.36,1)_both] w-full max-w-sm">
       <div className="card p-6 sm:p-8">
-        <h1 className="text-xl font-semibold tracking-tight">{copy.title}</h1>
-        <p className="mt-1 text-sm text-muted">
-          Rutinas, dietas, revisiones y chat con tu entrenador.
-        </p>
+        <h1 className="display text-2xl font-bold">{copy.title}</h1>
+        <p className="mt-1 text-sm text-muted">Tu entrenamiento, tu dieta y tus revisiones en un sitio.</p>
 
-        <button
-          type="button"
-          onClick={signInWithGoogle}
-          disabled={busy}
-          className="mt-6 flex h-11 w-full items-center justify-center gap-3 rounded-xl border border-border-strong bg-surface-2 text-sm font-medium text-fg transition hover:border-faint hover:bg-elevated disabled:opacity-50 active:scale-[0.98]"
-        >
-          <GoogleGlyph />
-          {googleLoading ? 'Conectando…' : 'Continuar con Google'}
-        </button>
-
-        <div className="my-5 flex items-center gap-3 text-xs text-faint">
-          <span className="h-px flex-1 bg-border" />o con tu email
-          <span className="h-px flex-1 bg-border" />
-        </div>
-
-        <form onSubmit={onSubmit} className="space-y-3">
+        <form action={sendMagic} className="mt-6 space-y-3">
+          <input type="hidden" name="next" value={next} />
           {mode === 'signup' && (
-            <Field
-              label="Nombre"
-              type="text"
-              autoComplete="name"
-              value={fullName}
-              onChange={setFullName}
-              placeholder="Tu nombre"
-            />
+            <Field label="Nombre" name="full_name" type="text" autoComplete="name" placeholder="Tu nombre" />
           )}
           <Field
             label="Email"
+            name="email"
             type="email"
             autoComplete="email"
+            inputMode="email"
             required
-            value={email}
-            onChange={setEmail}
             placeholder="tu@email.com"
           />
-          <Field
-            label="Contraseña"
-            type="password"
-            autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
-            required
-            minLength={8}
-            value={password}
-            onChange={setPassword}
-            placeholder="Mínimo 8 caracteres"
-          />
-
-          {error && (
-            <p className="rounded-lg bg-danger/10 px-3 py-2 text-sm text-danger">{error}</p>
+          {(magic.status === 'error' || error) && (
+            <p role="alert" className="rounded-2xl bg-danger/10 px-4 py-2.5 text-sm text-danger">
+              {magic.status === 'error' ? magic.message : error}
+            </p>
           )}
-          {notice && (
-            <p className="rounded-lg bg-primary/10 px-3 py-2 text-sm text-primary">{notice}</p>
-          )}
-
-          <Button type="submit" disabled={busy} className="w-full">
-            {pending ? 'Un momento…' : copy.cta}
+          <Button type="submit" disabled={busy} className="h-12 w-full">
+            {magicPending ? 'Enviando…' : 'Enviarme el enlace'}
           </Button>
+          <p className="text-center text-xs text-faint">Sin contraseñas: te llega un enlace para entrar.</p>
         </form>
+
+        {AUTH_METHODS.google && (
+          <>
+            <Divider label="o" />
+            <button
+              type="button"
+              onClick={signInWithGoogle}
+              disabled={busy}
+              className="flex h-12 w-full items-center justify-center gap-3 rounded-full border border-border-strong bg-surface-2 text-sm font-medium text-fg transition hover:border-faint hover:bg-elevated disabled:opacity-50 active:scale-[0.98]"
+            >
+              <GoogleGlyph />
+              {googleLoading ? 'Conectando…' : 'Continuar con Google'}
+            </button>
+          </>
+        )}
+
+        {AUTH_METHODS.password && (
+          <>
+            <Divider label="o con contraseña" />
+            <form onSubmit={onSubmit} className="space-y-3">
+              <Field
+                label="Email"
+                type="email"
+                autoComplete="email"
+                required
+                value={email}
+                onChange={setEmail}
+                placeholder="tu@email.com"
+              />
+              <Field
+                label="Contraseña"
+                type="password"
+                autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
+                required
+                minLength={8}
+                value={password}
+                onChange={setPassword}
+                placeholder="Mínimo 8 caracteres"
+              />
+              {notice && (
+                <p className="rounded-2xl bg-primary/10 px-4 py-2.5 text-sm text-primary">{notice}</p>
+              )}
+              <Button type="submit" variant="outline" disabled={busy} className="h-12 w-full">
+                {pending ? 'Un momento…' : copy.cta}
+              </Button>
+            </form>
+          </>
+        )}
 
         <p className="mt-5 text-center text-sm text-muted">
           {copy.alt}{' '}
@@ -197,19 +231,29 @@ function Field({
   ...rest
 }: {
   label: string;
-  value: string;
-  onChange: (v: string) => void;
+  value?: string;
+  onChange?: (v: string) => void;
 } & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange'>) {
+  const controlled = onChange ? { value, onChange: (e: React.ChangeEvent<HTMLInputElement>) => onChange(e.target.value) } : {};
   return (
     <label className="block">
       <span className="mb-1.5 block text-sm font-medium text-muted">{label}</span>
       <input
         {...rest}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className="h-11 w-full rounded-xl border border-border bg-surface-2 px-3.5 text-sm text-fg placeholder:text-faint transition focus:border-primary/60 focus:outline-none focus:ring-2 focus:ring-primary/25"
+        {...controlled}
+        className="h-12 w-full rounded-full border border-border-strong bg-bg px-5 text-[16px] text-fg placeholder:text-faint transition focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/40"
       />
     </label>
+  );
+}
+
+function Divider({ label }: { label: string }) {
+  return (
+    <div className="my-5 flex items-center gap-3 text-xs text-faint">
+      <span className="h-px flex-1 bg-border" />
+      {label}
+      <span className="h-px flex-1 bg-border" />
+    </div>
   );
 }
 

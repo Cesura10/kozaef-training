@@ -8,23 +8,24 @@ export type GuardResult =
   | { ok: false; status: 400 | 403 | 413 | 429 | 503; reason: string };
 
 /** IP del cliente detrás de Cloudflare (o de cualquier proxy). */
-export function clientIp(req: Request): string {
+export function clientIp(headers: Headers): string {
   return (
-    req.headers.get('cf-connecting-ip') ??
-    req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ??
+    headers.get('cf-connecting-ip') ??
+    headers.get('x-forwarded-for')?.split(',')[0]?.trim() ??
     'unknown'
   );
 }
 
 /**
- * Filtro común para TODO formulario público, en este orden (de más barato a más caro):
+ * Filtro común para TODO formulario público (route handlers: req.headers;
+ * server actions: await headers()), en este orden (de más barato a más caro):
  * kill switch -> tamaño -> Turnstile -> límite por IP -> tope diario global.
  */
 export async function guardPublicWrite(
-  req: Request,
+  headers: Headers,
   opts: { endpoint: RateLimitKey; daily: DailyCounter; flag: string; turnstileToken?: string | null },
 ): Promise<GuardResult> {
-  const length = Number(req.headers.get('content-length') ?? 0);
+  const length = Number(headers.get('content-length') ?? 0);
   if (length > LIMITS.maxBodyBytes) return { ok: false, status: 413, reason: 'payload_too_large' };
 
   const db = createAdminClient();
@@ -32,7 +33,7 @@ export async function guardPublicWrite(
   const { data: flag } = await db.from('feature_flags').select('enabled').eq('key', opts.flag).maybeSingle();
   if (flag && !flag.enabled) return { ok: false, status: 503, reason: 'disabled' };
 
-  const ip = clientIp(req);
+  const ip = clientIp(headers);
   if (!(await verifyTurnstile(opts.turnstileToken, ip))) return { ok: false, status: 403, reason: 'bot' };
 
   const { max, windowSeconds } = LIMITS.perIp[opts.endpoint];
