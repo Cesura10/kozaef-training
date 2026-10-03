@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import {
   ArrowRight,
   ArrowUpRight,
@@ -10,13 +9,13 @@ import {
   Fire,
   Ruler,
 } from '@phosphor-icons/react/dist/ssr';
-import { Wordmark } from '@/components/brand';
 import { ButtonLink } from '@/components/ui/button';
 import { ProteinCalculator } from '@/components/marketing/protein-calculator';
 import { NewsletterForm } from '@/components/marketing/newsletter-form';
 import { Reveal } from '@/components/marketing/reveal';
-import { LOCALES, hasLocale } from '@/i18n/config';
-import { PLATFORM_OPEN } from '@/lib/platform';
+import { hasLocale } from '@/i18n/config';
+import { SiteHeader } from '@/components/site/site-header';
+import { SiteFooter } from '@/components/site/site-footer';
 import { getDictionary } from '@/i18n/dictionaries';
 import { notFound } from 'next/navigation';
 
@@ -25,39 +24,10 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
   const { locale } = await params;
   if (!hasLocale(locale)) notFound();
   const t = await getDictionary(locale);
-  const NAV = [
-    { href: '#herramientas', label: t.nav.tools },
-    { href: '#guias', label: t.nav.guides },
-    { href: '#coaching', label: t.nav.coaching },
-  ];
 
   return (
     <div className="flex min-h-full flex-1 flex-col">
-      {/* Navegación */}
-      <header className="sticky top-0 z-40 border-b border-border/60 bg-bg/75 backdrop-blur-md">
-        <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-4 sm:px-6">
-          <Link href={`/${locale}`} aria-label={t.nav.home}>
-            <Wordmark />
-          </Link>
-          <nav className="hidden items-center gap-8 md:flex" aria-label={t.nav.main}>
-            {NAV.map((n) => (
-              <a key={n.href} href={n.href} className="text-sm text-muted transition-colors hover:text-fg">
-                {n.label}
-              </a>
-            ))}
-          </nav>
-          <div className="flex items-center gap-1">
-            {PLATFORM_OPEN && (
-              <ButtonLink href="/login" variant="ghost" size="sm" className="hidden sm:inline-flex" data-track="cta_click" data-cta="login" data-location="nav">
-                {t.nav.login}
-              </ButtonLink>
-            )}
-            <ButtonLink href="#coaching" size="sm" className="whitespace-nowrap px-4" data-track="cta_click" data-cta="apply" data-location="nav">
-              {t.nav.apply}
-            </ButtonLink>
-          </div>
-        </div>
-      </header>
+      <SiteHeader locale={locale} t={t} />
 
       <main className="flex-1">
         {/* Hero: mensaje a la izquierda, herramienta real a la derecha */}
@@ -259,36 +229,7 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
         </section>
       </main>
 
-      <footer className="border-t border-border/60">
-        <div className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-4 py-12 sm:px-6 md:flex-row md:items-center md:justify-between">
-          <Wordmark />
-          <nav className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted" aria-label={t.nav.footer}>
-            {NAV.map((n) => (
-              <a key={n.href} href={n.href} className="hover:text-fg">
-                {n.label}
-              </a>
-            ))}
-          </nav>
-          <div className="flex items-center gap-6">
-            <nav aria-label={t.nav.language} className="flex gap-3 text-sm">
-              {LOCALES.map((l) => (
-                <Link
-                  key={l}
-                  href={`/${l}`}
-                  hrefLang={l}
-                  data-track="language_switch"
-                  data-to={l}
-                  aria-current={l === locale ? 'page' : undefined}
-                  className="uppercase text-faint hover:text-fg aria-[current=page]:text-primary"
-                >
-                  {l}
-                </Link>
-              ))}
-            </nav>
-            <p className="text-sm text-faint">© {new Date().getFullYear()} Kozaef Training</p>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter locale={locale} t={t} />
     </div>
   );
 }
