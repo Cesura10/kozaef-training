@@ -19,6 +19,7 @@ export const config = {
     '/app/:path*',
     '/panel/:path*',
     '/analitica/:path*',
+    '/solicitudes/:path*',
     '/login',
     '/signup',
     '/entrar',

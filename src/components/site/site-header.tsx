@@ -1,3 +1,5 @@
+import { applyPath } from '@/content/apply';
+import type { Locale } from '@/i18n/config';
 import Link from 'next/link';
 import { Wordmark } from '@/components/brand';
 import { ButtonLink } from '@/components/ui/button';
@@ -32,7 +34,7 @@ export function SiteHeader({ locale, t }: { locale: string; t: Dictionary }) {
                 {t.nav.login}
               </ButtonLink>
             )}
-            <ButtonLink href={`/${locale}#coaching`} size="sm" className="whitespace-nowrap px-4" data-track="cta_click" data-cta="apply" data-location="nav">
+            <ButtonLink href={applyPath(locale as Locale)} size="sm" className="whitespace-nowrap px-4" data-track="cta_click" data-cta="apply" data-location="nav">
               {t.nav.apply}
             </ButtonLink>
           </div>

@@ -1,3 +1,4 @@
+import { applyPath } from '@/content/apply';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight, ArrowUpRight } from '@phosphor-icons/react/dist/ssr';
@@ -114,7 +115,7 @@ export async function ToolPage({ locale, id }: { locale: Locale; id: ToolId }) {
                 <h2 className="display text-xl font-bold">{c.ctaTitle}</h2>
                 <p className="mt-2 text-sm leading-relaxed text-muted">{c.ctaBody}</p>
                 <ButtonLink
-                  href={`/${locale}#coaching`}
+                  href={applyPath(locale)}
                   className="mt-5 h-11 w-full"
                   data-track="cta_click"
                   data-cta="apply"

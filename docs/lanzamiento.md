@@ -1,6 +1,6 @@
 # Lanzamiento de la web (fase captación)
 
-Qué se lanza: web pública (/es, /en), calculadora de proteína, captación de emails, páginas
+Qué se lanza: web pública (/es, /en), 3 calculadoras con página propia, solicitud de coaching con puntuación, captación de emails, páginas
 legales y SEO. La plataforma (login, app de clientes) queda **oculta** con
 `NEXT_PUBLIC_PLATFORM_OPEN=false`; Manu entra a su panel por `/login`.
 
@@ -19,6 +19,7 @@ legales y SEO. La plataforma (login, app de clientes) queda **oculta** con
 | 3 | Claves de Turnstile (Cloudflare → Turnstile → Add site) | 0 € | Sin ellas los formularios no aceptan envíos en producción |
 | 4 | Dominio (p. ej. kozaeftraining.com) | ~10-15 €/año | Opcional para lanzar (sirve `kozaef-training.<cuenta>.workers.dev`), necesario para emails y marca |
 | 5 | PostHog (región EU, sin tarjeta) | 0 € | Gráficos reales en /analitica. Opcional para lanzar |
+| 6 | Cal.com (gratis) + `CALCOM_URL` | 0 € | Las solicitudes cualificadas reservan llamada solas. Sin él, se les avisa de que les escribirás en 48 h |
 
 ## Pasos de publicación (los ejecuta Claude con Manu)
 1. `npx wrangler login` (Manu autoriza en el navegador).

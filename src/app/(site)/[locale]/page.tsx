@@ -1,3 +1,5 @@
+import { applyPath } from '@/content/apply';
+import type { Locale } from '@/i18n/config';
 import {
   ArrowRight,
   ArrowUpRight,
@@ -49,7 +51,7 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
                 {t.hero.ctaTools}
                 <ArrowRight size={16} weight="bold" />
               </ButtonLink>
-              <ButtonLink href="#coaching" variant="outline" className="h-12 px-6" data-track="cta_click" data-cta="apply" data-location="hero">
+              <ButtonLink href={applyPath(locale as Locale)} variant="outline" className="h-12 px-6" data-track="cta_click" data-cta="apply" data-location="hero">
                 {t.nav.apply}
               </ButtonLink>
             </div>
@@ -209,7 +211,7 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
                 ))}
               </ul>
               <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3">
-                <ButtonLink href="#coaching" className="h-12 px-7" data-track="cta_click" data-cta="apply" data-location="coaching">
+                <ButtonLink href={applyPath(locale as Locale)} className="h-12 px-7" data-track="cta_click" data-cta="apply" data-location="coaching">
                   {t.nav.apply}
                   <ArrowRight size={16} weight="bold" />
                 </ButtonLink>

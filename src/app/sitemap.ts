@@ -2,6 +2,7 @@ import type { MetadataRoute } from 'next';
 import { LOCALES, SITE_URL } from '@/i18n/config';
 import { LEGAL_SLUGS } from '@/lib/legal';
 import { TOOL_IDS, toolPath } from '@/content/tools';
+import { applyPath } from '@/content/apply';
 
 // Solo páginas públicas. Al publicar guías/herramientas desde el panel se añadirán aquí.
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -16,6 +17,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
       alternates: { languages: Object.fromEntries(LOCALES.map((l) => [l, `${SITE_URL}${toolPath(id, l)}`])) },
     })),
+    {
+      url: `${SITE_URL}${applyPath(locale)}`,
+      changeFrequency: 'monthly' as const,
+      priority: 0.7,
+      alternates: { languages: Object.fromEntries(LOCALES.map((l) => [l, `${SITE_URL}${applyPath(l)}`])) },
+    },
     ...LEGAL_SLUGS.map((slug) => ({
       url: `${SITE_URL}/${locale}/legal/${slug}`,
       changeFrequency: 'yearly' as const,
