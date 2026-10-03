@@ -3,6 +3,7 @@
 import { headers } from 'next/headers';
 import { createClient } from '@/lib/supabase/server';
 import { guardPublicWrite } from '@/lib/guard';
+import { PLATFORM_OPEN } from '@/lib/platform';
 
 export type MagicLinkState =
   | { status: 'idle' }
@@ -19,7 +20,8 @@ function safeNext(value: FormDataEntryValue | null) {
 /**
  * Envía el enlace mágico. Pasa por guardPublicWrite (límite por IP + tope diario
  * de emails) para que nadie pueda usarlo para spamear ni agotar el plan gratis.
- * Crea la cuenta si no existe: no hay registro separado.
+ * Con la plataforma abierta crea la cuenta si no existe (no hay registro separado);
+ * cerrada, solo envía enlace a cuentas existentes.
  */
 export async function requestMagicLink(_prev: MagicLinkState, form: FormData): Promise<MagicLinkState> {
   const email = String(form.get('email') ?? '').trim().toLowerCase();
@@ -52,7 +54,8 @@ export async function requestMagicLink(_prev: MagicLinkState, form: FormData): P
   const { error } = await supabase.auth.signInWithOtp({
     email,
     options: {
-      shouldCreateUser: true,
+      // Con la plataforma cerrada solo entran cuentas existentes: no se crean nuevas.
+      shouldCreateUser: PLATFORM_OPEN,
       emailRedirectTo: `${origin}/auth/callback?next=${encodeURIComponent(next)}`,
       data: name ? { full_name: name } : undefined,
     },
@@ -60,6 +63,9 @@ export async function requestMagicLink(_prev: MagicLinkState, form: FormData): P
 
   if (error) {
     const m = error.message.toLowerCase();
+    if (!PLATFORM_OPEN && (m.includes('signups not allowed') || m.includes('not found'))) {
+      return { status: 'error', message: 'El acceso está reservado a clientes por ahora.' };
+    }
     if (m.includes('rate limit') || m.includes('security purposes')) {
       return { status: 'error', message: 'Espera un minuto antes de pedir otro enlace.' };
     }

@@ -30,7 +30,7 @@ const es = {
     daily: 'Tu objetivo diario',
     /** {min}, {max}, {perMeal}, {meals} */
     range: 'Rango útil {min}-{max} g. Unos {perMeal} g por comida en {meals} tomas.',
-    emailCta: 'Recibir el plan completo por email',
+    emailCta: 'Quiero más guías como esta',
   },
   tools: {
     eyebrow: 'Herramientas gratis',
@@ -77,9 +77,14 @@ const es = {
     label: 'Tu email',
     placeholder: 'nombre@correo.com',
     submit: 'Suscribirme',
-    idle: 'Puedes darte de baja con un clic.',
+    idle: 'Un email a la semana como mucho. Te das de baja con un clic.',
     error: 'Revisa el email, parece incompleto.',
-    preview: 'Vista previa: el envío se activa en cuanto conectemos el email.',
+    consent: 'Acepto recibir emails de Kozaef Training con consejos y ofertas, y he leído la',
+    privacy: 'política de privacidad',
+    consentRequired: 'Marca la casilla para poder escribirte.',
+    success: 'Hecho. Te escribiré pronto con lo que funciona de verdad.',
+    rateLimited: 'Demasiados intentos seguidos. Prueba de nuevo en un rato.',
+    failed: 'No se pudo guardar. Inténtalo de nuevo en un momento.',
   },
 };
 

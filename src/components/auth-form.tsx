@@ -7,6 +7,7 @@ import { EnvelopeSimple } from '@phosphor-icons/react';
 import { createClient } from '@/lib/supabase/client';
 import { Button } from '@/components/ui/button';
 import { AUTH_METHODS } from '@/lib/auth-flags';
+import { PLATFORM_OPEN } from '@/lib/platform';
 import { requestMagicLink, type MagicLinkState } from '@/lib/auth-actions';
 
 type Mode = 'login' | 'signup';
@@ -210,6 +211,7 @@ export function AuthForm({ mode }: { mode: Mode }) {
           </>
         )}
 
+        {PLATFORM_OPEN && (
         <p className="mt-5 text-center text-sm text-muted">
           {copy.alt}{' '}
           <Link
@@ -219,6 +221,7 @@ export function AuthForm({ mode }: { mode: Mode }) {
             {copy.altLabel}
           </Link>
         </p>
+        )}
       </div>
     </div>
   );

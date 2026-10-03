@@ -2,6 +2,7 @@
 
 import { useEffect, useId, useRef, useState } from 'react';
 import { track } from '@/lib/analytics/client';
+import { saveLastToolResult } from '@/lib/analytics/last-tool';
 import { animate, motion, useMotionValue, useReducedMotion, useTransform } from 'motion/react';
 import { ArrowRight } from '@phosphor-icons/react/dist/ssr';
 import {
@@ -48,6 +49,8 @@ export function ProteinCalculator({ t }: { t: Dictionary['calculator'] }) {
     if (tracked.current.has(g)) return;
     tracked.current.add(g);
     track('calculator_used', { tool: 'protein', goal: g });
+    const r = calculateProtein(weight, g);
+    saveLastToolResult({ tool: 'protein', inputs: { weight, goal: g }, outputs: { target: r.target, min: r.min, max: r.max } });
   }
 
   return (
@@ -118,7 +121,14 @@ export function ProteinCalculator({ t }: { t: Dictionary['calculator'] }) {
 
       <a
         href="#lista"
-        onClick={() => track('calculator_email_click', { tool: 'protein' })}
+        onClick={() => {
+          track('calculator_email_click', { tool: 'protein' });
+          saveLastToolResult({
+            tool: 'protein',
+            inputs: { weight, goal },
+            outputs: { target: result.target, min: result.min, max: result.max },
+          });
+        }}
         className="group mt-6 inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-primary-hover"
       >
         {t.emailCta}

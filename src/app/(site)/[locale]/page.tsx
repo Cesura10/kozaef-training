@@ -16,6 +16,7 @@ import { ProteinCalculator } from '@/components/marketing/protein-calculator';
 import { NewsletterForm } from '@/components/marketing/newsletter-form';
 import { Reveal } from '@/components/marketing/reveal';
 import { LOCALES, hasLocale } from '@/i18n/config';
+import { PLATFORM_OPEN } from '@/lib/platform';
 import { getDictionary } from '@/i18n/dictionaries';
 import { notFound } from 'next/navigation';
 
@@ -46,9 +47,11 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
             ))}
           </nav>
           <div className="flex items-center gap-1">
-            <ButtonLink href="/login" variant="ghost" size="sm" className="hidden sm:inline-flex" data-track="cta_click" data-cta="login" data-location="nav">
-              {t.nav.login}
-            </ButtonLink>
+            {PLATFORM_OPEN && (
+              <ButtonLink href="/login" variant="ghost" size="sm" className="hidden sm:inline-flex" data-track="cta_click" data-cta="login" data-location="nav">
+                {t.nav.login}
+              </ButtonLink>
+            )}
             <ButtonLink href="#coaching" size="sm" className="whitespace-nowrap px-4" data-track="cta_click" data-cta="apply" data-location="nav">
               {t.nav.apply}
             </ButtonLink>
@@ -250,7 +253,7 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
               </p>
             </Reveal>
             <Reveal delay={0.1} className="lg:justify-self-end">
-              <NewsletterForm t={t.newsletter} />
+              <NewsletterForm t={t.newsletter} locale={locale} />
             </Reveal>
           </div>
         </section>

@@ -30,7 +30,7 @@ const en: Dictionary = {
     weight: 'Body weight',
     daily: 'Your daily target',
     range: 'Useful range {min}-{max} g. About {perMeal} g per meal across {meals} meals.',
-    emailCta: 'Get the full plan by email',
+    emailCta: 'Get more guides like this',
   },
   tools: {
     eyebrow: 'Free tools',
@@ -77,9 +77,14 @@ const en: Dictionary = {
     label: 'Your email',
     placeholder: 'name@email.com',
     submit: 'Subscribe',
-    idle: 'Unsubscribe with one click, anytime.',
+    idle: 'One email a week at most. Unsubscribe with one click.',
     error: 'Check your email, it looks incomplete.',
-    preview: 'Preview: sending turns on once email is connected.',
+    consent: 'I agree to receive emails from Kozaef Training with tips and offers, and I have read the',
+    privacy: 'privacy policy',
+    consentRequired: 'Tick the box so I can email you.',
+    success: 'Done. I will write to you soon with what actually works.',
+    rateLimited: 'Too many attempts in a row. Try again in a while.',
+    failed: 'Could not save it. Please try again in a moment.',
   },
 };
 
