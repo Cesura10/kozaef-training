@@ -3,14 +3,11 @@ import { Wordmark } from '@/components/brand';
 import { LOCALES, type Locale } from '@/i18n/config';
 import { LEGAL } from '@/content/legal';
 import { LEGAL_SLUGS } from '@/lib/legal';
+import { mainNav } from './nav-items';
 import type { Dictionary } from '@/i18n/dictionaries';
 
 export function SiteFooter({ locale, t }: { locale: string; t: Dictionary }) {
-  const NAV = [
-    { href: `/${locale}#herramientas`, label: t.nav.tools },
-    { href: `/${locale}#guias`, label: t.nav.guides },
-    { href: `/${locale}#coaching`, label: t.nav.coaching },
-  ];
+  const NAV = mainNav(locale as Locale, t);
 
   return (
     <footer className="border-t border-border/60">
@@ -19,9 +16,9 @@ export function SiteFooter({ locale, t }: { locale: string; t: Dictionary }) {
           <Wordmark />
           <nav className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted" aria-label={t.nav.footer}>
             {NAV.map((n) => (
-              <a key={n.href} href={n.href} className="hover:text-fg">
+              <Link key={n.href} href={n.href} className="hover:text-fg">
                 {n.label}
-              </a>
+              </Link>
             ))}
           </nav>
         </div>

@@ -17,6 +17,8 @@ const Body = z.object({
   tool: z.enum(['protein', 'calories', 'bodyfat']).optional(),
   toolInputs: z.record(z.string().max(40), z.union([z.string().max(40), z.number()])).optional(),
   toolOutputs: z.record(z.string().max(40), z.union([z.string().max(40), z.number()])).optional(),
+  /** Alta en lista de espera de un producto (id de products.ts) o 'programas' (general). */
+  waitlistProduct: z.string().max(80).regex(/^[a-z0-9-]+$/).optional(),
   turnstileToken: z.string().max(4096).optional(),
 });
 
@@ -75,7 +77,11 @@ export async function POST(req: Request) {
   if (!leadId) return fail(500, 'store_failed');
 
   await Promise.all([
-    db.from('lead_events').insert({ lead_id: leadId, type: b.tool ? 'tool_email' : 'subscribed', data: { tool: b.tool ?? null } }),
+    db.from('lead_events').insert({
+      lead_id: leadId,
+      type: b.waitlistProduct ? 'waitlist' : b.tool ? 'tool_email' : 'subscribed',
+      data: { tool: b.tool ?? null, product: b.waitlistProduct ?? null },
+    }),
     b.tool && b.toolInputs && b.toolOutputs
       ? db.from('tool_results').insert({
           lead_id: leadId,

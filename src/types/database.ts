@@ -839,6 +839,56 @@ export type Database = {
         }
         Relationships: []
       }
+      service_requests: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          lead_id: string | null
+          name: string
+          notes: string | null
+          order_ref: string | null
+          payload: Json
+          product_id: string
+          status: Database["public"]["Enums"]["service_request_status"]
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          lead_id?: string | null
+          name: string
+          notes?: string | null
+          order_ref?: string | null
+          payload: Json
+          product_id: string
+          status?: Database["public"]["Enums"]["service_request_status"]
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          lead_id?: string | null
+          name?: string
+          notes?: string | null
+          order_ref?: string | null
+          payload?: Json
+          product_id?: string
+          status?: Database["public"]["Enums"]["service_request_status"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "service_requests_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       shows: {
         Row: {
           created_at: string | null
@@ -996,6 +1046,7 @@ export type Database = {
       }
       my_trainer_id: { Args: never; Returns: string }
       owns_client: { Args: { target: string }; Returns: boolean }
+      service_capacity_used: { Args: { p_product: string }; Returns: number }
     }
     Enums: {
       application_status:
@@ -1006,6 +1057,7 @@ export type Database = {
         | "won"
         | "lost"
         | "waitlist"
+      service_request_status: "new" | "in_review" | "done" | "cancelled"
       user_role: "trainer" | "client"
     }
     CompositeTypes: {
@@ -1146,6 +1198,7 @@ export const Constants = {
         "lost",
         "waitlist",
       ],
+      service_request_status: ["new", "in_review", "done", "cancelled"],
       user_role: ["trainer", "client"],
     },
   },

@@ -14,6 +14,11 @@ const en: Dictionary = {
     coaching: 'Coaching',
     login: 'Log in',
     apply: 'Apply now',
+    learn: 'Learn',
+    programs: 'Programs',
+    about: 'About',
+    diagnosis: 'Free assessment',
+    menu: 'Menu',
     language: 'Language',
   },
   hero: {

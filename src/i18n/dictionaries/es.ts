@@ -12,6 +12,11 @@ const es = {
     coaching: 'Coaching',
     login: 'Entrar',
     apply: 'Solicitar plaza',
+    learn: 'Aprende',
+    programs: 'Programas',
+    about: 'Sobre mí',
+    diagnosis: 'Diagnóstico gratis',
+    menu: 'Menú',
     language: 'Idioma',
   },
   hero: {

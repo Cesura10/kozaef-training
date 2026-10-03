@@ -1,4 +1,5 @@
 import type { Locale } from '@/i18n/config';
+import { SECTIONS, sectionPath } from './routes';
 
 /**
  * Herramientas públicas: slugs por idioma y textos (SEO + interfaz).
@@ -8,7 +9,7 @@ export const TOOL_IDS = ['calories', 'protein', 'bodyfat'] as const;
 export type ToolId = (typeof TOOL_IDS)[number];
 
 /** Segmento de la URL por idioma: /es/herramientas/..., /en/tools/... */
-export const TOOLS_SEGMENT: Record<Locale, string> = { es: 'herramientas', en: 'tools' };
+export const TOOLS_SEGMENT: Record<Locale, string> = SECTIONS.tools;
 
 export const TOOL_SLUGS: Record<ToolId, Record<Locale, string>> = {
   calories: { es: 'calculadora-calorias', en: 'calorie-calculator' },
@@ -16,7 +17,7 @@ export const TOOL_SLUGS: Record<ToolId, Record<Locale, string>> = {
   bodyfat: { es: 'calculadora-grasa-corporal', en: 'body-fat-calculator' },
 };
 
-export const toolPath = (id: ToolId, locale: Locale) => `/${locale}/${TOOLS_SEGMENT[locale]}/${TOOL_SLUGS[id][locale]}`;
+export const toolPath = (id: ToolId, locale: Locale) => sectionPath('tools', locale, TOOL_SLUGS[id][locale]);
 
 export function toolBySlug(locale: Locale, slug: string): ToolId | null {
   return TOOL_IDS.find((id) => TOOL_SLUGS[id][locale] === slug) ?? null;

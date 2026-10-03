@@ -12,11 +12,13 @@ export const LIMITS = {
     leads: { max: 5, windowSeconds: 3600 },
     applications: { max: 3, windowSeconds: 86_400 },
     magicLink: { max: 5, windowSeconds: 3600 },
+    serviceRequests: { max: 3, windowSeconds: 86_400 },
   },
   /** Topes globales por día (se reinician a medianoche UTC). */
   daily: {
     leads: 2_000,
     applications: 150,
+    serviceRequests: 60,
     /** Resend gratis: 100/día y 3.000/mes. Nos quedamos por debajo. */
     emails: 90,
   },

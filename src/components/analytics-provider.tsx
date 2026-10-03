@@ -21,8 +21,8 @@ export function AnalyticsProvider({ locale }: { locale: string }) {
       const el = (e.target as HTMLElement | null)?.closest<HTMLElement>('[data-track]');
       if (!el) return;
       const { track: name, cta, location, to } = el.dataset;
-      if (name === 'cta_click' && cta && location) {
-        track('cta_click', { cta, location } as AnalyticsEvents['cta_click']);
+      if (name === 'cta_click' && cta) {
+        track('cta_click', { cta, location: location ?? 'page' } as AnalyticsEvents['cta_click']);
       } else if (name === 'language_switch' && to) {
         track('language_switch', { to });
       }

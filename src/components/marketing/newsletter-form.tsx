@@ -13,7 +13,22 @@ type Status = 'idle' | 'sending' | 'ok' | 'invalid' | 'consent' | 'limited' | 'f
  * Captura de email real: POST /api/leads (Turnstile + límites + RGPD).
  * Si la persona usó una calculadora antes, se adjunta su resultado (solo números).
  */
-export function NewsletterForm({ t, locale }: { t: Dictionary['newsletter']; locale: string }) {
+export function NewsletterForm({
+  t,
+  locale,
+  waitlistProduct,
+  submitLabel,
+  successText,
+  stacked,
+}: {
+  t: Dictionary['newsletter'];
+  locale: string;
+  /** Si se indica, el alta es en la lista de espera de ese producto ('programas' = general). */
+  waitlistProduct?: string;
+  submitLabel?: string;
+  successText?: string;
+  stacked?: boolean;
+}) {
   const id = useId();
   const [status, setStatus] = useState<Status>('idle');
 
@@ -45,13 +60,15 @@ export function NewsletterForm({ t, locale }: { t: Dictionary['newsletter']; loc
           locale,
           source: attribution?.source,
           utm: attribution?.utm,
-          ...(last ? { tool: last.tool, toolInputs: last.inputs, toolOutputs: last.outputs } : {}),
+          ...(last && !waitlistProduct ? { tool: last.tool, toolInputs: last.inputs, toolOutputs: last.outputs } : {}),
+          ...(waitlistProduct ? { waitlistProduct } : {}),
           turnstileToken: form.get('cf-turnstile-response') ?? undefined,
         }),
       });
       if (res.ok) {
         setStatus('ok');
-        track('newsletter_submit', { status: 'ok' });
+        if (waitlistProduct) track('waitlist_join', { product: waitlistProduct });
+        else track('newsletter_submit', { status: 'ok' });
       } else {
         setStatus(res.status === 429 ? 'limited' : 'failed');
         track('newsletter_submit', { status: 'error' });
@@ -65,7 +82,7 @@ export function NewsletterForm({ t, locale }: { t: Dictionary['newsletter']; loc
   if (status === 'ok') {
     return (
       <p role="status" className="max-w-md rounded-[var(--radius-xl)] border border-primary/30 bg-primary/10 p-5 text-fg">
-        {t.success}
+        {successText ?? t.success}
       </p>
     );
   }
@@ -86,7 +103,7 @@ export function NewsletterForm({ t, locale }: { t: Dictionary['newsletter']; loc
       <label htmlFor={id} className="text-sm text-muted">
         {t.label}
       </label>
-      <div className="mt-2 flex flex-col gap-2 sm:flex-row">
+      <div className={`mt-2 flex flex-col gap-2 ${stacked ? '' : 'sm:flex-row'}`}>
         <input
           id={id}
           name="email"
@@ -103,7 +120,7 @@ export function NewsletterForm({ t, locale }: { t: Dictionary['newsletter']; loc
           disabled={status === 'sending'}
           className="h-12 rounded-full bg-primary px-6 text-sm font-semibold text-primary-fg transition hover:bg-primary-hover active:scale-[0.98] disabled:opacity-60"
         >
-          {status === 'sending' ? '…' : t.submit}
+          {status === 'sending' ? '…' : (submitLabel ?? t.submit)}
         </button>
       </div>
       <label className="mt-4 flex items-start gap-3 text-sm text-muted">

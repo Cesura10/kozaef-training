@@ -1,11 +1,11 @@
 import type { Locale } from '@/i18n/config';
+import { sectionPath } from './routes';
 
 /**
  * Solicitud de coaching. Las CLAVES de preguntas y respuestas deben coincidir con
  * public.scoring_rules (migración 20261003150000). Los textos se pueden cambiar libremente.
  */
-export const APPLY_SEGMENT: Record<Locale, string> = { es: 'solicitud', en: 'apply' };
-export const applyPath = (locale: Locale) => `/${locale}/${APPLY_SEGMENT[locale]}`;
+export const applyPath = (locale: Locale) => sectionPath('apply', locale);
 
 export const QUESTION_KEYS = ['goal', 'experience', 'stuck', 'days', 'budget', 'start'] as const;
 export type QuestionKey = (typeof QUESTION_KEYS)[number];
