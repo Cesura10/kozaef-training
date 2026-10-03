@@ -4,7 +4,7 @@ import type { Database } from '@/types/database';
 import { getSupabaseEnv } from './env';
 
 /** Rutas accesibles sin sesión. */
-const PUBLIC_PATHS = ['/', '/login', '/signup', '/auth', '/setup'];
+const PUBLIC_PATHS = ['/login', '/signup', '/entrar', '/auth', '/setup'];
 
 function isPublic(pathname: string) {
   return PUBLIC_PATHS.some(
@@ -53,7 +53,7 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(redirectUrl);
   }
 
-  if (user && ['/', '/login', '/signup'].includes(pathname)) {
+  if (user && ['/login', '/signup', '/entrar'].includes(pathname)) {
     const redirectUrl = request.nextUrl.clone();
     redirectUrl.pathname = '/dashboard';
     redirectUrl.search = '';

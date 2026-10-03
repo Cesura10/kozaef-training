@@ -9,6 +9,8 @@ export type UserRole = 'trainer' | 'client';
 
 type Timestamp = string;
 
+export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[];
+
 export interface Database {
   public: {
     Tables: {
@@ -312,6 +314,13 @@ export interface Database {
         Update: Partial<Database['public']['Tables']['community_comments']['Insert']>;
         Relationships: [];
       };
+      // Provisional hasta regenerar con la CLI (migración 20261003120000_leads_and_limits).
+      feature_flags: {
+        Row: { key: string; enabled: boolean; value: Json | null; updated_at: Timestamp };
+        Insert: { key: string; enabled?: boolean; value?: Json | null; updated_at?: Timestamp };
+        Update: Partial<Database['public']['Tables']['feature_flags']['Insert']>;
+        Relationships: [];
+      };
     };
     Views: Record<string, never>;
     Functions: {
@@ -319,6 +328,11 @@ export interface Database {
       is_trainer: { Args: Record<string, never>; Returns: boolean };
       my_trainer_id: { Args: Record<string, never>; Returns: string | null };
       owns_client: { Args: { target: string }; Returns: boolean };
+      check_rate_limit: {
+        Args: { p_key: string; p_max: number; p_window_seconds: number };
+        Returns: boolean;
+      };
+      bump_daily_counter: { Args: { p_name: string; p_cap: number }; Returns: boolean };
     };
     Enums: {
       user_role: UserRole;

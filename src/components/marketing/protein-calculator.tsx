@@ -9,8 +9,13 @@ import {
   calculateProtein,
   type ProteinGoal,
 } from '@/lib/calculators/protein';
+import type { Dictionary } from '@/i18n/dictionaries/es';
 
-const GOALS = Object.entries(PROTEIN_GOALS) as Array<[ProteinGoal, (typeof PROTEIN_GOALS)[ProteinGoal]]>;
+const GOALS = Object.keys(PROTEIN_GOALS) as ProteinGoal[];
+
+function fill(template: string, values: Record<string, number>) {
+  return template.replace(/\{(\w+)\}/g, (_, k: string) => String(values[k] ?? ''));
+}
 
 /** Número que se desliza hasta el nuevo valor (estático con reduced motion). */
 function AnimatedNumber({ value }: { value: number }) {
@@ -30,7 +35,7 @@ function AnimatedNumber({ value }: { value: number }) {
   return <motion.span>{rounded}</motion.span>;
 }
 
-export function ProteinCalculator() {
+export function ProteinCalculator({ t }: { t: Dictionary['calculator'] }) {
   const weightId = useId();
   const [weight, setWeight] = useState(75);
   const [goal, setGoal] = useState<ProteinGoal>('gain');
@@ -42,14 +47,14 @@ export function ProteinCalculator() {
       className="relative scroll-mt-24 overflow-hidden rounded-[var(--radius-xl)] border border-border bg-surface/80 p-6 shadow-[0_30px_80px_-30px_rgba(214,169,69,0.25),inset_0_1px_0_rgba(255,255,255,0.05)] backdrop-blur sm:p-8"
     >
       <div className="flex items-baseline justify-between gap-4">
-        <h2 className="text-sm font-medium text-fg">Calculadora de proteína</h2>
-        <span className="text-xs text-faint">Gratis, sin registro</span>
+        <h2 className="text-sm font-medium text-fg">{t.title}</h2>
+        <span className="text-xs text-faint">{t.badge}</span>
       </div>
 
       <fieldset className="mt-6">
-        <legend className="text-xs text-muted">Tu objetivo</legend>
+        <legend className="text-xs text-muted">{t.goal}</legend>
         <div className="mt-2 grid grid-cols-3 gap-1 rounded-full border border-border bg-bg p-1">
-          {GOALS.map(([key, g]) => (
+          {GOALS.map((key) => (
             <button
               key={key}
               type="button"
@@ -64,7 +69,7 @@ export function ProteinCalculator() {
                   transition={{ type: 'spring', stiffness: 380, damping: 32 }}
                 />
               )}
-              <span className="relative whitespace-nowrap">{g.label}</span>
+              <span className="relative whitespace-nowrap">{t.goals[key]}</span>
             </button>
           ))}
         </div>
@@ -73,7 +78,7 @@ export function ProteinCalculator() {
       <div className="mt-6">
         <div className="flex items-baseline justify-between">
           <label htmlFor={weightId} className="text-xs text-muted">
-            Peso corporal
+            {t.weight}
           </label>
           <span className="font-mono text-sm tabular-nums text-fg">{weight} kg</span>
         </div>
@@ -89,22 +94,19 @@ export function ProteinCalculator() {
       </div>
 
       <div className="mt-8 border-t border-border pt-6">
-        <p className="text-xs text-muted">Tu objetivo diario</p>
+        <p className="text-xs text-muted">{t.daily}</p>
         <p className="display mt-1 text-6xl font-bold leading-none text-primary tabular-nums sm:text-7xl">
           <AnimatedNumber value={result.target} />
           <span className="ml-2 text-2xl font-medium text-fg">g</span>
         </p>
-        <p className="mt-3 text-sm text-muted">
-          Rango útil {result.min}-{result.max} g. Unos{' '}
-          <span className="text-fg">{result.perMeal} g por comida</span> en {result.meals} tomas.
-        </p>
+        <p className="mt-3 text-sm text-muted">{fill(t.range, result)}</p>
       </div>
 
       <a
         href="#lista"
         className="group mt-6 inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-primary-hover"
       >
-        Recibir el plan completo por email
+        {t.emailCta}
         <ArrowRight size={16} weight="bold" className="transition-transform group-hover:translate-x-0.5" />
       </a>
     </div>

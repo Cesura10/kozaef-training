@@ -7,6 +7,12 @@ herramientas, leads, solicitudes, i18n, Cloudflare). Prevalece sobre lo que cont
 Contexto de la app privada de clientes: **`docs/spec-backend.md`**.
 Puesta en marcha y estado actual: **`README.md`**.
 
+> **Regla de coste (no negociable):** todo en planes gratis. No añadir APIs ni servicios de pago
+> (LLMs incluidos) sin permiso expreso de Manu. Todo formulario público pasa por
+> `guardPublicWrite` (`src/lib/guard.ts`) y los límites viven en `src/lib/limits.ts`.
+> Ver `docs/ecosistema.md` §13. Web pública en `src/app/(site)/[locale]` (estática, textos en
+> `src/i18n/dictionaries`); plataforma privada en `src/app/(platform)`.
+
 ## Qué es
 
 Plataforma para que un entrenador personal gestione clientes: rutinas, dietas,
@@ -32,13 +38,13 @@ check-ins con fotos, chat 1:1 y (Fase 3) comunidad. Roles `trainer` / `client`.
   - navegador → `import { createClient } from '@/lib/supabase/client'`
   - servidor → `import { createClient } from '@/lib/supabase/server'` (es `async`)
 - Sesión/perfil en servidor → `@/lib/auth` (`getSessionProfile`, `requireProfile`).
-- Rutas privadas cuelgan del grupo `src/app/(app)/` (su layout hace de guard).
+- Rutas privadas cuelgan de `src/app/(platform)/(app)/` (su layout hace de guard).
 - Migraciones: un archivo por área en `supabase/migrations/`, prefijo timestamp
   `AAAAMMDDHHMMSS_nombre.sql`. Nunca editar una migración ya aplicada: añadir otra.
 - Tipos de BD en `src/types/database.ts` (regenerar con
   `npx supabase gen types typescript --linked` cuando cambie el esquema).
 - Textos de UI en español. Paleta y tokens en `src/app/globals.css`
-  (grafito + esmeralda `--color-primary` + violeta `--color-accent`).
+  (negro + dorado `--color-primary`, marca Kozaef Training).
   Animaciones sobrias; respetar `prefers-reduced-motion`.
 
 ## Roadmap (seguir en orden)

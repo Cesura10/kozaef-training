@@ -1,6 +1,7 @@
 'use client';
 
 import { useId, useState } from 'react';
+import type { Dictionary } from '@/i18n/dictionaries/es';
 
 type Status = 'idle' | 'error' | 'preview';
 
@@ -8,7 +9,7 @@ type Status = 'idle' | 'error' | 'preview';
  * Captura de email. Aún sin backend: la ruta /api/leads (doble opt-in + Turnstile)
  * se conecta en la fase de leads. Mientras, se valida y se avisa con honestidad.
  */
-export function NewsletterForm() {
+export function NewsletterForm({ t }: { t: Dictionary['newsletter'] }) {
   const id = useId();
   const [status, setStatus] = useState<Status>('idle');
 
@@ -21,7 +22,7 @@ export function NewsletterForm() {
   return (
     <form onSubmit={onSubmit} noValidate className="w-full max-w-md">
       <label htmlFor={id} className="text-sm text-muted">
-        Tu email
+        {t.label}
       </label>
       <div className="mt-2 flex flex-col gap-2 sm:flex-row">
         <input
@@ -29,7 +30,7 @@ export function NewsletterForm() {
           name="email"
           type="email"
           autoComplete="email"
-          placeholder="nombre@correo.com"
+          placeholder={t.placeholder}
           aria-invalid={status === 'error'}
           aria-describedby={`${id}-msg`}
           className="h-12 flex-1 rounded-full border border-border-strong bg-bg px-5 text-[16px] text-fg placeholder:text-faint focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/40"
@@ -38,15 +39,15 @@ export function NewsletterForm() {
           type="submit"
           className="h-12 rounded-full bg-primary px-6 text-sm font-semibold text-primary-fg transition hover:bg-primary-hover active:scale-[0.98]"
         >
-          Suscribirme
+          {t.submit}
         </button>
       </div>
       <p id={`${id}-msg`} role="status" className="mt-3 min-h-5 text-sm">
-        {status === 'error' && <span className="text-danger">Revisa el email, parece incompleto.</span>}
+        {status === 'error' && <span className="text-danger">{t.error}</span>}
         {status === 'preview' && (
-          <span className="text-primary">Vista previa: el envío se activa en cuanto conectemos el email.</span>
+          <span className="text-primary">{t.preview}</span>
         )}
-        {status === 'idle' && <span className="text-faint">Puedes darte de baja con un clic.</span>}
+        {status === 'idle' && <span className="text-faint">{t.idle}</span>}
       </p>
     </form>
   );

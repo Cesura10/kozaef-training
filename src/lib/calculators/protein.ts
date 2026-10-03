@@ -6,10 +6,10 @@
 
 export type ProteinGoal = 'lose' | 'maintain' | 'gain';
 
-export const PROTEIN_GOALS: Record<ProteinGoal, { label: string; min: number; max: number }> = {
-  lose: { label: 'Perder grasa', min: 1.8, max: 2.4 },
-  maintain: { label: 'Mantener', min: 1.4, max: 1.8 },
-  gain: { label: 'Ganar músculo', min: 1.6, max: 2.2 },
+export const PROTEIN_GOALS: Record<ProteinGoal, { min: number; max: number }> = {
+  lose: { min: 1.8, max: 2.4 },
+  maintain: { min: 1.4, max: 1.8 },
+  gain: { min: 1.6, max: 2.2 },
 };
 
 export const WEIGHT_LIMITS = { min: 35, max: 200 } as const;
