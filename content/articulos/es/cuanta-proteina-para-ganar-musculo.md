@@ -13,7 +13,7 @@ herramientaRelacionada: protein
 productoRelacionado: null
 fuentes:
   - titulo: "Morton et al. (2018). Revisión sistemática y metaanálisis sobre suplementación de proteína y ganancia muscular. British Journal of Sports Medicine"
-    url: "https://bjsm.bmj.com/content/52/6/376"
+    url: "https://doi.org/10.1136/bjsports-2017-097608"
   - titulo: "Jäger et al. (2017). Posicionamiento de la ISSN: proteína y ejercicio. Journal of the International Society of Sports Nutrition"
     url: "https://jissn.biomedcentral.com/articles/10.1186/s12970-017-0177-8"
 faq:
@@ -26,7 +26,7 @@ borrador: true
 
 ## Qué dice la evidencia
 
-El metaanálisis de Morton y colaboradores (2018), que reunió 49 estudios, encontró que la ganancia de masa muscular deja de aumentar de forma clara a partir de unos **1,6 g de proteína por kilo de peso al día**, con un margen superior de hasta **2,2 g/kg** para cubrir a quien más necesita ([Morton et al., 2018](https://bjsm.bmj.com/content/52/6/376)).
+El metaanálisis de Morton y colaboradores (2018), que reunió 49 estudios, encontró que la ganancia de masa muscular deja de aumentar de forma clara a partir de unos **1,6 g de proteína por kilo de peso al día**, con un margen superior de hasta **2,2 g/kg** para cubrir a quien más necesita ([Morton et al., 2018](https://doi.org/10.1136/bjsports-2017-097608)).
 
 La Sociedad Internacional de Nutrición Deportiva recomienda entre **1,4 y 2,0 g/kg al día** para personas que entrenan, repartidos cada 3-4 horas ([Jäger et al., 2017](https://jissn.biomedcentral.com/articles/10.1186/s12970-017-0177-8)).
 

@@ -64,6 +64,12 @@ export async function ToolPage({ locale, id }: { locale: Locale; id: ToolId }) {
           <div className="animate-rise max-w-3xl">
             <h1 className="display text-4xl font-bold leading-[1.02] md:text-6xl">{c.h1}</h1>
             <p className="mt-5 max-w-[60ch] text-lg leading-relaxed text-muted">{c.intro}</p>
+            <p className="mt-3 text-sm text-faint">
+              {locale === 'es' ? 'Revisado el' : 'Reviewed on'}{' '}
+              <time dateTime={c.reviewed}>
+                {new Date(`${c.reviewed}T12:00:00Z`).toLocaleDateString(locale === 'es' ? 'es-ES' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
+              </time>
+            </p>
           </div>
 
           <div className="animate-rise mt-10 rounded-[var(--radius-xl)] border border-border bg-surface/80 p-5 [animation-delay:100ms] sm:p-8">
@@ -102,6 +108,31 @@ export async function ToolPage({ locale, id }: { locale: Locale; id: ToolId }) {
                 </article>
               ))}
 
+              <article>
+                <h2 className="text-2xl font-semibold text-fg">{c.example.title}</h2>
+                <p className="mt-3 text-lg leading-relaxed text-muted">{c.example.intro}</p>
+                <div className="prose-kz mt-4">
+                  <table>
+                    <thead>
+                      <tr>
+                        {c.example.head.map((h) => (
+                          <th key={h}>{h}</th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {c.example.rows.map((r) => (
+                        <tr key={r[0]}>
+                          {r.map((cell, i) => (
+                            <td key={i}>{cell}</td>
+                          ))}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </article>
+
               <div>
                 <h2 className="text-2xl font-semibold text-fg">{locale === 'es' ? 'Preguntas frecuentes' : 'FAQ'}</h2>
                 <div className="mt-4 divide-y divide-border rounded-[var(--radius-xl)] border border-border">
@@ -117,6 +148,18 @@ export async function ToolPage({ locale, id }: { locale: Locale; id: ToolId }) {
                     </details>
                   ))}
                 </div>
+              </div>
+              <div>
+                <h2 className="text-2xl font-semibold text-fg">{locale === 'es' ? 'Fuentes' : 'Sources'}</h2>
+                <ol className="mt-4 list-decimal space-y-2 pl-5 text-sm text-muted marker:text-primary">
+                  {c.sources.map((src) => (
+                    <li key={src.url}>
+                      <a href={src.url} target="_blank" rel="noopener noreferrer" className="text-fg underline underline-offset-4 hover:text-primary">
+                        {src.titulo}
+                      </a>
+                    </li>
+                  ))}
+                </ol>
               </div>
             </div>
 

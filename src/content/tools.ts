@@ -32,6 +32,18 @@ export type ToolContent = {
   faq: Array<{ q: string; a: string }>;
   ctaTitle: string;
   ctaBody: string;
+  /** Fecha de revisión visible (AAAA-MM-DD). */
+  reviewed: string;
+  /** Ejemplo resuelto en tabla HTML (brief IA §A1/A4). Valores calculados con la propia herramienta. */
+  example: { title: string; intro: string; head: string[]; rows: string[][] };
+  sources: Array<{ titulo: string; url: string }>;
+};
+
+const SRC = {
+  mifflin: { titulo: 'Mifflin et al. (1990). A new predictive equation for resting energy expenditure. Am J Clin Nutr', url: 'https://pubmed.ncbi.nlm.nih.gov/2305711/' },
+  morton: { titulo: 'Morton et al. (2018). Protein supplementation and resistance training: meta-analysis. Br J Sports Med', url: 'https://doi.org/10.1136/bjsports-2017-097608' },
+  issn: { titulo: 'Jäger et al. (2017). ISSN Position Stand: protein and exercise. J Int Soc Sports Nutr', url: 'https://doi.org/10.1186/s12970-017-0177-8' },
+  navy: { titulo: 'Friedl (2015). History of the U.S. Navy Body Composition program (ecuaciones de Hodgdon y Beckett). Mil Med', url: 'https://pubmed.ncbi.nlm.nih.gov/25562863/' },
 };
 
 /** Textos de interfaz compartidos por las calculadoras. */
@@ -176,6 +188,18 @@ export const TOOL_CONTENT: Record<Locale, Record<ToolId, ToolContent>> = {
       ],
       ctaTitle: '¿Haces todo bien y no cambias?',
       ctaBody: 'Calcular es el primer paso. Si llevas meses sin resultados, te ayudo a encontrar qué falla con un plan hecho para ti.',
+      reviewed: '2026-10-04',
+      example: {
+        title: 'Ejemplo resuelto',
+        intro: 'Hombre de 30 años, 180 cm y 80 kg, con actividad moderada. Metabolismo basal: 10 × 80 + 6,25 × 180 − 5 × 30 + 5 = 1.780 kcal. Gasto diario: 1.780 × 1,55 = 2.759 kcal.',
+        head: ['Objetivo', 'Calorías/día', 'Proteína', 'Grasa', 'Carbohidratos'],
+        rows: [
+          ['Perder grasa (−20 %)', '2.207 kcal', '168 g', '64 g', '240 g'],
+          ['Mantener', '2.759 kcal', '128 g', '64 g', '418 g'],
+          ['Ganar músculo (+10 %)', '3.035 kcal', '152 g', '67 g', '456 g'],
+        ],
+      },
+      sources: [SRC.mifflin, SRC.morton],
     },
     protein: {
       metaTitle: 'Calculadora de proteína diaria gratis',
@@ -198,6 +222,18 @@ export const TOOL_CONTENT: Record<Locale, Record<ToolId, ToolContent>> = {
       ],
       ctaTitle: '¿Llegas a tu proteína y sigues igual?',
       ctaBody: 'La proteína es una pieza. Si llevas meses estancado, revisamos juntos entrenamiento, descanso y comida.',
+      reviewed: '2026-10-04',
+      example: {
+        title: 'Ejemplo resuelto',
+        intro: 'Persona de 75 kg. Objetivo diario = peso × punto medio del rango recomendado, repartido en 4 comidas.',
+        head: ['Objetivo', 'Rango (g/kg)', 'Rango diario', 'Objetivo diario', 'Por comida (4 tomas)'],
+        rows: [
+          ['Perder grasa', '1,8-2,4', '135-180 g', '158 g', '40 g'],
+          ['Mantener', '1,4-1,8', '105-135 g', '120 g', '30 g'],
+          ['Ganar músculo', '1,6-2,2', '120-165 g', '143 g', '36 g'],
+        ],
+      },
+      sources: [SRC.morton, SRC.issn],
     },
     bodyfat: {
       metaTitle: 'Calculadora de grasa corporal (método Navy) gratis',
@@ -224,6 +260,19 @@ export const TOOL_CONTENT: Record<Locale, Record<ToolId, ToolContent>> = {
       ],
       ctaTitle: '¿Quieres bajar grasa sin perder músculo?',
       ctaBody: 'Te ayudo a llegar a tu porcentaje objetivo con un plan de entrenamiento y nutrición hecho para ti.',
+      reviewed: '2026-10-04',
+      example: {
+        title: 'Ejemplo resuelto',
+        intro: 'Hombre de 180 cm y 80 kg, cuello 38 cm y cintura 85 cm, con un objetivo del 12 %. Fórmula: 495 / (1,0324 − 0,19077 × log10(cintura − cuello) + 0,15456 × log10(altura)) − 450.',
+        head: ['Dato', 'Resultado'],
+        rows: [
+          ['Grasa corporal', '16,1 % (en forma)'],
+          ['Masa grasa', '12,9 kg'],
+          ['Masa magra', '67,1 kg'],
+          ['Peso con un 12 % de grasa', '76,3 kg'],
+        ],
+      },
+      sources: [SRC.navy],
     },
   },
   en: {
@@ -243,6 +292,18 @@ export const TOOL_CONTENT: Record<Locale, Record<ToolId, ToolContent>> = {
       ],
       ctaTitle: 'Doing everything right and not changing?',
       ctaBody: 'Numbers are step one. If you have been stuck for months, I will help you find what is wrong with a plan built for you.',
+      reviewed: '2026-10-04',
+      example: {
+        title: 'Worked example',
+        intro: 'Man, 30, 180 cm, 80 kg, moderately active. BMR: 10 × 80 + 6.25 × 180 − 5 × 30 + 5 = 1,780 kcal. TDEE: 1,780 × 1.55 = 2,759 kcal.',
+        head: ['Goal', 'Calories/day', 'Protein', 'Fat', 'Carbs'],
+        rows: [
+          ['Lose fat (−20%)', '2,207 kcal', '168 g', '64 g', '240 g'],
+          ['Maintain', '2,759 kcal', '128 g', '64 g', '418 g'],
+          ['Build muscle (+10%)', '3,035 kcal', '152 g', '67 g', '456 g'],
+        ],
+      },
+      sources: [SRC.mifflin, SRC.morton],
     },
     protein: {
       metaTitle: 'Free daily protein calculator',
@@ -259,6 +320,18 @@ export const TOOL_CONTENT: Record<Locale, Record<ToolId, ToolContent>> = {
       ],
       ctaTitle: 'Hitting your protein and still stuck?',
       ctaBody: 'Protein is one piece. If you have plateaued for months, we review training, sleep and food together.',
+      reviewed: '2026-10-04',
+      example: {
+        title: 'Worked example',
+        intro: 'Person weighing 75 kg. Daily target = weight × midpoint of the recommended range, split across 4 meals.',
+        head: ['Goal', 'Range (g/kg)', 'Daily range', 'Daily target', 'Per meal (4 meals)'],
+        rows: [
+          ['Lose fat', '1.8-2.4', '135-180 g', '158 g', '40 g'],
+          ['Maintain', '1.4-1.8', '105-135 g', '120 g', '30 g'],
+          ['Build muscle', '1.6-2.2', '120-165 g', '143 g', '36 g'],
+        ],
+      },
+      sources: [SRC.morton, SRC.issn],
     },
     bodyfat: {
       metaTitle: 'Free body fat calculator (Navy method)',
@@ -275,6 +348,19 @@ export const TOOL_CONTENT: Record<Locale, Record<ToolId, ToolContent>> = {
       ],
       ctaTitle: 'Want to lose fat without losing muscle?',
       ctaBody: 'I will help you reach your target with a training and nutrition plan built for you.',
+      reviewed: '2026-10-04',
+      example: {
+        title: 'Worked example',
+        intro: 'Man, 180 cm, 80 kg, neck 38 cm, waist 85 cm, target 12%. Formula: 495 / (1.0324 − 0.19077 × log10(waist − neck) + 0.15456 × log10(height)) − 450.',
+        head: ['Metric', 'Result'],
+        rows: [
+          ['Body fat', '16.1% (fit)'],
+          ['Fat mass', '12.9 kg'],
+          ['Lean mass', '67.1 kg'],
+          ['Weight at 12% body fat', '76.3 kg'],
+        ],
+      },
+      sources: [SRC.navy],
     },
   },
 };

@@ -12,7 +12,11 @@ export type Attribution = {
   at: string;
 };
 
+// Canal "ia" (brief IA §A7): asistentes que enlazan a la web. Va antes que google.
+const AI_HOSTS = /(^|\.)(chatgpt\.com|chat\.openai\.com|perplexity\.ai|gemini\.google\.com|claude\.ai|copilot\.microsoft\.com)$/;
+
 const SOURCE_BY_HOST: Array<[RegExp, string]> = [
+  [AI_HOSTS, 'ia'],
   [/tiktok\./, 'tiktok'],
   [/instagram\.|l\.instagram\./, 'instagram'],
   [/google\./, 'google'],
@@ -21,7 +25,11 @@ const SOURCE_BY_HOST: Array<[RegExp, string]> = [
 ];
 
 function detectSource(utm: Record<string, string>, referrer: string | null): string {
-  if (utm.utm_source) return utm.utm_source.toLowerCase().slice(0, 40);
+  if (utm.utm_source) {
+    const src = utm.utm_source.toLowerCase();
+    if (AI_HOSTS.test(src)) return 'ia'; // p. ej. utm_source=chatgpt.com
+    return src.slice(0, 40);
+  }
   if (!referrer) return 'directo';
   try {
     const host = new URL(referrer).hostname;
