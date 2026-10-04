@@ -31,10 +31,10 @@ motivo y corregirlo subiendo otra versión a la misma rama.
    - Permisos: **Contents: Read and write** y **Pull requests: Read and write**. Nada más.
    - Caducidad: 90 días (renovarlo). Guárdalo solo en el bot (variable de entorno), nunca en código.
 4. **Secretos y variables del repositorio** (Settings → Secrets and variables → Actions):
-   - Secrets: `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, `INDEXNOW_KEY`.
+   - Secrets: `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`.
    - Variables: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `NEXT_PUBLIC_SITE_URL`,
      `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `NEXT_PUBLIC_POSTHOG_KEY`, `NEXT_PUBLIC_META_PIXEL_ID`,
-     `NEXT_PUBLIC_PLATFORM_OPEN=false` y **`DEPLOY_ENABLED=true`** (interruptor de la publicación).
+     `NEXT_PUBLIC_PLATFORM_OPEN=false`, `INDEXNOW_KEY` y **`DEPLOY_ENABLED=true`** (interruptor de la publicación).
 5. **Notificaciones**: instala la app de GitHub en el móvil para aprobar desde ahí.
 
 ## Formato del artículo

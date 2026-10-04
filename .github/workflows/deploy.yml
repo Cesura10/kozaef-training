@@ -27,6 +27,8 @@ jobs:
       NEXT_PUBLIC_META_PIXEL_ID: ${{ vars.NEXT_PUBLIC_META_PIXEL_ID }}
       NEXT_PUBLIC_PLATFORM_OPEN: ${{ vars.NEXT_PUBLIC_PLATFORM_OPEN }}
       CSP_ENFORCE: ${{ vars.CSP_ENFORCE }}
+      # La clave de IndexNow es pública (se sirve en /indexnow.txt): hace falta al compilar.
+      INDEXNOW_KEY: ${{ vars.INDEXNOW_KEY }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -41,6 +43,4 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: npm run cf:deploy
       - name: Avisar a Bing (IndexNow)
-        env:
-          INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
         run: node scripts/indexnow.mjs
