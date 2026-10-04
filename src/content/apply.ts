@@ -41,6 +41,7 @@ type Copy = {
     qualified: { title: string; body: string; cta: string; noCalendar: string };
     waitlist: { title: string; body: string };
     low: { title: string; body: string; cta: string };
+    lowBudget: { title: string; body: string; cta: string };
   };
 };
 
@@ -104,6 +105,11 @@ export const APPLY_COPY: Record<Locale, Copy> = {
         body: 'Ahora mismo te va a ayudar más empezar por lo básico. Usa las herramientas gratis y apúntate a la lista: cada semana mando lo que funciona.',
         cta: 'Ver herramientas gratis',
       },
+      lowBudget: {
+        title: 'Empieza por tu cuenta con un programa guiado',
+        body: 'Programas y guías para entrenar con un método claro, por mucho menos que un coaching personal.',
+        cta: 'Ver programas',
+      },
     },
   },
   en: {
@@ -164,6 +170,11 @@ export const APPLY_COPY: Record<Locale, Copy> = {
         title: 'Thanks for sharing',
         body: 'Right now the basics will help you most. Use the free tools and join the list: every week I send what works.',
         cta: 'See the free tools',
+      },
+      lowBudget: {
+        title: 'Start on your own with a guided programme',
+        body: 'Programmes and guides to train with a clear method, for much less than 1:1 coaching.',
+        cta: 'See programmes',
       },
     },
   },

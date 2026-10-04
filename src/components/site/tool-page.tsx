@@ -1,18 +1,22 @@
-import { applyPath } from '@/content/apply';
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { ArrowRight, ArrowUpRight } from '@phosphor-icons/react/dist/ssr';
+import { ArrowUpRight } from '@phosphor-icons/react/dist/ssr';
 import type { Locale } from '@/i18n/config';
 import { LOCALES, SITE_URL } from '@/i18n/config';
 import { getDictionary } from '@/i18n/dictionaries';
 import { CALC_UI, TOOL_CONTENT, TOOL_IDS, toolPath, type ToolId } from '@/content/tools';
 import { SiteHeader } from './site-header';
 import { SiteFooter } from './site-footer';
-import { ButtonLink } from '@/components/ui/button';
 import { NewsletterForm } from '@/components/marketing/newsletter-form';
 import { ProteinCalculator } from '@/components/marketing/protein-calculator';
 import { CaloriesCalculator } from '@/components/calculators/calories-calculator';
 import { BodyfatCalculator } from '@/components/calculators/bodyfat-calculator';
+import { BloqueProducto } from '@/components/funnel/bloque-producto';
+import { CtaCoaching } from '@/components/funnel/cta-coaching';
+import type { CategoryId } from '@/content/taxonomy';
+
+/** Tema de cada herramienta, para elegir el producto relacionado. */
+const TOOL_CATEGORY: Record<ToolId, CategoryId> = { calories: 'perder-grasa', protein: 'nutricion', bodyfat: 'perder-grasa' };
 
 export function toolMetadata(locale: Locale, id: ToolId): Metadata {
   const c = TOOL_CONTENT[locale][id];
@@ -80,6 +84,12 @@ export async function ToolPage({ locale, id }: { locale: Locale; id: ToolId }) {
             </div>
             <NewsletterForm t={t.newsletter} locale={locale} />
           </div>
+
+          {/* Embudo (brief): resultado sin email -> extra por email -> producto -> coaching */}
+          <div className="mt-6 grid gap-6 lg:grid-cols-2">
+            <BloqueProducto locale={locale} categoria={TOOL_CATEGORY[id]} location={`tool-${id}`} />
+            <CtaCoaching locale={locale} location={`tool-${id}`} />
+          </div>
         </section>
 
         <section className="border-t border-border/60 py-16">
@@ -111,20 +121,6 @@ export async function ToolPage({ locale, id }: { locale: Locale; id: ToolId }) {
             </div>
 
             <aside className="space-y-6 lg:sticky lg:top-24 lg:self-start">
-              <div className="rounded-[var(--radius-xl)] border border-border bg-surface p-6">
-                <h2 className="display text-xl font-bold">{c.ctaTitle}</h2>
-                <p className="mt-2 text-sm leading-relaxed text-muted">{c.ctaBody}</p>
-                <ButtonLink
-                  href={applyPath(locale)}
-                  className="mt-5 h-11 w-full"
-                  data-track="cta_click"
-                  data-cta="apply"
-                  data-location="coaching"
-                >
-                  {t.nav.apply}
-                  <ArrowRight size={16} weight="bold" />
-                </ButtonLink>
-              </div>
               <nav aria-label={locale === 'es' ? 'Otras herramientas' : 'Other tools'} className="space-y-2">
                 {others.map((o) => (
                   <Link

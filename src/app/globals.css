@@ -147,3 +147,43 @@ input[type='number'] {
   -moz-appearance: textfield;
   appearance: textfield;
 }
+
+/* Cuerpo de artículos (HTML generado desde Markdown). */
+.prose-kz {
+  color: var(--color-muted);
+  font-size: 1.0625rem;
+  line-height: 1.75;
+}
+.prose-kz > * + * { margin-top: 1.1em; }
+.prose-kz h2 {
+  margin-top: 2.2em;
+  color: var(--color-fg);
+  font-family: var(--font-display);
+  font-stretch: 112%;
+  font-weight: 700;
+  font-size: 1.6rem;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  scroll-margin-top: 6rem;
+}
+.prose-kz h3 { margin-top: 1.8em; color: var(--color-fg); font-weight: 600; font-size: 1.2rem; }
+.prose-kz strong { color: var(--color-fg); font-weight: 600; }
+.prose-kz a { color: var(--color-primary); text-decoration: underline; text-underline-offset: 3px; }
+.prose-kz a:hover { color: var(--color-primary-hover); }
+.prose-kz ul, .prose-kz ol { padding-left: 1.25em; }
+.prose-kz ul { list-style: disc; }
+.prose-kz ol { list-style: decimal; }
+.prose-kz li + li { margin-top: 0.4em; }
+.prose-kz li::marker { color: var(--color-primary); }
+.prose-kz blockquote { border-left: 2px solid var(--color-primary); padding-left: 1em; color: var(--color-fg); }
+.prose-kz table {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  font-variant-numeric: tabular-nums;
+}
+.prose-kz th { color: var(--color-fg); font-weight: 600; text-align: left; }
+.prose-kz th, .prose-kz td { padding: 0.6em 0.9em; border-bottom: 1px solid var(--color-border); white-space: nowrap; }
+.prose-kz code { color: var(--color-fg); font-family: var(--font-mono); font-size: 0.9em; }

@@ -58,12 +58,6 @@ const en: Dictionary = {
   },
   guides: {
     title: 'Guides to break your plateau.',
-    items: [
-      { tag: 'Plateaus', title: 'Months without building muscle: the 5 real reasons' },
-      { tag: 'Nutrition', title: 'How much protein you actually need (and when)' },
-      { tag: 'Technique', title: 'Bench press mistakes that hold your strength back' },
-      { tag: 'Programming', title: 'Progressive overload, explained without the hype' },
-    ],
   },
   coaching: {
     eyebrow: '1:1 coaching',

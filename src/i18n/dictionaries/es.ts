@@ -58,12 +58,6 @@ const es = {
   },
   guides: {
     title: 'Guías para dejar de estancarte.',
-    items: [
-      { tag: 'Estancamiento', title: 'Llevo meses sin ganar músculo: las 5 causas reales' },
-      { tag: 'Nutrición', title: 'Cuánta proteína necesitas de verdad (y cuándo tomarla)' },
-      { tag: 'Técnica', title: 'Errores en el press banca que frenan tu fuerza' },
-      { tag: 'Programación', title: 'Sobrecarga progresiva explicada sin humo' },
-    ],
   },
   coaching: {
     eyebrow: 'Coaching 1:1',

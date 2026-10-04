@@ -45,3 +45,6 @@ next-env.d.ts
 .open-next
 .wrangler
 .dev.vars
+
+# Contenido generado al compilar (npm run content)
+src/content/generated/

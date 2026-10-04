@@ -18,6 +18,8 @@ import { Reveal } from '@/components/marketing/reveal';
 import { hasLocale } from '@/i18n/config';
 import Link from 'next/link';
 import { toolPath } from '@/content/tools';
+import { CATEGORIES, CATEGORY_IDS } from '@/content/taxonomy';
+import { articlesFor, categoryPath } from '@/content/articles';
 import { SiteHeader } from '@/components/site/site-header';
 import { SiteFooter } from '@/components/site/site-footer';
 import { getDictionary } from '@/i18n/dictionaries';
@@ -28,6 +30,7 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
   const { locale } = await params;
   if (!hasLocale(locale)) notFound();
   const t = await getDictionary(locale);
+  const latest = articlesFor(locale).slice(0, 6);
 
   return (
     <div className="flex min-h-full flex-1 flex-col">
@@ -161,7 +164,7 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
         </section>
 
         {/* Guías: carrusel horizontal con scroll-snap */}
-        <section id="guias" className="scroll-mt-20 border-t border-border/60 py-24">
+        <section id="aprende" className="scroll-mt-20 border-t border-border/60 py-24">
           <div className="mx-auto w-full max-w-7xl px-4 sm:px-6">
             <Reveal>
               <h2 className="display max-w-[20ch] text-4xl font-bold leading-[1.02] md:text-5xl">
@@ -170,19 +173,21 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
             </Reveal>
           </div>
           <div className="no-scrollbar mt-12 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-px-4 px-4 pb-2 sm:scroll-px-6 sm:px-6 xl:px-[calc((100vw_-_80rem)/2_+_1.5rem)] xl:scroll-px-[calc((100vw_-_80rem)/2_+_1.5rem)]">
-            {t.guides.items.map((g, i) => (
-              <article
-                key={g.title}
-                className={`flex aspect-[4/5] w-[78vw] max-w-[20rem] shrink-0 snap-start flex-col justify-between rounded-[var(--radius-xl)] border p-7 sm:w-[20rem] ${
+            {/* Artículos reales más recientes; si aún no hay, las categorías como puerta de entrada. */}
+            {(latest.length > 0
+              ? latest.map((a) => ({ key: a.url, href: a.url, tag: CATEGORIES[a.categoria].label[locale], title: a.titulo }))
+              : CATEGORY_IDS.map((id) => ({ key: id, href: categoryPath(locale, id), tag: t.nav.learn, title: CATEGORIES[id].label[locale] }))
+            ).map((g, i) => (
+              <Link
+                key={g.key}
+                href={g.href}
+                className={`flex aspect-[4/5] w-[78vw] max-w-[20rem] shrink-0 snap-start flex-col justify-between rounded-[var(--radius-xl)] border p-7 transition-colors hover:border-primary/60 sm:w-[20rem] ${
                   i % 2 === 0 ? 'gold-sheen border-primary/20' : 'border-border bg-surface'
                 }`}
               >
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-medium text-primary">{g.tag}</span>
-                  <span className="text-xs text-faint">{t.tools.soon}</span>
-                </div>
+                <span className="text-xs font-medium text-primary">{g.tag}</span>
                 <h3 className="display text-2xl font-bold leading-[1.1]">{g.title}</h3>
-              </article>
+              </Link>
             ))}
           </div>
         </section>
