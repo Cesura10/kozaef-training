@@ -43,3 +43,39 @@ No hay que tocar la web pública.
 El `proxy.ts` de Next 16 corre en Node y en Cloudflare ese modo es experimental. Probado y
 funcionando; si una actualización lo rompiera, el plan B es quitar el proxy y refrescar la
 sesión en el layout privado (la web pública no depende de él).
+
+## Tareas manuales (brief seguridad, parte C)
+
+1. **Cloudflare (al conectar el dominio):**
+   - DNS con proxy activado (nube naranja).
+   - SSL/TLS en modo **Full (strict)**.
+   - **Always Use HTTPS** activado.
+   - HSTS: la web ya envía la cabecera. Actívalo también en Cloudflare solo cuando HTTPS funcione en toda la web.
+   - **Security → WAF**: activar las reglas gestionadas gratuitas.
+2. **Cloudflare, tráfico de IA** (Security → Bots / AI Crawl Control):
+   - Búsqueda y Agentes: permitidos.
+   - Entrenamiento: según `robots.txt` (permitido).
+   - Ninguna categoría en "bloquear solo en páginas con anuncios". Los dominios nuevos desde el 15/09/2026 traen Agentes y Entrenamiento bloqueados por defecto en páginas con anuncios: revisarlo.
+3. **Bot Fight Mode:** si se activa, comprobar después que Googlebot y los rastreadores de IA siguen entrando (`curl -A "GPTBot" https://<dominio>/es` debe devolver 200).
+4. **Verificación en dos pasos** (app autenticadora o llave de acceso, no SMS) en: email, registrador del dominio, Cloudflare, Supabase, GitHub, Shopify, Meta, PostHog y proveedor de email.
+5. **Google Search Console y Bing Webmaster Tools:** dar de alta el dominio y enviar `https://<dominio>/sitemap.xml`.
+6. **CSP obligatoria:** tras una semana publicada sin avisos en la consola, poner `CSP_ENFORCE=true` y redesplegar.
+7. **GitHub:** crear el repositorio privado, subir el código y activar Dependabot alerts + security updates (Settings → Code security).
+
+## Datos pendientes (no se muestran en la web hasta tenerlos)
+
+| Dato | Dónde | Efecto mientras falte |
+|---|---|---|
+| Nombre, NIF, dirección, email de contacto | `src/lib/legal.ts` | Textos legales con huecos: **bloquea el lanzamiento** |
+| Nombre, titulación, ciudad, foto, redes | `src/content/author.ts` | "Sobre mí" sin indexar, sin caja de autor ni dato Person |
+| Enlace de Shopify de la revisión de técnica | `src/content/products.ts` | Se muestra lista de espera en lugar de "Comprar" |
+| Infoproductos (nombre, para quién, incluye, precio, demo) | `src/content/products.ts` | /programas con lista de espera general |
+| Vídeos de correcciones (con permiso escrito del cliente) | `src/content/technique-examples.ts` | Sección de ejemplos oculta |
+| Aprobación del diagnóstico gratis | `src/content/diagnosis.ts` | Oculto; la cabecera muestra "Solicitar plaza" |
+| Condiciones del descuento de coaching tras compra | `src/content/offers.ts` | La página de gracias no menciona descuento |
+| Artículos reales | `content/articulos/es/` | /aprende sin indexar hasta el primer artículo |
+| ID del píxel de Meta | `NEXT_PUBLIC_META_PIXEL_ID` | Sin píxel ni banner por Meta |
+| PostHog (claves) | `.env.local` | Gráficos del panel con datos de ejemplo |
+| Cal.com | `CALCOM_URL` | Cualificados reciben "te escribo en 48 h" |
+| Turnstile, dominio, IndexNow | variables de entorno | Necesarios para publicar (Turnstile) y para avisar a Bing |
+| Textos legales y de desistimiento | revisión del gestor | — |
