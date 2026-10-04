@@ -4,7 +4,7 @@
  * Regla: todo servicio externo se usa en su plan GRATIS y la web se frena
  * ANTES de llegar a su tope. Si se alcanza un tope, la web degrada con elegancia
  * (las calculadoras siguen funcionando en el navegador; el email se pospone),
- * nunca genera una factura. Ver docs/ecosistema.md §13.
+ * nunca genera una factura. Ver docs/privado/ecosistema.md §13.
  */
 export const LIMITS = {
   /** Peticiones por IP y endpoint. */
@@ -32,7 +32,7 @@ export type DailyCounter = keyof typeof LIMITS.daily;
 /**
  * Coste mensual real de la infraestructura, en euros. Actualizar al contratar algo.
  * El panel de analítica lo compara con los ingresos (regla: subir de plan solo si
- * ingresos >= 3 x coste; docs/ecosistema.md §14).
+ * ingresos >= 3 x coste; docs/privado/ecosistema.md §14).
  */
 export const MONTHLY_COSTS_EUR = {
   cloudflare: 0,

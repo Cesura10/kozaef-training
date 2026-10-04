@@ -1,6 +1,6 @@
 /**
  * Catálogo de eventos de analítica. Añadir aquí ANTES de medir algo nuevo
- * (docs/ecosistema.md §15). Nombres en snake_case, propiedades pequeñas y sin datos personales.
+ * (docs/privado/ecosistema.md §15). Nombres en snake_case, propiedades pequeñas y sin datos personales.
  */
 export type AnalyticsEvents = {
   calculator_used: { tool: 'protein' | 'calories' | 'bodyfat'; goal?: string };

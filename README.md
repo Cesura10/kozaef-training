@@ -3,7 +3,7 @@
 App para gestionar clientes de entrenamiento personal: rutinas, dietas,
 check-ins con fotos de progreso y chat 1:1. Next.js (App Router) + Supabase.
 
-Especificación completa: [`docs/spec-backend.md`](docs/spec-backend.md).
+Especificación completa: [`docs/privado/spec-backend.md`](docs/privado/spec-backend.md).
 
 ---
 

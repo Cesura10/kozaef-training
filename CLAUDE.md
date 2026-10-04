@@ -2,15 +2,20 @@
 
 # Proyecto: App de Entrenamiento Online (plataforma de Manu)
 
-**PRIMERO lee `docs/ecosistema.md`** (arquitectura y decisiones vigentes del ecosistema: web pública,
+**PRIMERO lee `docs/privado/ecosistema.md`** (carpeta local ignorada por git; es el repositorio privado
+`Cesura10/kozaef-privado`. Si no existe: `git clone https://github.com/Cesura10/kozaef-privado docs/privado`) (arquitectura y decisiones vigentes del ecosistema: web pública,
 herramientas, leads, solicitudes, i18n, Cloudflare). Prevalece sobre lo que contradiga abajo.
-Contexto de la app privada de clientes: **`docs/spec-backend.md`**.
-Puesta en marcha y estado actual: **`README.md`**.
+Contexto de la app privada de clientes: **`docs/privado/spec-backend.md`**.
+Puesta en marcha y estado actual: **`README.md`**. Lanzamiento y pendientes: `docs/lanzamiento.md`.
+Añadir artículos/productos: `docs/contenido.md`. Bot de artículos: `docs/bot-articulos.md`.
+
+> **Este repositorio es PÚBLICO.** Nada de estrategia, precios internos, datos personales ni
+> secretos aquí: lo interno va en `docs/privado/` (repositorio privado aparte).
 
 > **Regla de coste (no negociable):** todo en planes gratis. No añadir APIs ni servicios de pago
 > (LLMs incluidos) sin permiso expreso de Manu. Todo formulario público pasa por
 > `guardPublicWrite` (`src/lib/guard.ts`) y los límites viven en `src/lib/limits.ts`.
-> Ver `docs/ecosistema.md` §13. Web pública en `src/app/(site)/[locale]` (estática, textos en
+> Ver `docs/privado/ecosistema.md` §13. Web pública en `src/app/(site)/[locale]` (estática, textos en
 > `src/i18n/dictionaries`); plataforma privada en `src/app/(platform)`.
 
 ## Qué es

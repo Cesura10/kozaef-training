@@ -48,3 +48,6 @@ next-env.d.ts
 
 # Contenido generado al compilar (npm run content)
 src/content/generated/
+
+# Documentos internos (repositorio privado aparte: Cesura10/kozaef-privado)
+docs/privado/
