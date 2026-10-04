@@ -96,7 +96,7 @@ const es: Record<LegalSlug, LegalDoc> = {
       {
         h: 'Cookies de terceros y publicidad',
         p: [
-          'Actualmente esta web no usa cookies publicitarias ni de seguimiento entre webs. Si en el futuro se añaden (por ejemplo, anuncios), se pedirá tu consentimiento antes, con un aviso donde podrás aceptarlas o rechazarlas.',
+          'Solo con tu consentimiento (botón "Aceptar" del aviso de cookies): píxel de Meta (cookies _fbp y _fbc), para medir y mostrarte contenido relevante en Facebook e Instagram, y PostHog con persistencia y grabaciones anónimas de uso (cookies ph_*), para mejorar la web. Si rechazas, no se cargan. Puedes cambiar tu decisión en cualquier momento con el enlace "Configurar cookies" del pie de página.',
         ],
       },
       {
@@ -170,7 +170,9 @@ const en: Record<LegalSlug, LegalDoc> = {
     sections: [
       {
         h: 'Third-party and advertising cookies',
-        p: ['This website currently uses no advertising or cross-site tracking cookies. If they are added in the future, your consent will be requested first.'],
+        p: [
+          'Only with your consent ("Accept" in the cookie notice): Meta pixel (_fbp and _fbc cookies) and PostHog persistence and anonymous session recordings (ph_* cookies). If you reject, they are not loaded. You can change your choice anytime with "Cookie settings" in the footer.',
+        ],
       },
       {
         h: 'First-party storage',

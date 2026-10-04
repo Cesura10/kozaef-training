@@ -6,6 +6,7 @@ import { track } from '@/lib/analytics/client';
 import { getAttribution } from '@/lib/analytics/attribution';
 import { readLastToolResult } from '@/lib/analytics/last-tool';
 import { Turnstile } from '@/components/turnstile';
+import { Honeypot } from '@/components/honeypot';
 
 type Status = 'idle' | 'sending' | 'ok' | 'invalid' | 'consent' | 'limited' | 'failed';
 
@@ -62,6 +63,7 @@ export function NewsletterForm({
           utm: attribution?.utm,
           ...(last && !waitlistProduct ? { tool: last.tool, toolInputs: last.inputs, toolOutputs: last.outputs } : {}),
           ...(waitlistProduct ? { waitlistProduct } : {}),
+          website: String(form.get('website') ?? ''),
           turnstileToken: form.get('cf-turnstile-response') ?? undefined,
         }),
       });
@@ -99,7 +101,8 @@ export function NewsletterForm({
             : { text: t.idle, cls: 'text-faint' };
 
   return (
-    <form onSubmit={onSubmit} noValidate className="w-full max-w-md">
+    <form onSubmit={onSubmit} noValidate className="relative w-full max-w-md">
+      <Honeypot />
       <label htmlFor={id} className="text-sm text-muted">
         {t.label}
       </label>

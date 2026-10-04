@@ -9,6 +9,7 @@ import type { Locale } from '@/i18n/config';
 import { track } from '@/lib/analytics/client';
 import { getAttribution } from '@/lib/analytics/attribution';
 import { Turnstile } from '@/components/turnstile';
+import { Honeypot } from '@/components/honeypot';
 
 type Copy = (typeof APPLY_COPY)[Locale];
 type Result = { result: 'qualified' | 'waitlist' | 'low'; bookingUrl: string | null; lowBudget?: boolean };
@@ -51,6 +52,7 @@ export function ApplyForm({ copy, locale }: { copy: Copy; locale: Locale }) {
           locale,
           source: a?.source,
           utm: a?.utm,
+          website: String(f.get('website') ?? ''),
           turnstileToken: f.get('cf-turnstile-response') ?? undefined,
         }),
       });
@@ -70,7 +72,8 @@ export function ApplyForm({ copy, locale }: { copy: Copy; locale: Locale }) {
   if (result) return <ResultView copy={copy} locale={locale} result={result} />;
 
   return (
-    <form onSubmit={onSubmit} noValidate className="space-y-8">
+    <form onSubmit={onSubmit} noValidate className="relative space-y-8">
+      <Honeypot />
       {QUESTION_KEYS.map((k) => (
         <fieldset key={k}>
           <legend className="text-base font-medium text-fg">{copy.questions[k].label}</legend>

@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { isBot } from '@/components/honeypot';
 import { z } from 'zod';
 import { guardPublicWrite } from '@/lib/guard';
 import { createAdminClient } from '@/lib/supabase/admin';
@@ -16,7 +17,8 @@ const Body = z.object({
   notes: z.string().trim().max(1000).optional(),
   privacy: z.literal(true),
   /** Campo trampa: las personas no lo ven; si llega relleno, es un bot. */
-  website: z.string().max(0).optional(),
+  /** Campo trampa antibots. */
+  website: z.string().max(200).optional(),
   turnstileToken: z.string().max(4096).optional(),
 });
 
@@ -32,6 +34,8 @@ export async function POST(req: Request) {
   const parsed = Body.safeParse(json);
   if (!parsed.success) return fail(400, 'invalid_body');
   const b = parsed.data;
+  // Bot detectado por el campo trampa: respuesta normal, sin guardar nada.
+  if (isBot(b.website)) return NextResponse.json({ ok: true, result: 'low', scoreBand: 'low', bookingUrl: null });
   if (!PRODUCTS.some((p) => p.id === b.productId && p.tipo === 'servicio')) return fail(400, 'unknown_product');
 
   const guard = await guardPublicWrite(req.headers, {

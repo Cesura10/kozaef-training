@@ -1,0 +1,10 @@
+#!/bin/sh
+# Bloquea cualquier commit que contenga claves o secretos (brief seguridad §B1).
+if ! command -v gitleaks >/dev/null 2>&1; then
+  echo "✖ gitleaks no está instalado. Instálalo con: brew install gitleaks"
+  exit 1
+fi
+gitleaks git --pre-commit --staged --redact --no-banner -v || {
+  echo "✖ Commit bloqueado: se ha detectado un posible secreto. Quítalo del código y usa variables de entorno."
+  exit 1
+}

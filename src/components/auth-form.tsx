@@ -8,6 +8,7 @@ import { createClient } from '@/lib/supabase/client';
 import { Button } from '@/components/ui/button';
 import { AUTH_METHODS } from '@/lib/auth-flags';
 import { PLATFORM_OPEN } from '@/lib/platform';
+import { Honeypot } from '@/components/honeypot';
 import { requestMagicLink, type MagicLinkState } from '@/lib/auth-actions';
 
 type Mode = 'login' | 'signup';
@@ -138,7 +139,8 @@ export function AuthForm({ mode }: { mode: Mode }) {
         <h1 className="display text-2xl font-bold">{copy.title}</h1>
         <p className="mt-1 text-sm text-muted">Tu entrenamiento, tu dieta y tus revisiones en un sitio.</p>
 
-        <form action={sendMagic} className="mt-6 space-y-3">
+        <form action={sendMagic} className="relative mt-6 space-y-3">
+          <Honeypot />
           <input type="hidden" name="next" value={next} />
           {mode === 'signup' && (
             <Field label="Nombre" name="full_name" type="text" autoComplete="name" placeholder="Tu nombre" />

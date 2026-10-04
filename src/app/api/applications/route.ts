@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { isBot } from '@/components/honeypot';
 import { z } from 'zod';
 import { ANSWERS, QUESTION_KEYS, type QuestionKey } from '@/content/apply';
 import { guardPublicWrite } from '@/lib/guard';
@@ -23,6 +24,8 @@ const Body = z.object({
   locale: z.enum(['es', 'en']).default('es'),
   source: z.string().max(40).optional(),
   utm: z.record(z.string().max(40), z.string().max(100)).optional(),
+  /** Campo trampa antibots. */
+  website: z.string().max(200).optional(),
   turnstileToken: z.string().max(4096).optional(),
 });
 
@@ -38,6 +41,8 @@ export async function POST(req: Request) {
   const parsed = Body.safeParse(json);
   if (!parsed.success) return fail(400, 'invalid_body');
   const b = parsed.data;
+  // Bot detectado por el campo trampa: respuesta normal, sin guardar nada.
+  if (isBot(b.website)) return NextResponse.json({ ok: true, result: 'low', scoreBand: 'low', bookingUrl: null });
 
   const guard = await guardPublicWrite(req.headers, {
     endpoint: 'applications',

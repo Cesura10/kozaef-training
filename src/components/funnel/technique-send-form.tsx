@@ -4,6 +4,7 @@ import { useState } from 'react';
 import type { PagesCopy } from '@/content/pages';
 import { track } from '@/lib/analytics/client';
 import { Turnstile } from '@/components/turnstile';
+import { Honeypot } from '@/components/honeypot';
 
 type Status = 'idle' | 'sending' | 'ok' | 'missing' | 'failed';
 const input =
@@ -54,14 +55,8 @@ export function TechniqueSendForm({ c, locale, productId }: { c: PagesCopy['send
   }
 
   return (
-    <form onSubmit={onSubmit} noValidate className="space-y-5">
-      {/* Campo trampa antibots: invisible para personas. */}
-      <div aria-hidden className="absolute -left-[9999px] h-0 w-0 overflow-hidden">
-        <label>
-          Website
-          <input type="text" name="website" tabIndex={-1} autoComplete="off" />
-        </label>
-      </div>
+    <form onSubmit={onSubmit} noValidate className="relative space-y-5">
+      <Honeypot />
       <div className="grid gap-4 sm:grid-cols-2">
         <label className="block text-sm text-muted">
           {c.name}

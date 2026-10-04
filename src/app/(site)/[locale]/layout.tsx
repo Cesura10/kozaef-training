@@ -5,6 +5,7 @@ import { LOCALES, SITE_URL, hasLocale } from '@/i18n/config';
 import { getDictionary } from '@/i18n/dictionaries';
 import Script from 'next/script';
 import { AnalyticsProvider } from '@/components/analytics-provider';
+import { ConsentBanner } from '@/components/consent-banner';
 import '../../globals.css';
 
 // Web pública: estática por idioma y servida desde CDN. Nada de cookies ni BD al renderizar.
@@ -46,6 +47,7 @@ export default async function SiteLayout({ children, params }: LayoutProps<'/[lo
       <body className="app-backdrop grain min-h-full flex flex-col">
         {children}
         <AnalyticsProvider locale={locale} />
+        <ConsentBanner locale={locale} />
         {/* Cloudflare Web Analytics: sin cookies, gratis e ilimitado. Solo si hay token. */}
         {process.env.NEXT_PUBLIC_CF_BEACON_TOKEN && (
           <Script

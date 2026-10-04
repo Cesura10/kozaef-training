@@ -4,6 +4,7 @@ import { LOCALES, type Locale } from '@/i18n/config';
 import { LEGAL } from '@/content/legal';
 import { LEGAL_SLUGS } from '@/lib/legal';
 import { mainNav } from './nav-items';
+import { ConsentSettingsLink } from '@/components/consent-banner';
 import type { Dictionary } from '@/i18n/dictionaries';
 
 export function SiteFooter({ locale, t }: { locale: string; t: Dictionary }) {
@@ -29,6 +30,7 @@ export function SiteFooter({ locale, t }: { locale: string; t: Dictionary }) {
                 {LEGAL[locale as Locale][slug].title}
               </Link>
             ))}
+            <ConsentSettingsLink label={locale === 'es' ? 'Configurar cookies' : 'Cookie settings'} />
           </nav>
           <div className="flex items-center gap-6">
             <nav aria-label={t.nav.language} className="flex gap-3">

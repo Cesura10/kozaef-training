@@ -1,6 +1,7 @@
 'use client';
 
 import type { AnalyticsEventName, AnalyticsEvents } from './events';
+import { metaTrack } from './meta';
 
 /**
  * Capa de analítica independiente del proveedor. Hoy: PostHog (UE), solo si hay
@@ -49,6 +50,7 @@ export function initAnalytics(superProps: Record<string, unknown>) {
 }
 
 export function track<K extends AnalyticsEventName>(name: K, props: AnalyticsEvents[K]) {
+  metaTrack(name, props as Record<string, unknown>); // solo si hay consentimiento y píxel
   if (!process.env.NEXT_PUBLIC_POSTHOG_KEY) return;
   withPostHog((p) => p.capture(name, props));
 }

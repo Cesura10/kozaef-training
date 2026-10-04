@@ -15,7 +15,8 @@
     "content": "node scripts/build-content.mjs",
     "predev": "node scripts/build-content.mjs --drafts",
     "pretypecheck": "node scripts/build-content.mjs --drafts",
-    "indexnow": "node --env-file-if-exists=.env.production scripts/indexnow.mjs"
+    "indexnow": "node --env-file-if-exists=.env.production scripts/indexnow.mjs",
+    "prepare": "git config core.hooksPath .githooks || true"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",

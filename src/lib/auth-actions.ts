@@ -4,6 +4,7 @@ import { headers } from 'next/headers';
 import { createClient } from '@/lib/supabase/server';
 import { guardPublicWrite } from '@/lib/guard';
 import { PLATFORM_OPEN } from '@/lib/platform';
+import { isBot } from '@/components/honeypot';
 
 export type MagicLinkState =
   | { status: 'idle' }
@@ -25,6 +26,8 @@ function safeNext(value: FormDataEntryValue | null) {
  */
 export async function requestMagicLink(_prev: MagicLinkState, form: FormData): Promise<MagicLinkState> {
   const email = String(form.get('email') ?? '').trim().toLowerCase();
+  // Campo trampa: a un bot le decimos que se envió, sin enviar nada.
+  if (isBot(form.get('website'))) return { status: 'sent', email };
   if (!EMAIL_RE.test(email) || email.length > 254) {
     return { status: 'error', message: 'Revisa el email, parece incompleto.' };
   }
