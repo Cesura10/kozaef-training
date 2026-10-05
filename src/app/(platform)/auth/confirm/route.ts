@@ -11,21 +11,18 @@ const ALLOWED_TYPES: EmailOtpType[] = ['signup', 'magiclink', 'recovery', 'invit
 
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
-  const tokenHash = searchParams.get('token_hash');
+  const rawHash = searchParams.get('token_hash') ?? '';
   const rawType = searchParams.get('type');
-  // Solo tipos de verificación válidos de Supabase (no se confía en lo que llegue en la URL).
-  const type = ALLOWED_TYPES.find((t) => t === rawType) ?? null;
   const next = sanitizeNext(searchParams.get('next'));
 
-  if (tokenHash && /^[A-Za-z0-9_-]{10,512}$/.test(tokenHash) && type) {
-    const supabase = await createClient();
-    const { error } = await supabase.auth.verifyOtp({ type, token_hash: tokenHash });
-    if (!error) {
-      return NextResponse.redirect(`${origin}${next}`);
-    }
-  }
+  // La decisión la toma SIEMPRE Supabase en su servidor: se verifica en todos los casos y un
+  // token o tipo no válido simplemente devuelve error (no hay atajo controlado por la URL).
+  const tokenHash = /^[A-Za-z0-9_-]{10,512}$/.test(rawHash) ? rawHash : 'invalid';
+  const type: EmailOtpType = ALLOWED_TYPES.find((t) => t === rawType) ?? 'email';
 
-  return NextResponse.redirect(`${origin}/login?error=confirm`);
+  const supabase = await createClient();
+  const { error } = await supabase.auth.verifyOtp({ type, token_hash: tokenHash });
+  return NextResponse.redirect(error ? `${origin}/login?error=confirm` : `${origin}${next}`);
 }
 
 function sanitizeNext(value: string | null) {
