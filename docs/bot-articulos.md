@@ -19,12 +19,12 @@ Bot ──(API de GitHub)──> rama bot/<slug> + propuesta (pull request)
 Si la validación falla, la propuesta queda en rojo, no se puede aprobar y el bot puede leer el
 motivo y corregirlo subiendo otra versión a la misma rama.
 
-## El bot: tarea programada de Claude
+## El bot: Claude, desde VS Code o como tarea programada
 
-- Es una **tarea programada semanal de Claude**: usa el plan de Claude de Manu, sin API de pago
-  (cumple la regla de coste).
-- Entra en GitHub con la **app de Claude** instalada en la cuenta (acceso solo a este repositorio y
-  a `kozaef-privado`). No necesita el token del paso 3.
+- Lo ejecuta **Claude**: desde VS Code en el Mac de Manu (con su acceso a GitHub) o como tarea
+  programada en la nube. Usa el plan de Claude de Manu, sin API de pago (cumple la regla de coste).
+- En la nube entra en GitHub con la **app de Claude** (acceso solo a este repositorio y a
+  `kozaef-privado`). En ningún caso necesita el token del paso 3.
 - Sus instrucciones, su configuración y sus informes viven en el repositorio privado
   (`kozaef-privado/bot/` y `kozaef-privado/radar/`), no aquí.
 - Antes de proponer, ejecuta `npm run validate:content` en su copia y corrige hasta que pasa.
@@ -37,7 +37,7 @@ motivo y corregirlo subiendo otra versión a la misma rama.
    - Target: `main`. Activar *Require a pull request before merging* y *Require status checks to pass*
      con los checks **Validar artículos** y **Auditoría, tipos, lint, tests y build**.
    - Activar *Block force pushes*. Así nada llega a la web sin pasar la validación y tu clic.
-3. **Token para el bot** (solo para un bot externo; la tarea programada de Claude no lo usa)
+3. **Token para el bot** (solo para un bot externo; Claude no lo usa)
    (Settings de tu cuenta → Developer settings → Fine-grained tokens):
    - Repository access: *Only select repositories* → este repositorio.
    - Permisos: **Contents: Read and write** y **Pull requests: Read and write**. Nada más.
