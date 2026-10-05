@@ -54,7 +54,9 @@ export async function ArticlePage({ article: a }: { article: Article }) {
       <article className="mx-auto w-full max-w-3xl px-4 pb-16 pt-10 sm:px-6 md:pt-14">
         {a.borrador && (
           <p className="mb-6 rounded-2xl border border-warning/40 bg-warning/10 px-4 py-3 text-sm text-warning">
-            Borrador: solo visible en desarrollo. No se publica, ni sale en el sitemap ni en el buscador.
+            {a.candidato
+              ? `Candidato del bot (${a.candidato}): así quedaría publicado. Solo se ve en tu ordenador.`
+              : 'Borrador: solo visible en desarrollo. No se publica, ni sale en el sitemap ni en el buscador.'}
           </p>
         )}
         <nav aria-label="Breadcrumb" className="text-sm text-faint">

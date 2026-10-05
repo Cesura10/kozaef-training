@@ -25,13 +25,36 @@ const toHtml = (text) =>
     // Enlaces externos: nueva pestaña segura.
     .replace(/<a href="(https?:\/\/[^"]+)"/g, '<a href="$1" target="_blank" rel="noopener noreferrer"');
 
+// Candidatos del bot (SOLO en desarrollo): carpetas privadas de simulacros y borradores.
+// Nunca existen en producción ni en GitHub (docs/privado/ está fuera del repositorio público).
+const PRIVADO = join(ROOT, 'docs', 'privado');
+const candidateDirs = !withDrafts || !existsSync(PRIVADO)
+  ? []
+  : [
+      ...readdirSync(PRIVADO)
+        .filter((d) => d.startsWith('simulacro-'))
+        .map((d) => ({ dir: join(PRIVADO, d, 'articulos'), label: d })),
+      { dir: join(PRIVADO, 'radar', 'borradores'), label: 'borradores-del-bot' },
+    ].filter((c) => existsSync(c.dir));
+
+const sources = [
+  ...['es', 'en'].map((locale) => ({ locale, dir: join(SRC, locale), candidate: null })),
+  ...candidateDirs.map((c) => ({ locale: 'es', dir: c.dir, candidate: c.label })),
+];
+
 const articles = [];
-for (const locale of ['es', 'en']) {
-  const dir = join(SRC, locale);
+const seen = new Set();
+for (const { locale, dir, candidate } of sources) {
   if (!existsSync(dir)) continue;
-  for (const file of readdirSync(dir).filter((f) => f.endsWith('.md'))) {
+  for (const file of readdirSync(dir).filter((f) => f.endsWith('.md') && f !== 'README.md')) {
     const raw = readFileSync(join(dir, file), 'utf8');
     const { data, content } = matter(raw);
+    const key = `${locale}/${basename(file, '.md')}`;
+    if (candidate) {
+      if (seen.has(key)) continue; // si ya existe en la web, manda la versión de la web
+      data.borrador = true; // un candidato nunca es publicable desde aquí
+    }
+    seen.add(key);
     if (data.borrador === true && !withDrafts) continue;
 
     // El aviso de herramienta va "a mitad del texto": tras la primera sección H2.
@@ -43,6 +66,7 @@ for (const locale of ['es', 'en']) {
     articles.push({
       locale,
       slug: basename(file, '.md'),
+      candidate,
       data,
       html: [toHtml(before), after ? toHtml(after) : ''],
       headings: [...content.matchAll(/^## (.+)$/gm)].map((m) => m[1].trim()),
@@ -53,4 +77,24 @@ for (const locale of ['es', 'en']) {
 
 mkdirSync(join(ROOT, 'src', 'content', 'generated'), { recursive: true });
 writeFileSync(OUT, JSON.stringify(articles, null, 0));
-console.log(`Contenido: ${articles.length} artículo(s)${withDrafts ? ' (con borradores)' : ''} -> src/content/generated/articles.json`);
+const nCand = articles.filter((a) => a.candidate).length;
+console.log(`Contenido: ${articles.length} artículo(s)${withDrafts ? ` (con borradores${nCand ? `, ${nCand} candidato(s) del bot` : ''})` : ''} -> src/content/generated/articles.json`);
+
+// Informes del bot (SOLO en desarrollo, desde docs/privado): para la página "Artículos" del panel.
+const reports = [];
+if (withDrafts && existsSync(PRIVADO)) {
+  const reportDirs = [
+    join(PRIVADO, 'radar', 'informes'),
+    ...readdirSync(PRIVADO).filter((d) => d.startsWith('simulacro-')).map((d) => join(PRIVADO, d)),
+  ].filter(existsSync);
+  for (const dir of reportDirs) {
+    for (const file of readdirSync(dir).filter((f) => /^(informe-)?\d{4}-\d{2}-\d{2}\.md$/.test(f))) {
+      const text = readFileSync(join(dir, file), 'utf8');
+      const title = (text.match(/^# (.+)$/m) ?? [, file])[1];
+      reports.push({ id: `${basename(dir)}/${file}`, date: file.match(/\d{4}-\d{2}-\d{2}/)[0], title, html: toHtml(text) });
+    }
+  }
+  reports.sort((a, b) => b.date.localeCompare(a.date));
+}
+writeFileSync(join(ROOT, 'src', 'content', 'generated', 'reports.json'), JSON.stringify(reports));
+if (reports.length) console.log(`Informes del bot: ${reports.length}`);
