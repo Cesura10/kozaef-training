@@ -22,12 +22,12 @@ export function BodyfatCalculator({ ui }: { ui: CalcUi }) {
   try {
     r = calculateBodyfat({
       sex,
-      heightCm: num(height, 178),
-      weightKg: num(weight, 80),
-      neckCm: num(neck, 38),
-      waistCm: num(waist, 86),
-      hipCm: sex === 'female' ? num(hip, 98) : undefined,
-      targetPercent: target === '' ? undefined : target,
+      heightCm: num(height, 178, 120, 230),
+      weightKg: num(weight, 80, 35, 250),
+      neckCm: num(neck, 38, 20, 70),
+      waistCm: num(waist, 86, 40, 200),
+      hipCm: sex === 'female' ? num(hip, 98, 50, 200) : undefined,
+      targetPercent: target === '' ? undefined : num(target, 0, 3, 50),
     });
   } catch (e) {
     if (!(e instanceof InvalidMeasurementsError)) throw e;
@@ -41,7 +41,7 @@ export function BodyfatCalculator({ ui }: { ui: CalcUi }) {
   useEffect(() => {
     if (!touched || !r) return;
     markUsed({
-      inputs: { sex, height: num(height, 178), neck: num(neck, 38), waist: num(waist, 86) },
+      inputs: { sex, height: num(height, 178, 120, 230), neck: num(neck, 38, 20, 70), waist: num(waist, 86, 40, 200) },
       outputs: { percent: r.percent, category: r.category },
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
