@@ -1,5 +1,5 @@
 // Cabeceras de seguridad (brief seguridad §B3). Lista de dominios hecha revisando el código:
-// Supabase, PostHog, Cloudflare (Turnstile + Web Analytics), YouTube sin cookies y píxel de Meta.
+// Supabase, PostHog, Cloudflare (Turnstile + Web Analytics), YouTube sin cookies, píxel de Meta y Sentry.
 // Shopify y Cal.com solo se enlazan (navegación), no necesitan entrada en la CSP.
 //
 // CSP_ENFORCE=true -> obligatoria. Por defecto en modo Report-Only (solo informa) hasta comprobar
@@ -15,7 +15,7 @@ export function securityHeaders({ supabaseUrl = '', enforce = false } = {}) {
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data: blob: https://i.ytimg.com https://www.facebook.com",
     "font-src 'self'",
-    `connect-src 'self' ${supabase.join(' ')} https://eu.i.posthog.com https://eu-assets.i.posthog.com https://cloudflareinsights.com https://www.facebook.com https://connect.facebook.net`,
+    `connect-src 'self' ${supabase.join(' ')} https://eu.i.posthog.com https://eu-assets.i.posthog.com https://cloudflareinsights.com https://www.facebook.com https://connect.facebook.net https://*.ingest.sentry.io https://*.ingest.de.sentry.io https://*.ingest.us.sentry.io`,
     'frame-src https://challenges.cloudflare.com https://www.youtube-nocookie.com',
     "frame-ancestors 'none'",
     "form-action 'self'",
