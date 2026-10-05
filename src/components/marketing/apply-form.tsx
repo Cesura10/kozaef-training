@@ -8,7 +8,7 @@ import { sectionPath } from '@/content/routes';
 import type { Locale } from '@/i18n/config';
 import { track } from '@/lib/analytics/client';
 import { getAttribution } from '@/lib/analytics/attribution';
-import { Turnstile } from '@/components/turnstile';
+import { Turnstile, resetTurnstile } from '@/components/turnstile';
 import { Honeypot } from '@/components/honeypot';
 
 type Copy = (typeof APPLY_COPY)[Locale];
@@ -21,7 +21,8 @@ export function ApplyForm({ copy, locale }: { copy: Copy; locale: Locale }) {
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const f = new FormData(e.currentTarget);
+    const formEl = e.currentTarget;
+    const f = new FormData(formEl);
     const answers = Object.fromEntries(QUESTION_KEYS.map((k) => [k, String(f.get(k) ?? '')]));
     const name = String(f.get('name') ?? '').trim();
     const email = String(f.get('email') ?? '').trim();
@@ -58,6 +59,7 @@ export function ApplyForm({ copy, locale }: { copy: Copy; locale: Locale }) {
       });
       if (!res.ok) {
         setStatus(res.status === 429 ? 'limited' : 'failed');
+        resetTurnstile(formEl);
         return;
       }
       const data = (await res.json()) as Result & { scoreBand: 'low' | 'mid' | 'high' };
@@ -66,6 +68,7 @@ export function ApplyForm({ copy, locale }: { copy: Copy; locale: Locale }) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch {
       setStatus('failed');
+      resetTurnstile(formEl);
     }
   }
 

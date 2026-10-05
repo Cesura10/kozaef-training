@@ -5,13 +5,14 @@ import { CATEGORIES, CATEGORY_IDS, LEVEL_IDS, PROFILES, PROFILE_IDS, type Catego
 import { TOOL_IDS, type ToolId } from './tools';
 import { PRODUCTS } from './products';
 import { sectionPath } from './routes';
+import { isIsoDate } from './dates';
 
 /**
  * Artículos de /aprende. Fuente: content/articulos/{es,en}/<slug>.md (ver docs/contenido.md).
  * Se validan AL COMPILAR: un dato que falte o una categoría que no exista rompe el build,
  * así nunca se publica un artículo incompleto.
  */
-const date = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'fecha en formato AAAA-MM-DD');
+const date = z.string().refine(isIsoDate, 'fecha real en formato AAAA-MM-DD');
 
 const Frontmatter = z.object({
   titulo: z.string().min(10).max(110),

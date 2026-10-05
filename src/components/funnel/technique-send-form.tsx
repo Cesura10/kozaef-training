@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import type { PagesCopy } from '@/content/pages';
 import { track } from '@/lib/analytics/client';
-import { Turnstile } from '@/components/turnstile';
+import { Turnstile, resetTurnstile } from '@/components/turnstile';
 import { Honeypot } from '@/components/honeypot';
 
 type Status = 'idle' | 'sending' | 'ok' | 'missing' | 'failed';
@@ -15,10 +15,20 @@ export function TechniqueSendForm({ c, locale, productId }: { c: PagesCopy['send
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const f = new FormData(e.currentTarget);
+    const formEl = e.currentTarget;
+    const f = new FormData(formEl);
     const get = (k: string) => String(f.get(k) ?? '').trim();
-    const videos = [get('v1'), get('v2'), get('v3')].filter((v) => v.startsWith('https://'));
-    if (!get('name') || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(get('email')) || !get('order') || videos.length === 0 || f.get('privacy') !== 'on') {
+    // Un enlace escrito sin https:// no se descarta en silencio: se pide corregirlo.
+    const filled = [get('v1'), get('v2'), get('v3')].filter(Boolean);
+    const videos = filled.filter((v) => v.startsWith('https://'));
+    if (
+      !get('name') ||
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(get('email')) ||
+      !get('order') ||
+      videos.length === 0 ||
+      videos.length !== filled.length ||
+      f.get('privacy') !== 'on'
+    ) {
       setStatus('missing');
       return;
     }
@@ -41,8 +51,10 @@ export function TechniqueSendForm({ c, locale, productId }: { c: PagesCopy['send
       });
       setStatus(res.ok ? 'ok' : 'failed');
       track('technique_request', { status: res.ok ? 'ok' : 'error' });
+      if (!res.ok) resetTurnstile(formEl);
     } catch {
       setStatus('failed');
+      resetTurnstile(formEl);
     }
   }
 

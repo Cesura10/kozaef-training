@@ -5,7 +5,7 @@ import type { Dictionary } from '@/i18n/dictionaries/es';
 import { track } from '@/lib/analytics/client';
 import { getAttribution } from '@/lib/analytics/attribution';
 import { readLastToolResult } from '@/lib/analytics/last-tool';
-import { Turnstile } from '@/components/turnstile';
+import { Turnstile, resetTurnstile } from '@/components/turnstile';
 import { Honeypot } from '@/components/honeypot';
 
 type Status = 'idle' | 'sending' | 'ok' | 'invalid' | 'consent' | 'limited' | 'failed';
@@ -35,7 +35,8 @@ export function NewsletterForm({
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const form = new FormData(e.currentTarget);
+    const formEl = e.currentTarget;
+    const form = new FormData(formEl);
     const email = String(form.get('email') ?? '').trim();
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       setStatus('invalid');
@@ -74,10 +75,12 @@ export function NewsletterForm({
       } else {
         setStatus(res.status === 429 ? 'limited' : 'failed');
         track('newsletter_submit', { status: 'error' });
+        resetTurnstile(formEl);
       }
     } catch {
       setStatus('failed');
       track('newsletter_submit', { status: 'error' });
+      resetTurnstile(formEl);
     }
   }
 

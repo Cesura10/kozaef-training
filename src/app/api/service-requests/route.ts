@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { isBot } from '@/components/honeypot';
 import { z } from 'zod';
 import { guardPublicWrite } from '@/lib/guard';
+import { escapeLike } from '@/lib/like';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { PRODUCTS } from '@/content/products';
 
@@ -47,7 +48,7 @@ export async function POST(req: Request) {
   if (!guard.ok) return fail(guard.status, guard.reason);
 
   const db = createAdminClient();
-  const { data: lead } = await db.from('leads').select('id').ilike('email', b.email).maybeSingle();
+  const { data: lead } = await db.from('leads').select('id').ilike('email', escapeLike(b.email)).maybeSingle();
   const { error } = await db.from('service_requests').insert({
     product_id: b.productId,
     lead_id: lead?.id ?? null,

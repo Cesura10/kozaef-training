@@ -1,6 +1,6 @@
 'use client';
 
-import { useActionState, useState, useTransition } from 'react';
+import { useActionState, useEffect, useRef, useState, useTransition } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { EnvelopeSimple } from '@phosphor-icons/react';
@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { AUTH_METHODS } from '@/lib/auth-flags';
 import { PLATFORM_OPEN } from '@/lib/platform';
 import { Honeypot } from '@/components/honeypot';
+import { Turnstile, resetTurnstile } from '@/components/turnstile';
 import { requestMagicLink, type MagicLinkState } from '@/lib/auth-actions';
 
 type Mode = 'login' | 'signup';
@@ -34,7 +35,8 @@ export function AuthForm({ mode }: { mode: Mode }) {
   const router = useRouter();
   const params = useSearchParams();
   const nextParam = params.get('next');
-  const next = nextParam && nextParam.startsWith('/') ? nextParam : '/dashboard';
+  // Solo rutas internas: '//dominio' o '/\\dominio' llevarían a otra web tras entrar.
+  const next = nextParam && /^\/(?![/\\])/.test(nextParam) ? nextParam : '/dashboard';
   const initialError = params.get('error')
     ? 'No se pudo completar la autenticación. Inténtalo de nuevo.'
     : null;
@@ -50,6 +52,11 @@ export function AuthForm({ mode }: { mode: Mode }) {
   const [magic, sendMagic, magicPending] = useActionState<MagicLinkState, FormData>(requestMagicLink, {
     status: 'idle',
   });
+  const magicForm = useRef<HTMLFormElement>(null);
+  // El token de Turnstile es de un solo uso: tras un error se pide otro para poder reintentar.
+  useEffect(() => {
+    if (magic.status === 'error') resetTurnstile(magicForm.current);
+  }, [magic]);
 
   async function signInWithGoogle() {
     setError(null);
@@ -139,7 +146,7 @@ export function AuthForm({ mode }: { mode: Mode }) {
         <h1 className="display text-2xl font-bold">{copy.title}</h1>
         <p className="mt-1 text-sm text-muted">Tu entrenamiento, tu dieta y tus revisiones en un sitio.</p>
 
-        <form action={sendMagic} className="relative mt-6 space-y-3">
+        <form ref={magicForm} action={sendMagic} className="relative mt-6 space-y-3">
           <Honeypot />
           <input type="hidden" name="next" value={next} />
           {mode === 'signup' && (
@@ -154,6 +161,8 @@ export function AuthForm({ mode }: { mode: Mode }) {
             required
             placeholder="tu@email.com"
           />
+          {/* requestMagicLink pasa por guardPublicWrite, que exige el token en producción. */}
+          <Turnstile />
           {(magic.status === 'error' || error) && (
             <p role="alert" className="rounded-2xl bg-danger/10 px-4 py-2.5 text-sm text-danger">
               {magic.status === 'error' ? magic.message : error}

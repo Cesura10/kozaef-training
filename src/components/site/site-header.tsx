@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { List, X } from '@phosphor-icons/react/dist/ssr';
 import type { Locale } from '@/i18n/config';
 import type { Dictionary } from '@/i18n/dictionaries';
 import { Wordmark } from '@/components/brand';
@@ -7,6 +6,7 @@ import { ButtonLink } from '@/components/ui/button';
 import { PLATFORM_OPEN } from '@/lib/platform';
 import { sectionPath } from '@/content/routes';
 import { mainNav } from './nav-items';
+import { MobileMenu } from './mobile-menu';
 import { DIAGNOSIS_APPROVED } from '@/content/diagnosis';
 
 export function SiteHeader({ locale, t }: { locale: string; t: Dictionary }) {
@@ -39,15 +39,8 @@ export function SiteHeader({ locale, t }: { locale: string; t: Dictionary }) {
           <ButtonLink href={cta.href} size="sm" className="whitespace-nowrap px-4" data-track="cta_click" data-cta={cta.id} data-location="nav">
             {cta.label}
           </ButtonLink>
-          {/* Menú móvil sin JavaScript: <details> nativo, accesible con teclado. */}
-          <details className="group relative lg:hidden">
-            <summary
-              aria-label={t.nav.menu}
-              className="ml-1 flex h-9 w-9 cursor-pointer list-none items-center justify-center rounded-full border border-border-strong text-fg [&::-webkit-details-marker]:hidden"
-            >
-              <List size={18} className="group-open:hidden" aria-hidden />
-              <X size={18} className="hidden group-open:block" aria-hidden />
-            </summary>
+          {/* Menú móvil: <details> nativo, accesible con teclado y funcional sin JavaScript. */}
+          <MobileMenu label={t.nav.menu}>
             <nav
               aria-label={t.nav.main}
               className="absolute right-0 top-12 w-60 rounded-[var(--radius-xl)] border border-border bg-elevated p-2 shadow-2xl"
@@ -58,7 +51,7 @@ export function SiteHeader({ locale, t }: { locale: string; t: Dictionary }) {
                 </Link>
               ))}
             </nav>
-          </details>
+          </MobileMenu>
         </div>
       </div>
     </header>

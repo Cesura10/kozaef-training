@@ -41,6 +41,10 @@ export function calculateBodyfat(input: BodyfatInput): BodyfatResult {
   if (waist <= neck || neck < 20 || waist < 40 || h < 120) {
     throw new InvalidMeasurementsError('La cintura debe ser mayor que el cuello.');
   }
+  // Sin un peso válido, las masas grasa/magra saldrían negativas o absurdas.
+  if (!Number.isFinite(w) || w < 30 || w > 300) {
+    throw new InvalidMeasurementsError('El peso no es válido.');
+  }
   let percent: number;
   if (sex === 'male') {
     percent = 495 / (1.0324 - 0.19077 * Math.log10(waist - neck) + 0.15456 * Math.log10(h)) - 450;
@@ -55,7 +59,8 @@ export function calculateBodyfat(input: BodyfatInput): BodyfatResult {
   const rounded = Math.round(percent * 10) / 10;
   const fatMass = (w * percent) / 100;
   const lean = w - fatMass;
-  const category = BANDS[sex].find(([max]) => percent < max)![1];
+  // La categoría sale del valor MOSTRADO (redondeado): 17,96 % se ve como 18,0 % y debe ser 'average', no 'fitness'.
+  const category = BANDS[sex].find(([max]) => rounded < max)![1];
   const target = input.targetPercent;
   return {
     percent: rounded,

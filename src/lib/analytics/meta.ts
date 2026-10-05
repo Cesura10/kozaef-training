@@ -13,10 +13,17 @@ declare global {
 }
 
 let loaded = false;
+/** Consentimiento vigente: si se retira, el script ya cargado deja de recibir eventos. */
+let granted = false;
 
 export function loadMetaPixel() {
   const id = process.env.NEXT_PUBLIC_META_PIXEL_ID;
-  if (!id || loaded || typeof window === 'undefined') return;
+  if (!id || typeof window === 'undefined') return;
+  granted = true;
+  if (loaded) {
+    window.fbq?.('consent', 'grant');
+    return;
+  }
   loaded = true;
   // Snippet oficial de Meta, sin inline script (compatible con la CSP).
   const fbq: Fbq = function (...args: unknown[]) {
@@ -44,9 +51,15 @@ const STANDARD: Record<string, string> = {
   technique_request: 'Contact',
 };
 
-/** Reenvía un evento propio a Meta (si el píxel está cargado, o sea, si hay consentimiento). */
+/** Retirada del consentimiento desde el banner: no se envía nada más a Meta en esta visita. */
+export function revokeMetaPixel() {
+  granted = false;
+  if (loaded) window.fbq?.('consent', 'revoke');
+}
+
+/** Reenvía un evento propio a Meta (si el píxel está cargado y el consentimiento sigue vigente). */
 export function metaTrack(name: string, props: Record<string, unknown>) {
-  if (!loaded || !window.fbq) return;
+  if (!loaded || !granted || !window.fbq) return;
   if (name === 'newsletter_submit' && props.status !== 'ok') return;
   const std = STANDARD[name];
   if (std) {
