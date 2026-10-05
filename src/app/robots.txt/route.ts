@@ -12,6 +12,7 @@ const PRIVATE = [
   '/dashboard',
   '/analitica',
   '/solicitudes',
+  '/articulos',
   '/app/',
   '/panel/',
   '/setup',

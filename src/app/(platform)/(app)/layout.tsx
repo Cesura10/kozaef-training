@@ -22,6 +22,7 @@ export default async function AppLayout({
           { href: '/dashboard', label: 'Panel' },
           { href: '/analitica', label: 'Analítica' },
           { href: '/solicitudes', label: 'Solicitudes' },
+          { href: '/articulos', label: 'Artículos' },
           { href: '/clientes', label: 'Clientes' },
           { href: '/ejercicios', label: 'Ejercicios' },
         ]

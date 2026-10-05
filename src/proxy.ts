@@ -20,6 +20,7 @@ export const config = {
     '/panel/:path*',
     '/analitica/:path*',
     '/solicitudes/:path*',
+    '/articulos/:path*',
     '/login',
     '/signup',
     '/entrar',

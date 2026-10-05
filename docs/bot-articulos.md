@@ -19,6 +19,17 @@ Bot ──(API de GitHub)──> rama bot/<slug> + propuesta (pull request)
 Si la validación falla, la propuesta queda en rojo, no se puede aprobar y el bot puede leer el
 motivo y corregirlo subiendo otra versión a la misma rama.
 
+## El bot: Claude, desde VS Code o como tarea programada
+
+- Lo ejecuta **Claude**: desde VS Code en el Mac de Manu (con su acceso a GitHub) o como tarea
+  programada en la nube. Usa el plan de Claude de Manu, sin API de pago (cumple la regla de coste).
+- En la nube entra en GitHub con la **app de Claude** (acceso solo a este repositorio y a
+  `kozaef-privado`). En ningún caso necesita el token del paso 3.
+- Sus instrucciones, su configuración y sus informes viven en el repositorio privado
+  (`kozaef-privado/bot/` y `kozaef-privado/radar/`), no aquí.
+- Antes de proponer, ejecuta `npm run validate:content` en su copia y corrige hasta que pasa.
+- **Nunca hace merge**: solo propone. Publicar es siempre el clic de Manu.
+
 ## Configuración (una sola vez, la hace Manu con Claude)
 
 1. **Repositorio privado en GitHub** con el código (ver `docs/lanzamiento.md`).
@@ -26,7 +37,8 @@ motivo y corregirlo subiendo otra versión a la misma rama.
    - Target: `main`. Activar *Require a pull request before merging* y *Require status checks to pass*
      con los checks **Validar artículos** y **Auditoría, tipos, lint, tests y build**.
    - Activar *Block force pushes*. Así nada llega a la web sin pasar la validación y tu clic.
-3. **Token para el bot** (Settings de tu cuenta → Developer settings → Fine-grained tokens):
+3. **Token para el bot** (solo para un bot externo; Claude no lo usa)
+   (Settings de tu cuenta → Developer settings → Fine-grained tokens):
    - Repository access: *Only select repositories* → este repositorio.
    - Permisos: **Contents: Read and write** y **Pull requests: Read and write**. Nada más.
    - Caducidad: 90 días (renovarlo). Guárdalo solo en el bot (variable de entorno), nunca en código.
@@ -52,6 +64,8 @@ Un archivo Markdown por artículo en `content/articulos/es/<slug>.md` (o `en/`).
 - Cifras en tablas Markdown, cada una con su fuente enlazada al lado.
 - Prohibido: inventar estudios, testimonios, resultados de clientes o precios; texto oculto o
   instrucciones dirigidas a buscadores o IA.
+- Sin huecos ni marcadores a la vista (`PENDIENTE`, `TODO`, `[tu dato]`…): la validación los bloquea
+  en todo artículo con `borrador: false`.
 
 Plantilla de referencia: `content/articulos/es/cuanta-proteina-para-ganar-musculo.md`.
 

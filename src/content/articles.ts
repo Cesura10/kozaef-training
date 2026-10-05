@@ -41,9 +41,11 @@ export type Article = z.infer<typeof Frontmatter> & {
   headings: string[];
   readingMinutes: number;
   url: string;
+  /** Candidato del bot leído de docs/privado (solo en desarrollo); p. ej. 'simulacro-2026-11'. */
+  candidato: string | null;
 };
 
-type RawArticle = { locale: Locale; slug: string; data: unknown; html: [string, string]; headings: string[]; words: number };
+type RawArticle = { locale: Locale; slug: string; candidate?: string | null; data: unknown; html: [string, string]; headings: string[]; words: number };
 
 const LEVEL_ORDER: Record<LevelId, number> = { basico: 0, intermedio: 1, avanzado: 2 };
 
@@ -52,7 +54,8 @@ function load(): Article[] {
     const parsed = Frontmatter.safeParse(a.data);
     if (!parsed.success) {
       const issues = parsed.error.issues.map((i) => `  - ${i.path.join('.')}: ${i.message}`).join('\n');
-      throw new Error(`Artículo content/articulos/${a.locale}/${a.slug}.md no válido:\n${issues}`);
+      const where = a.candidate ? `candidato del bot (${a.candidate}) ${a.slug}.md` : `content/articulos/${a.locale}/${a.slug}.md`;
+      throw new Error(`Artículo ${where} no válido:\n${issues}`);
     }
     const f = parsed.data;
     return {
@@ -63,6 +66,7 @@ function load(): Article[] {
       headings: a.headings,
       readingMinutes: Math.max(1, Math.round(a.words / 200)),
       url: articlePath(a.locale, f.categoria, a.slug),
+      candidato: a.candidate ?? null,
     };
   });
 }
