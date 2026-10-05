@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { isBot } from '@/components/honeypot';
 import { z } from 'zod';
 import { guardPublicWrite } from '@/lib/guard';
+import { escapeLike } from '@/lib/like';
 import { createAdminClient } from '@/lib/supabase/admin';
 import type { Json } from '@/types/database';
 
@@ -74,7 +75,7 @@ export async function POST(req: Request) {
     const { data: existing } = await db
       .from('leads')
       .update({ marketing_consent: true, consent_text: b.consentText, consent_at: now, unsubscribed_at: null })
-      .ilike('email', b.email)
+      .ilike('email', escapeLike(b.email))
       .select('id')
       .single();
     leadId = existing?.id ?? null;

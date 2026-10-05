@@ -3,6 +3,7 @@ import { isBot } from '@/components/honeypot';
 import { z } from 'zod';
 import { ANSWERS, QUESTION_KEYS, type QuestionKey } from '@/content/apply';
 import { guardPublicWrite } from '@/lib/guard';
+import { escapeLike } from '@/lib/like';
 import { createAdminClient } from '@/lib/supabase/admin';
 import type { Json } from '@/types/database';
 
@@ -81,7 +82,7 @@ export async function POST(req: Request) {
 
   // Vincula con el lead (lo crea sin consentimiento de marketing si no existía).
   let leadId: string | null = null;
-  const { data: existing } = await db.from('leads').select('id').ilike('email', b.email).maybeSingle();
+  const { data: existing } = await db.from('leads').select('id').ilike('email', escapeLike(b.email)).maybeSingle();
   if (existing) {
     leadId = existing.id;
   } else {
