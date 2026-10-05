@@ -3,7 +3,8 @@
  * - Metabolismo basal: Mifflin-St Jeor (1990), la ecuación más precisa en población general.
  * - Actividad: factores estándar 1,2 a 1,9.
  * - Objetivo: déficit 20 % / superávit 10 % (moderados, sostenibles).
- * - Macros: proteína según calculateProtein, grasa 0,8 g/kg (mín. 20 % de kcal), resto carbohidrato.
+ * - Macros: proteína según calculateProtein, grasa 0,8 g/kg (mín. 20 % de kcal, sin pasarse del
+ *   objetivo), resto carbohidrato.
  */
 import { calculateProtein, type ProteinGoal } from './protein';
 
@@ -56,7 +57,11 @@ export function calculateCalories(input: CaloriesInput): CaloriesResult {
   const target = Math.max(raw, min);
 
   const protein = calculateProtein(w, input.goal).target;
-  const fat = Math.max(Math.round(w * 0.8), Math.round((target * 0.2) / 9));
+  // Grasa: 0,8 g/kg, pero sin que proteína + grasa superen las kcal objetivo (pesos altos o
+  // mínimo seguro), y nunca por debajo del 20 % de las kcal.
+  const fatFloor = Math.round((target * 0.2) / 9);
+  const fatRoom = Math.floor((target - protein * 4) / 9);
+  const fat = Math.max(fatFloor, Math.min(Math.round(w * 0.8), fatRoom));
   const carbs = Math.max(0, Math.round((target - protein * 4 - fat * 9) / 4));
 
   return {
