@@ -31,6 +31,86 @@ export type Product = {
 
 export const PRODUCTS: Product[] = [
   {
+    id: 'fuerza-en-casa-8-semanas',
+    slug: { es: 'fuerza-en-casa-8-semanas', en: 'home-strength-8-weeks' },
+    tipo: 'infoproducto',
+    nombre: { es: 'Fuerza en casa: 8 semanas', en: 'Home strength: 8 weeks' },
+    paraQuien: {
+      es: 'Para quien empieza (o vuelve) a entrenar en casa con poco material y quiere un plan claro: qué hacer cada día y cuándo subir de nivel.',
+      en: 'For people starting (or returning) to train at home with little equipment who want a clear plan: what to do each day and when to level up. The guide is in Spanish.',
+    },
+    incluye: {
+      es: [
+        'Plan de 8 semanas, 3 días por semana y unos 40 minutos por sesión',
+        '5 escaleras de progresión (empuje, tirón, pierna, cadera y tronco) con la técnica de cada escalón',
+        'Prueba inicial para encontrar tu nivel y prueba final para medir tu avance',
+        'Reglas de esfuerzo y progresión para saber cuándo subir de escalón',
+        'Lo básico de proteína, calorías y sueño para progresar',
+        'Registro imprimible y guía en PDF de 17 páginas',
+      ],
+      en: [
+        '8-week plan, 3 days a week, about 40 minutes per session',
+        '5 progression ladders (push, pull, legs, hips and core) with technique cues for every step',
+        'Starting test to find your level and final test to measure your progress',
+        'Effort and progression rules so you know when to move up',
+        'Protein, calorie and sleep basics to keep progressing',
+        'Printable training log and 17-page PDF guide (in Spanish)',
+      ],
+    },
+    precio: 24,
+    moneda: 'EUR',
+    lanzamiento: true,
+    categoria: 'ganar-musculo',
+    perfiles: ['entreno-casa', 'principiantes'],
+    enlacePago: null, // Enlace de compra de Shopify: mientras sea null se muestra lista de espera.
+    estado: 'disponible',
+    publicado: true,
+    demo: {
+      es: {
+        titulo: 'Semana 1 y la escalera de flexiones',
+        secciones: [
+          {
+            h: 'Semana 1: aprender',
+            p: '3 sesiones en días no seguidos (por ejemplo, lunes, miércoles y viernes). 2 series por ejercicio, terminando cada serie cuando aún podrías hacer 3-4 repeticiones más con buena técnica. La primera sesión es la prueba inicial: en cada ejercicio buscas el primer escalón en el que haces entre 8 y 15 repeticiones.',
+          },
+          {
+            h: 'La sesión',
+            p: 'Calentamiento de 5-7 minutos. Después, empuje y tirón alternados, pierna, y cadera alternada con tronco. Juntar ejercicios que trabajan músculos distintos ahorra unos 10 minutos sin restar calidad.',
+          },
+          {
+            h: 'La escalera de flexiones',
+            p: '1. Con manos en la pared. 2. Con manos en una mesa o encimera. 3. Con manos en el asiento de una silla. 4. En el suelo. 5. Con pies elevados. 6. Con mochila. Cuando llegas a 15 repeticiones en todas las series dos sesiones seguidas, subes un escalón.',
+          },
+          {
+            h: 'Técnica: lo que más falla',
+            p: 'Cuerpo recto de cabeza a talones y glúteos apretados para que la cadera no se hunda. Codos a unos 45° del cuerpo, no abiertos en cruz. Mejor menos repeticiones completas que muchas a medias.',
+          },
+        ],
+      },
+      en: {
+        titulo: 'Week 1 and the push-up ladder',
+        secciones: [
+          {
+            h: 'Week 1: learn',
+            p: '3 sessions on non-consecutive days (for example Monday, Wednesday and Friday). 2 sets per exercise, ending each set when you could still do 3-4 more good reps. The first session is the starting test: for each exercise you find the first step where you can do 8 to 15 reps.',
+          },
+          {
+            h: 'The session',
+            p: 'A 5-7 minute warm-up. Then push and pull alternated, legs, and hips alternated with core. Pairing exercises for different muscles saves about 10 minutes without losing quality.',
+          },
+          {
+            h: 'The push-up ladder',
+            p: '1. Hands on a wall. 2. Hands on a table or counter. 3. Hands on a chair seat. 4. On the floor. 5. Feet elevated. 6. With a backpack. When you reach 15 reps on every set for two sessions in a row, move up one step.',
+          },
+          {
+            h: 'Technique: the usual mistakes',
+            p: 'Body straight from head to heels and glutes squeezed so the hips do not sag. Elbows at about 45° from your body, not flared out. Fewer full reps beat many half reps.',
+          },
+        ],
+      },
+    },
+  },
+  {
     id: 'revision-tecnica',
     slug: { es: 'revision-de-tecnica', en: 'technique-review' },
     tipo: 'servicio',
@@ -78,6 +158,8 @@ export function relatedProduct(opts: { id?: string | null; categoria?: CategoryI
     list.find((p) => p.categoria === opts.categoria && p.perfiles.some((x) => perfiles.includes(x))) ??
     list.find((p) => p.categoria === opts.categoria) ??
     list.find((p) => p.perfiles.some((x) => perfiles.includes(x))) ??
+    // Páginas generales (índices de /aprende y herramientas): el primer infoproducto.
+    (!opts.categoria && perfiles.length === 0 ? list.find((p) => p.tipo === 'infoproducto') : undefined) ??
     null
   );
 }

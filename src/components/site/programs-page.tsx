@@ -43,7 +43,8 @@ export async function ProgramsPage({ locale }: { locale: Locale }) {
           />
         </div>
         <div className="mt-12 grid gap-6 lg:grid-cols-2">
-          <ListaEspera locale={locale} />
+          {/* El aviso general "en camino" solo tiene sentido mientras no haya ningún programa. */}
+          {!visibleProducts().some((p) => p.tipo === 'infoproducto') && <ListaEspera locale={locale} />}
           <CtaCoaching locale={locale} location="programs" />
         </div>
       </section>
