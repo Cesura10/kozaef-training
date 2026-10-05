@@ -20,6 +20,13 @@ jobs:
           set -e
           [ -n "$TOKEN" ] || { echo "✖ Falta el secreto CLOUDFLARE_API_TOKEN"; exit 1; }
           [ -n "$ACCOUNT" ] || { echo "✖ Falta el secreto CLOUDFLARE_ACCOUNT_ID"; exit 1; }
+          # Diagnóstico del formato SIN mostrar el valor (GitHub además lo oculta en los registros).
+          echo "• Longitud del token: ${#TOKEN} caracteres (un token de Cloudflare suele tener 40)"
+          case "$TOKEN" in *" "*) echo "✖ Contiene espacios: copia solo el token";; esac
+          [ "$(printf '%s' "$TOKEN" | wc -l)" -gt 0 ] && echo "✖ Contiene saltos de línea: vuelve a pegarlo en una sola línea"
+          case "$TOKEN" in Bearer*|bearer*) echo "✖ Empieza por 'Bearer': copia solo lo que va después";; esac
+          case "$TOKEN" in curl*|*"api.cloudflare.com"*) echo "✖ Parece el comando de prueba de Cloudflare, no el token";; esac
+          printf '%s' "$TOKEN" | grep -qE '^[A-Za-z0-9_-]+$' && echo "✔ Solo contiene caracteres válidos" || echo "✖ Contiene caracteres no válidos (comillas, espacios u otros)"
           V=$(curl -s -H "Authorization: Bearer $TOKEN" https://api.cloudflare.com/client/v4/user/tokens/verify)
           echo "$V" | grep -q '"status":"active"' && echo "✔ Token válido y activo" || { echo "✖ Token no válido: $V" | sed 's/"id":"[^"]*"//g'; exit 1; }
           W=$(curl -s -o /dev/null -w "%{http_code}" -H "Authorization: Bearer $TOKEN" "https://api.cloudflare.com/client/v4/accounts/$ACCOUNT/workers/scripts")
