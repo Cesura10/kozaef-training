@@ -60,10 +60,18 @@ export function BuyButton({
         />
         <span>{consentText}</span>
       </label>
+      {/* Es un enlace (lleva a Shopify), no un botón. Sin la casilla no tiene href, así que se
+          mantiene enfocable y responde al teclado para mostrar el aviso. */}
       <a
         href={accepted ? href : undefined}
-        role="button"
         aria-disabled={!accepted}
+        tabIndex={accepted ? undefined : 0}
+        onKeyDown={(e) => {
+          if (!accepted && (e.key === 'Enter' || e.key === ' ')) {
+            e.preventDefault();
+            setWarn(true);
+          }
+        }}
         onClick={(e) => {
           if (!accepted) {
             e.preventDefault();
