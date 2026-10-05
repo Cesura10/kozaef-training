@@ -100,7 +100,7 @@ export async function ToolPage({ locale, id }: { locale: Locale; id: ToolId }) {
 
         <section className="border-t border-border/60 py-16">
           <div className="mx-auto grid w-full max-w-7xl gap-12 px-4 sm:px-6 lg:grid-cols-[minmax(0,1fr)_22rem]">
-            <div className="max-w-3xl space-y-10">
+            <div className="min-w-0 max-w-3xl space-y-10">
               {c.how.map((h) => (
                 <article key={h.h}>
                   <h2 className="text-2xl font-semibold text-fg">{h.h}</h2>
