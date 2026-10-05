@@ -6,6 +6,7 @@
 //      node scripts/build-content.mjs --drafts -> desarrollo (con borradores)
 import { readdirSync, readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { join, basename } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import matter from 'gray-matter';
 import { unified } from 'unified';
 import remarkParse from 'remark-parse';
@@ -13,8 +14,10 @@ import remarkGfm from 'remark-gfm';
 import remarkRehype from 'remark-rehype';
 import rehypeSlug from 'rehype-slug';
 import rehypeStringify from 'rehype-stringify';
+import { normalizeDates } from './content-utils.mjs';
 
-const ROOT = new URL('..', import.meta.url).pathname;
+// fileURLToPath y no .pathname: con espacios o tildes en la ruta, .pathname deja "%20" y no encuentra nada.
+const ROOT = fileURLToPath(new URL('..', import.meta.url));
 const SRC = join(ROOT, 'content', 'articulos');
 const OUT = join(ROOT, 'src', 'content', 'generated', 'articles.json');
 const withDrafts = process.argv.includes('--drafts');
@@ -49,6 +52,7 @@ for (const { locale, dir, candidate } of sources) {
   for (const file of readdirSync(dir).filter((f) => f.endsWith('.md') && f !== 'README.md')) {
     const raw = readFileSync(join(dir, file), 'utf8');
     const { data, content } = matter(raw);
+    normalizeDates(data);
     const key = `${locale}/${basename(file, '.md')}`;
     if (candidate) {
       if (seen.has(key)) continue; // si ya existe en la web, manda la versión de la web
