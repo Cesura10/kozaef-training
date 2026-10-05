@@ -9,6 +9,7 @@ import { formatProductPrice } from '@/components/funnel/bloque-producto';
 import { ListaEspera } from '@/components/funnel/lista-espera';
 import { CtaCoaching } from '@/components/funnel/cta-coaching';
 import { PageShell, sectionMetadata } from './page-shell';
+import { PageHero } from './page-hero';
 
 export const programsMetadata = (locale: Locale) => {
   const c = pagesCopy(locale).programs;
@@ -28,13 +29,14 @@ export async function ProgramsPage({ locale }: { locale: Locale }) {
     categoria: p.categoria,
     perfiles: p.perfiles,
     waitlist: !isBuyable(p),
+    kind: p.tipo === 'infoproducto' ? c.kind : c.service,
+    infoproduct: p.tipo === 'infoproducto',
   }));
   return (
     <PageShell locale={locale}>
-      <section className="mx-auto w-full max-w-7xl px-4 pb-16 pt-12 sm:px-6 md:pt-16">
-        <h1 className="display animate-rise text-4xl font-bold leading-[1.02] md:text-6xl">{c.h1}</h1>
-        <p className="mt-5 max-w-[60ch] text-lg text-muted">{c.intro}</p>
-        <div className="mt-10">
+      <PageHero index="03" label={c.h1} title={[c.h1]} intro={c.intro} />
+      <section className="mx-auto w-full max-w-7xl px-4 pb-16 sm:px-6">
+        <div>
           <ProductFilter
             products={products}
             categories={CATEGORY_IDS.map((id) => ({ id, label: CATEGORIES[id].label[locale] }))}
@@ -42,7 +44,7 @@ export async function ProgramsPage({ locale }: { locale: Locale }) {
             labels={{ all: c.all, empty: c.empty, launch: f.launch, waitlist: f.waitlistTitle }}
           />
         </div>
-        <div className="mt-12 grid gap-6 lg:grid-cols-2">
+        <div className="mt-16 grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)]">
           <ListaEspera locale={locale} />
           <CtaCoaching locale={locale} location="programs" />
         </div>
