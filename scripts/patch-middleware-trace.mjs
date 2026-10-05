@@ -8,7 +8,7 @@ import { join, relative } from 'node:path';
 const root = new URL('..', import.meta.url).pathname;
 const nft = join(root, '.next/server/middleware.js.nft.json');
 const pkg = join(root, 'node_modules/@opentelemetry/api');
-if (!existsSync(nft) || !existsSync(pkg)) process.exit(0);
+if (!existsSync(pkg)) process.exit(0);
 
 const walk = (dir) => readdirSync(dir).flatMap((f) => (statSync(join(dir, f)).isDirectory() ? walk(join(dir, f)) : [join(dir, f)]));
 const extra = ['build/esm', 'build/esnext']
@@ -17,7 +17,13 @@ const extra = ['build/esm', 'build/esnext']
   .flatMap(walk)
   .map((f) => relative(join(root, '.next/server'), f));
 
-const data = JSON.parse(readFileSync(nft, 'utf8'));
+// Lectura directa (sin comprobar antes si existe: evita condiciones de carrera).
+let data;
+try {
+  data = JSON.parse(readFileSync(nft, 'utf8'));
+} catch {
+  process.exit(0); // sin traza del proxy (p. ej. no hay proxy): nada que parchear
+}
 const before = data.files.length;
 data.files = [...new Set([...data.files, ...extra])];
 writeFileSync(nft, JSON.stringify(data));
