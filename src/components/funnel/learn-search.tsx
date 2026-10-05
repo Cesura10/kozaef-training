@@ -41,7 +41,7 @@ export function LearnSearch({
   }, [entries, q, cat, prof, lvl]);
   const catLabel = Object.fromEntries(categories.map((c) => [c.id, c.label]));
 
-  const select = 'h-11 rounded-full border border-border-strong bg-bg px-4 text-sm text-fg focus:border-primary focus:outline-none';
+  const select = 'h-11 rounded-full border border-border-strong bg-bg px-4 text-sm text-fg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/40';
   return (
     <div>
       <div className="grid gap-3 md:grid-cols-[minmax(0,2fr)_repeat(3,minmax(0,1fr))]">

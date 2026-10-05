@@ -6,7 +6,7 @@
 export const CHART = {
   series: ['#b8893a', '#5b8def'] as const,
   grid: '#26262b',
-  axis: '#75736d',
+  axis: '#8a877f',
   surface: '#121214',
   text: '#f2f0eb',
   muted: '#a8a59e',

@@ -15,7 +15,7 @@
 
   --color-fg: #f2f0eb;
   --color-muted: #a8a59e;
-  --color-faint: #75736d;
+  --color-faint: #8a877f;        /* 4,5:1 o más sobre todos los fondos (WCAG AA) */
 
   --color-primary: #d6a945;        /* dorado Kozaef */
   --color-primary-hover: #e4bb5e;
