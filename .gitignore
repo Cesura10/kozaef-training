@@ -51,3 +51,7 @@ src/content/generated/
 
 # Documentos internos (repositorio privado aparte: Cesura10/kozaef-privado)
 docs/privado/
+
+# Informes de Playwright
+playwright-report/
+test-results/

@@ -1,0 +1,91 @@
+# Bot de vigilancia: prueba la web publicada cada 15 minutos con un navegador real (escritorio
+# y móvil). Si falla, abre un aviso (issue "monitor") -> email + notificación de GitHub.
+# Cuando vuelve a funcionar, lo cierra. Una vez al día revisa el uso de los planes gratis.
+name: Monitor
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: monitor
+  cancel-in-progress: false
+
+jobs:
+  smoke:
+    if: ${{ vars.SITE_URL != '' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Pruebas de humo contra la web publicada
+        id: tests
+        run: npx playwright test
+        env:
+          BASE_URL: ${{ vars.SITE_URL }}
+      - name: Uso de planes gratis (una vez al día, 08:00 UTC)
+        id: usage
+        if: ${{ always() }}
+        run: |
+          HOUR=$(date -u +%H); MIN=$(date -u +%M)
+          if [ "${{ github.event_name }}" != "workflow_dispatch" ] && { [ "$HOUR" != "08" ] || [ "$MIN" -ge 15 ]; }; then echo "level=skip" >> "$GITHUB_OUTPUT"; exit 0; fi
+          if [ -z "$USAGE_CHECK_KEY" ]; then echo "level=skip" >> "$GITHUB_OUTPUT"; exit 0; fi
+          curl -sf -H "x-usage-key: $USAGE_CHECK_KEY" "${{ vars.SITE_URL }}/api/usage-check" -o usage.json || { echo "level=skip" >> "$GITHUB_OUTPUT"; exit 0; }
+          echo "level=$(node -p 'require("./usage.json").worst')" >> "$GITHUB_OUTPUT"
+        env:
+          USAGE_CHECK_KEY: ${{ secrets.USAGE_CHECK_KEY }}
+      - name: Avisar o cerrar avisos
+        if: ${{ always() }}
+        uses: actions/github-script@v7
+        env:
+          TESTS: ${{ steps.tests.outcome }}
+          USAGE: ${{ steps.usage.outputs.level }}
+          SITE: ${{ vars.SITE_URL }}
+        with:
+          script: |
+            const fs = require('fs');
+            const run = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const open = await github.paginate(github.rest.issues.listForRepo, { ...context.repo, state: 'open', labels: 'monitor' });
+            const find = (t) => open.find((i) => i.title.startsWith(t));
+            async function raise(title, body) {
+              const ex = find(title);
+              if (ex) await github.rest.issues.createComment({ ...context.repo, issue_number: ex.number, body: `Sigue fallando: ${run}` });
+              else await github.rest.issues.create({ ...context.repo, title, body, labels: ['monitor'] });
+            }
+            async function resolve(title, msg) {
+              const ex = find(title);
+              if (ex) {
+                await github.rest.issues.createComment({ ...context.repo, issue_number: ex.number, body: msg });
+                await github.rest.issues.update({ ...context.repo, issue_number: ex.number, state: 'closed' });
+              }
+            }
+            // Pruebas de humo
+            if (process.env.TESTS === 'failure') {
+              let failed = [];
+              try {
+                const r = JSON.parse(fs.readFileSync('playwright-report/results.json', 'utf8'));
+                const walk = (s) => [...(s.suites ?? []).flatMap(walk), ...(s.specs ?? []).filter((sp) => !sp.ok).map((sp) => `- ${sp.title}`)];
+                failed = [...new Set(r.suites.flatMap(walk))];
+              } catch {}
+              await raise('🔴 Fallo en la web', `El bot de vigilancia ha detectado un fallo en ${process.env.SITE}.\n\n${failed.join('\n') || '(ver detalle)'}\n\nDetalle y capturas: ${run}`);
+            } else if (process.env.TESTS === 'success') {
+              await resolve('🔴 Fallo en la web', `✅ La web vuelve a funcionar (${new Date().toISOString()}).`);
+            }
+            // Uso de planes gratis
+            const u = process.env.USAGE;
+            if (u === 'warning' || u === 'critical') {
+              await raise('⚠️ Plan gratis cerca del tope', `El uso de algún servicio está en nivel **${u === 'critical' ? 'URGENTE (≥85 %)' : 'atención (≥70 %)'}**.\nRevisa la sección "Planes gratis: uso y avisos" del panel /analitica y contrata el plan indicado para que la web no se pare.\n\n${run}`);
+            } else if (u === 'ok' || u === 'notice') {
+              await resolve('⚠️ Plan gratis cerca del tope', '✅ El uso ha vuelto a niveles normales.');
+            }

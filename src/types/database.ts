@@ -1047,6 +1047,7 @@ export type Database = {
       my_trainer_id: { Args: never; Returns: string }
       owns_client: { Args: { target: string }; Returns: boolean }
       service_capacity_used: { Args: { p_product: string }; Returns: number }
+      usage_stats: { Args: never; Returns: Json }
     }
     Enums: {
       application_status:

@@ -5,6 +5,8 @@ import { ArrowSquareOut, CheckCircle, Info, Prohibit, WarningCircle } from '@pho
 import { getTraffic } from '@/lib/analytics/traffic';
 import { TimeSeries } from '@/components/charts/time-series';
 import { BarList } from '@/components/charts/bar-list';
+import { UsageBanner, UsagePanel } from '@/components/panel/usage-panel';
+import { MonitorStatus } from '@/components/panel/monitor-status';
 import { createClient } from '@/lib/supabase/server';
 import { getSessionProfile } from '@/lib/auth';
 import { FREE_PLAN_QUOTAS, LIMITS, MONTHLY_COSTS_EUR } from '@/lib/limits';
@@ -89,6 +91,10 @@ export default async function AnalyticsPage({ searchParams }: PageProps<'/analit
           ))}
         </nav>
       </header>
+
+      {/* Avisos de planes de pago y estado de la web: lo primero que se ve. */}
+      <UsageBanner />
+      <MonitorStatus />
 
       {error || !o ? (
         <p className="card p-6 text-sm text-danger">No se pudieron cargar los datos ({error?.message ?? 'sin respuesta'}).</p>
@@ -245,6 +251,8 @@ export default async function AnalyticsPage({ searchParams }: PageProps<'/analit
               )}
             </section>
           </div>
+
+          <UsagePanel />
 
           <div className="grid gap-6 lg:grid-cols-2">
             {/* Uso de hoy frente a topes */}
