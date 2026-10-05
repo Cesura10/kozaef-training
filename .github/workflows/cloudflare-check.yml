@@ -1,0 +1,28 @@
+# Comprueba que el token de Cloudflare guardado en GitHub es válido y tiene permisos de Workers.
+# Se lanza a mano: Actions -> "Comprobar Cloudflare" -> Run workflow (o gh workflow run).
+name: Comprobar Cloudflare
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Token válido y permisos
+        env:
+          TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          set -e
+          [ -n "$TOKEN" ] || { echo "✖ Falta el secreto CLOUDFLARE_API_TOKEN"; exit 1; }
+          [ -n "$ACCOUNT" ] || { echo "✖ Falta el secreto CLOUDFLARE_ACCOUNT_ID"; exit 1; }
+          V=$(curl -s -H "Authorization: Bearer $TOKEN" https://api.cloudflare.com/client/v4/user/tokens/verify)
+          echo "$V" | grep -q '"status":"active"' && echo "✔ Token válido y activo" || { echo "✖ Token no válido: $V" | sed 's/"id":"[^"]*"//g'; exit 1; }
+          W=$(curl -s -o /dev/null -w "%{http_code}" -H "Authorization: Bearer $TOKEN" "https://api.cloudflare.com/client/v4/accounts/$ACCOUNT/workers/scripts")
+          [ "$W" = "200" ] && echo "✔ Permiso de Workers en la cuenta correcta" || { echo "✖ Sin permiso de Workers en la cuenta (HTTP $W): revisa 'Account Resources' del token"; exit 1; }
+          S=$(curl -s -o /dev/null -w "%{http_code}" -H "Authorization: Bearer $TOKEN" "https://api.cloudflare.com/client/v4/accounts/$ACCOUNT/workers/subdomain")
+          [ "$S" = "200" ] && echo "✔ Subdominio workers.dev accesible" || echo "• Subdominio workers.dev no consultable (HTTP $S): no impide publicar"

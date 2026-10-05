@@ -8,9 +8,9 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "next typegen && tsc --noEmit",
-    "cf:build": "opennextjs-cloudflare build",
-    "cf:preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
-    "cf:deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "cf:build": "npm run build && node scripts/patch-middleware-trace.mjs && opennextjs-cloudflare build --skipNextBuild",
+    "cf:preview": "npm run cf:build && opennextjs-cloudflare preview",
+    "cf:deploy": "npm run cf:build && opennextjs-cloudflare deploy",
     "test": "vitest run",
     "content": "node scripts/build-content.mjs",
     "predev": "node scripts/build-content.mjs --drafts",
@@ -20,7 +20,9 @@
     "validate:content": "node scripts/build-content.mjs --drafts && vitest run src/content/articles.test.ts"
   },
   "dependencies": {
+    "@opentelemetry/api": "^1.9.1",
     "@phosphor-icons/react": "^2.1.10",
+    "@sentry/nextjs": "^11.4.0",
     "@supabase/ssr": "^0.12.7",
     "@supabase/supabase-js": "^2.116.0",
     "motion": "^14.0.0",

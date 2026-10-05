@@ -1,11 +1,13 @@
 // Resumen (markdown) de los artículos añadidos o cambiados respecto a la rama base.
 // Uso: node scripts/articles-summary.mjs origin/main  -> imprime "markdown<<EOF ... EOF" para GITHUB_OUTPUT
-import { execSync } from 'node:child_process';
+import { execFileSync } from 'node:child_process';
 import { readFileSync, existsSync } from 'node:fs';
 import matter from 'gray-matter';
 
 const base = process.argv[2] ?? 'origin/main';
-const files = execSync(`git diff --name-only ${base}...HEAD -- content/articulos`, { encoding: 'utf8' })
+// Solo nombres de rama válidos; argumentos como lista (sin pasar por la terminal).
+if (!/^[\w./-]{1,100}$/.test(base)) throw new Error(`Rama base no válida: ${base}`);
+const files = execFileSync('git', ['diff', '--name-only', `${base}...HEAD`, '--', 'content/articulos'], { encoding: 'utf8' })
   .split('\n')
   .filter((f) => f.endsWith('.md') && existsSync(f));
 

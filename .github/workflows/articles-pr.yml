@@ -57,6 +57,7 @@ jobs:
         run: |
           node scripts/build-content.mjs --drafts
           npx next build
+          node scripts/patch-middleware-trace.mjs
           npx opennextjs-cloudflare build --skipNextBuild
           npx opennextjs-cloudflare upload --preview-alias "pr-${{ github.event.number }}" 2>&1 | tee upload.log
           echo "url=$(grep -oE 'https://pr-[^ ]+\.workers\.dev' upload.log | head -1)" >> "$GITHUB_OUTPUT"
