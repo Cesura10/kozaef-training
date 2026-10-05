@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { isBot } from '@/components/honeypot';
 import { z } from 'zod';
 import { ANSWERS, QUESTION_KEYS, type QuestionKey } from '@/content/apply';
+import { bookingUrl, scoreApplication } from '@/lib/applications';
 import { guardPublicWrite } from '@/lib/guard';
 import { escapeLike } from '@/lib/like';
 import { createAdminClient } from '@/lib/supabase/admin';
@@ -56,7 +57,7 @@ export async function POST(req: Request) {
   const db = createAdminClient();
   const weekAgo = new Date(Date.now() - 7 * 24 * 3600 * 1000).toISOString();
 
-  const [{ data: rules }, { data: flags }, { count: takenThisWeek }] = await Promise.all([
+  const [rulesRes, flagsRes, takenRes] = await Promise.all([
     db.from('scoring_rules').select('question, answer, points').eq('active', true),
     db.from('feature_flags').select('key, value').in('key', ['application_threshold', 'weekly_call_capacity']),
     db
@@ -65,20 +66,11 @@ export async function POST(req: Request) {
       .in('status', ['qualified', 'booked'])
       .gte('created_at', weekAgo),
   ]);
+  // Sin reglas no se puede puntuar: mejor pedir que lo reintente que guardar un 0 y descartarle.
+  if (rulesRes.error || flagsRes.error || takenRes.error) return fail(503, 'scoring_unavailable');
 
   const answers = b.answers;
-  const score = (rules ?? []).reduce(
-    (sum, r) => (answers[r.question as QuestionKey] === r.answer ? sum + r.points : sum),
-    0,
-  );
-  const flag = (key: string, field: string, fallback: number) => {
-    const v = flags?.find((f) => f.key === key)?.value as Record<string, unknown> | null | undefined;
-    return typeof v?.[field] === 'number' ? (v[field] as number) : fallback;
-  };
-  const threshold = flag('application_threshold', 'score', 60);
-  const capacity = flag('weekly_call_capacity', 'max', 8);
-
-  const status = score >= threshold ? ((takenThisWeek ?? 0) < capacity ? 'qualified' : 'waitlist') : 'new';
+  const { score, status, scoreBand } = scoreApplication(answers, rulesRes.data ?? [], flagsRes.data ?? [], takenRes.count ?? 0);
 
   // Vincula con el lead (lo crea sin consentimiento de marketing si no existía).
   let leadId: string | null = null;
@@ -110,21 +102,12 @@ export async function POST(req: Request) {
 
   if (leadId) await db.from('lead_events').insert({ lead_id: leadId, type: 'applied', data: { score, status } });
 
-  let bookingUrl: string | null = null;
-  const cal = process.env.CALCOM_URL;
-  if (status === 'qualified' && cal) {
-    const u = new URL(cal);
-    u.searchParams.set('name', b.name);
-    u.searchParams.set('email', b.email);
-    u.searchParams.set('metadata[token]', app.booking_token ?? '');
-    bookingUrl = u.toString();
-  }
+  const booking = status === 'qualified' ? bookingUrl(process.env.CALCOM_URL, b.name, b.email, app.booking_token) : null;
 
-  const scoreBand = score >= threshold ? 'high' : score >= threshold / 2 ? 'mid' : 'low';
   return NextResponse.json({
     ok: true,
     result: status === 'qualified' ? 'qualified' : status === 'waitlist' ? 'waitlist' : 'low',
     scoreBand,
-    bookingUrl,
+    bookingUrl: booking,
   });
 }
