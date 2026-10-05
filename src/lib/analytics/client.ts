@@ -14,6 +14,7 @@ type PostHog = typeof import('posthog-js').default;
 
 let ph: PostHog | null = null;
 let loading: Promise<PostHog | null> | null = null;
+let failed = false;
 const queue: Array<(p: PostHog) => void> = [];
 
 function load(): Promise<PostHog | null> {
@@ -32,6 +33,11 @@ function load(): Promise<PostHog | null> {
       ph = posthog;
       queue.splice(0).forEach((fn) => fn(posthog));
       return posthog;
+    }).catch(() => {
+      // Bloqueador o fallo de red: la web sigue igual, sin analítica ni promesas rechazadas sin capturar.
+      failed = true;
+      queue.length = 0;
+      return null;
     });
   }
   return loading;
@@ -39,7 +45,7 @@ function load(): Promise<PostHog | null> {
 
 function withPostHog(fn: (p: PostHog) => void) {
   if (ph) fn(ph);
-  else {
+  else if (!failed) {
     queue.push(fn);
     void load();
   }

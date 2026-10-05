@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { CONSENT_EVENT, consentNeeded, readConsent, saveConsent } from '@/lib/analytics/consent';
 import { setAnalyticsConsent } from '@/lib/analytics/client';
-import { loadMetaPixel } from '@/lib/analytics/meta';
+import { loadMetaPixel, revokeMetaPixel } from '@/lib/analytics/meta';
 
 const COPY = {
   es: {
@@ -23,6 +23,7 @@ const COPY = {
 function apply(marketing: boolean) {
   setAnalyticsConsent(marketing);
   if (marketing) loadMetaPixel();
+  else revokeMetaPixel();
 }
 
 /** Banner de consentimiento. Rechazar y Aceptar con la misma visibilidad. */
