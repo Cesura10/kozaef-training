@@ -18,10 +18,11 @@
   // Dirección provisional *.workers.dev (sin indexar) y vistas previas de las propuestas del bot.
   "workers_dev": true,
   "preview_urls": true,
-  // Dominio propio (la zona tiene que estar en Cloudflare; www redirige al dominio sin www).
+  // Dominio propio: ruta sobre la zona de Cloudflare (funciona con los registros proxied que ya hay;
+  // www necesita su propio registro proxied y redirige al dominio sin www).
   "routes": [
-    { "pattern": "kozaeftraining.com", "custom_domain": true },
-    { "pattern": "www.kozaeftraining.com", "custom_domain": true }
+    { "pattern": "kozaeftraining.com/*", "zone_name": "kozaeftraining.com" },
+    { "pattern": "www.kozaeftraining.com/*", "zone_name": "kozaeftraining.com" }
   ],
   "observability": { "enabled": true }
 }
