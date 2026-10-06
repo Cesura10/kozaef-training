@@ -1,4 +1,19 @@
 // Utilidades puras de scripts/build-content.mjs (con tests en content-utils.test.ts).
+import { parse } from 'yaml';
+
+/**
+ * Separa la cabecera YAML (entre `---`) del cuerpo de un artículo. Sustituye a gray-matter, que
+ * arrastraba js-yaml 3 y dependencias con avisos de seguridad sin arreglo.
+ * @param {string} raw
+ * @returns {{ data: Record<string, unknown>, content: string }}
+ */
+export function parseFrontMatter(raw) {
+  const m = /^\uFEFF?---\r?\n([\s\S]*?)\r?\n---[ \t]*(?:\r?\n|$)/.exec(raw);
+  if (!m) return { data: {}, content: raw };
+  const data = parse(m[1]) ?? {};
+  if (typeof data !== 'object' || Array.isArray(data)) throw new Error('La cabecera YAML debe ser una lista de campos');
+  return { data, content: raw.slice(m[0].length) };
+}
 
 const DATE_FIELDS = ['fechaPublicacion', 'fechaRevision'];
 

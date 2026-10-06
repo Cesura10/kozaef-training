@@ -7,14 +7,13 @@
 import { readdirSync, readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { join, basename } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import matter from 'gray-matter';
 import { unified } from 'unified';
 import remarkParse from 'remark-parse';
 import remarkGfm from 'remark-gfm';
 import remarkRehype from 'remark-rehype';
 import rehypeSlug from 'rehype-slug';
 import rehypeStringify from 'rehype-stringify';
-import { normalizeDates } from './content-utils.mjs';
+import { normalizeDates, parseFrontMatter } from './content-utils.mjs';
 
 // fileURLToPath y no .pathname: con espacios o tildes en la ruta, .pathname deja "%20" y no encuentra nada.
 const ROOT = fileURLToPath(new URL('..', import.meta.url));
@@ -51,7 +50,7 @@ for (const { locale, dir, candidate } of sources) {
   if (!existsSync(dir)) continue;
   for (const file of readdirSync(dir).filter((f) => f.endsWith('.md') && f !== 'README.md')) {
     const raw = readFileSync(join(dir, file), 'utf8');
-    const { data, content } = matter(raw);
+    const { data, content } = parseFrontMatter(raw);
     normalizeDates(data);
     const key = `${locale}/${basename(file, '.md')}`;
     if (candidate) {
