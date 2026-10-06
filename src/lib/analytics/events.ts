@@ -30,4 +30,5 @@ export type CtaId =
   | 'coaching'
   | 'product'
   | 'tool'
-  | 'technique';
+  | 'technique'
+  | 'instagram';

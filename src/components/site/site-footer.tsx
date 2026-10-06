@@ -1,4 +1,6 @@
 import Link from 'next/link';
+import { InstagramLogo } from '@phosphor-icons/react/dist/ssr';
+import { AUTHOR } from '@/content/author';
 import { Wordmark } from '@/components/brand';
 import { LOCALES, type Locale } from '@/i18n/config';
 import { LEGAL } from '@/content/legal';
@@ -14,7 +16,23 @@ export function SiteFooter({ locale, t }: { locale: string; t: Dictionary }) {
     <footer className="border-t border-border/60">
       <div className="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6">
         <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-          <Wordmark />
+          <div className="flex flex-col gap-3">
+            <Wordmark />
+            {AUTHOR.social.instagram && (
+              <a
+                href={AUTHOR.social.instagram}
+                target="_blank"
+                rel="me noopener"
+                data-track="cta_click"
+                data-cta="instagram"
+                data-location="footer"
+                className="inline-flex items-center gap-2 text-sm text-muted hover:text-fg"
+              >
+                <InstagramLogo size={18} aria-hidden />
+                {(locale === 'es' ? 'Quién hay detrás: ' : 'Who is behind it: ') + instagramHandle(AUTHOR.social.instagram)}
+              </a>
+            )}
+          </div>
           <nav className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted" aria-label={t.nav.footer}>
             {NAV.map((n) => (
               <Link key={n.href} href={n.href} className="hover:text-fg">
@@ -54,4 +72,10 @@ export function SiteFooter({ locale, t }: { locale: string; t: Dictionary }) {
       </div>
     </footer>
   );
+}
+
+/** "https://www.instagram.com/usuario/" -> "@usuario". */
+function instagramHandle(url: string) {
+  const user = url.replace(/\/+$/, '').split('/').pop();
+  return user ? `@${user}` : 'Instagram';
 }

@@ -47,7 +47,7 @@ export async function ArticlePage({ article: a }: { article: Article }) {
   ];
   const author = AUTHOR.name
     ? { '@type': 'Person', name: AUTHOR.name, url: `${SITE_URL}${sectionPath('about', locale)}`, sameAs: authorSameAs() }
-    : { '@type': 'Organization', name: 'Kozaef Training', url: SITE_URL };
+    : { '@type': 'Organization', name: 'Kozaef Training', url: SITE_URL, sameAs: authorSameAs() };
 
   return (
     <PageShell locale={locale}>

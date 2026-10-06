@@ -1,18 +1,16 @@
 import type { Locale } from '@/i18n/config';
 import { SITE_URL } from '@/i18n/config';
 import { getDictionary } from '@/i18n/dictionaries';
-import { AUTHOR, authorSameAs } from '@/content/author';
+import { AUTHOR, aboutReady, authorSameAs } from '@/content/author';
 import { pagesCopy } from '@/content/pages';
 import { sectionPath } from '@/content/routes';
 import { CtaCoaching } from '@/components/funnel/cta-coaching';
 import { JsonLd, PageShell, sectionMetadata } from './page-shell';
 
-/** Mientras falten nombre y titulación, la página existe (el menú la enlaza) pero NO se indexa. */
-const complete = () => Boolean(AUTHOR.name && AUTHOR.qualification);
 
 export const aboutMetadata = (locale: Locale) => {
   const c = pagesCopy(locale).about;
-  return sectionMetadata('about', locale, { title: c.metaTitle, description: c.metaDescription }, {}, { noindex: !complete() });
+  return sectionMetadata('about', locale, { title: c.metaTitle, description: c.metaDescription }, {}, { noindex: !aboutReady() });
 };
 
 export async function AboutPage({ locale }: { locale: Locale }) {
@@ -65,7 +63,7 @@ export async function AboutPage({ locale }: { locale: Locale }) {
           <CtaCoaching locale={locale} location="about" />
         </div>
       </section>
-      {complete() && (
+      {aboutReady() && (
         <JsonLd
           data={{
             '@context': 'https://schema.org',

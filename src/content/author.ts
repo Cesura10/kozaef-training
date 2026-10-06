@@ -17,6 +17,9 @@ export const AUTHOR = {
   },
 };
 
+/** "Sobre mí" solo se muestra (menú, página, caja de autor) con nombre y titulación. */
+export const aboutReady = () => Boolean(AUTHOR.name && AUTHOR.qualification);
+
 /** Lista de datos que faltan, para el informe de pendientes. */
 export function authorPending(): string[] {
   const missing: string[] = [];
