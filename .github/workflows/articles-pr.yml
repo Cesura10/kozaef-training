@@ -47,6 +47,8 @@ jobs:
       - name: Vista previa en Cloudflare (solo si está configurado)
         id: preview
         if: ${{ env.HAS_CLOUDFLARE == 'true' }}
+        # Si falla (p. ej. el Worker aún no se ha publicado nunca), se comenta igualmente con el motivo.
+        continue-on-error: true
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
@@ -55,6 +57,7 @@ jobs:
           NEXT_PUBLIC_SITE_URL: ${{ vars.NEXT_PUBLIC_SITE_URL }}
           NEXT_PUBLIC_TURNSTILE_SITE_KEY: ${{ vars.NEXT_PUBLIC_TURNSTILE_SITE_KEY }}
         run: |
+          set -o pipefail
           node scripts/build-content.mjs --drafts
           npx next build
           node scripts/patch-middleware-trace.mjs
@@ -66,12 +69,17 @@ jobs:
         env:
           SUMMARY: ${{ steps.summary.outputs.markdown }}
           PREVIEW: ${{ steps.preview.outputs.url }}
+          PREVIEW_OUTCOME: ${{ steps.preview.outcome }}
         with:
           script: |
             const body = [
               '### Artículos listos para revisar',
               process.env.SUMMARY || '(sin cambios en artículos)',
-              process.env.PREVIEW ? `\n**Vista previa privada:** ${process.env.PREVIEW}` : '\n_Vista previa: se activará al conectar Cloudflare (CLOUDFLARE_API_TOKEN)._',
+              process.env.PREVIEW
+                ? `\n**Vista previa privada:** ${process.env.PREVIEW}`
+                : process.env.PREVIEW_OUTCOME === 'failure'
+                  ? '\n_Vista previa: no se pudo crear (Cloudflare solo crea vistas previas de un Worker ya publicado una vez; mira el registro del paso "Vista previa en Cloudflare")._'
+                  : '\n_Vista previa: se activará al conectar Cloudflare (CLOUDFLARE_API_TOKEN)._',
               '\nSi todo está bien, pulsa **Merge** y se publica solo en unos minutos.',
             ].join('\n');
             await github.rest.issues.createComment({ ...context.repo, issue_number: context.issue.number, body });
