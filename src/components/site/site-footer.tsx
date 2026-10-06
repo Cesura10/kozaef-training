@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import { InstagramLogo } from '@phosphor-icons/react/dist/ssr';
 import { AUTHOR } from '@/content/author';
+import { CONTACT, whatsappLink } from '@/content/contact';
+import { WhatsappLogo } from '@phosphor-icons/react/dist/ssr';
 import { Wordmark } from '@/components/brand';
 import { LOCALES, type Locale } from '@/i18n/config';
 import { LEGAL } from '@/content/legal';
@@ -32,6 +34,18 @@ export function SiteFooter({ locale, t }: { locale: string; t: Dictionary }) {
                 {(locale === 'es' ? 'Quién hay detrás: ' : 'Who is behind it: ') + instagramHandle(AUTHOR.social.instagram)}
               </a>
             )}
+            <a
+              href={whatsappLink()}
+              target="_blank"
+              rel="noopener"
+              data-track="cta_click"
+              data-cta="whatsapp"
+              data-location="footer"
+              className="inline-flex items-center gap-2 text-sm text-muted hover:text-fg"
+            >
+              <WhatsappLogo size={18} aria-hidden />
+              WhatsApp: {CONTACT.whatsappDisplay}
+            </a>
           </div>
           <nav className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted" aria-label={t.nav.footer}>
             {NAV.map((n) => (

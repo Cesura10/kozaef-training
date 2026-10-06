@@ -12,8 +12,13 @@ describe('catálogo de productos', () => {
     for (const p of PRODUCTS) if (p.enlacePago) expect(p.enlacePago).toMatch(/^https:\/\//);
   });
 
-  it('sin enlace de pago nunca se puede comprar', () => {
-    for (const p of PRODUCTS) if (!p.enlacePago) expect(isBuyable(p)).toBe(false);
+  it('sin enlace de pago ni WhatsApp nunca se puede comprar', () => {
+    for (const p of PRODUCTS) if (!p.enlacePago && p.contacto !== 'whatsapp') expect(isBuyable(p)).toBe(false);
+  });
+
+  it('los productos por WhatsApp tienen mensaje en cada idioma', () => {
+    for (const p of PRODUCTS.filter((x) => x.contacto === 'whatsapp'))
+      for (const l of LOCALES) expect(p.mensajeWhatsapp?.[l]).toBeTruthy();
   });
 
   it('las páginas generales muestran un infoproducto si hay alguno publicado', () => {

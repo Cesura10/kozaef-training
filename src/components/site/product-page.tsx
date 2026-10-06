@@ -7,6 +7,8 @@ import { FUNNEL } from '@/content/funnel';
 import { sectionPath } from '@/content/routes';
 import { isBuyable, SERVICE_CONSENT, WITHDRAWAL_CONSENT, type Product } from '@/content/products';
 import { TECHNIQUE_EXAMPLES } from '@/content/technique-examples';
+import { WHATSAPP_COPY, whatsappLink } from '@/content/contact';
+import { WhatsappLogo } from '@phosphor-icons/react/dist/ssr';
 import { BuyButton } from '@/components/funnel/buy-button';
 import { formatProductPrice } from '@/components/funnel/bloque-producto';
 import { ListaEspera } from '@/components/funnel/lista-espera';
@@ -25,6 +27,8 @@ export async function ProductPage({ locale, product: p }: { locale: Locale; prod
   const priceText = formatProductPrice(p, locale);
   const isTechnique = p.id === 'revision-tecnica';
   const demo = p.demo?.[locale];
+  const byWhatsapp = p.contacto === 'whatsapp';
+  const w = WHATSAPP_COPY[locale];
 
   return (
     <PageShell locale={locale}>
@@ -48,7 +52,7 @@ export async function ProductPage({ locale, product: p }: { locale: Locale; prod
             <div className="mt-12">
               <h2 className="display text-2xl font-bold">{c.technique.howTitle}</h2>
               <ol className="mt-4 space-y-3">
-                {c.technique.how.map((step, i) => (
+                {(byWhatsapp ? c.technique.howWhatsapp : c.technique.how).map((step, i) => (
                   <li key={step} className="flex gap-4 text-muted">
                     <span className="display text-xl font-bold text-primary">{i + 1}</span>
                     <span className="leading-relaxed">{step}</span>
@@ -87,7 +91,29 @@ export async function ProductPage({ locale, product: p }: { locale: Locale; prod
         </div>
 
         <aside className="space-y-6 lg:sticky lg:top-24 lg:self-start">
-          {buyable && p.enlacePago ? (
+          {buyable && byWhatsapp ? (
+            <div className="rounded-[var(--radius-xl)] border border-primary/30 bg-surface p-6">
+              {priceText && (
+                <p>
+                  <span className="display text-4xl font-bold text-fg">{priceText}</span>
+                  {p.lanzamiento && <span className="ml-2 text-xs text-primary">{f.launch}</span>}
+                </p>
+              )}
+              <a
+                href={whatsappLink(p.mensajeWhatsapp?.[locale])}
+                target="_blank"
+                rel="noopener"
+                data-track="cta_click"
+                data-cta="whatsapp"
+                data-location={`product-${p.id}`}
+                className="mt-5 inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-primary px-7 text-sm font-semibold text-primary-fg transition hover:bg-primary-hover"
+              >
+                <WhatsappLogo size={20} weight="fill" aria-hidden />
+                {w.cta}
+              </a>
+              <p className="mt-3 text-sm text-muted">{w.note}</p>
+            </div>
+          ) : buyable && p.enlacePago ? (
             <div className="rounded-[var(--radius-xl)] border border-primary/30 bg-surface p-6">
               {priceText && (
                 <p>
@@ -111,7 +137,7 @@ export async function ProductPage({ locale, product: p }: { locale: Locale; prod
           ) : (
             <ListaEspera locale={locale} productId={p.id} productName={p.nombre[locale]} service={p.tipo === 'servicio'} stacked />
           )}
-          {isTechnique && (
+          {isTechnique && !byWhatsapp && (
             <div className="rounded-[var(--radius-xl)] border border-border p-6">
               <h2 className="font-semibold text-fg">{c.technique.sendTitle}</h2>
               <Link

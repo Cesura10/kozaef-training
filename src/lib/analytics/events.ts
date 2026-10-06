@@ -31,4 +31,5 @@ export type CtaId =
   | 'product'
   | 'tool'
   | 'technique'
-  | 'instagram';
+  | 'instagram'
+  | 'whatsapp';

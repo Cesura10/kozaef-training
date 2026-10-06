@@ -26,6 +26,13 @@ export type Product = {
   estado: 'disponible' | 'lista-espera';
   publicado: boolean;
   capacidadSemanal?: number;
+  /**
+   * Cómo se pide mientras no hay pago en la web: 'whatsapp' muestra el precio y un botón que abre
+   * WhatsApp con un mensaje ya escrito (src/content/contact.ts). Quitarlo vuelve a Shopify.
+   */
+  contacto?: 'whatsapp';
+  /** Mensaje ya escrito para WhatsApp. */
+  mensajeWhatsapp?: Record<Locale, string>;
   demo?: Record<Locale, { titulo: string; secciones: Array<{ h: string; p: string }> }>;
 };
 
@@ -132,13 +139,19 @@ export const PRODUCTS: Product[] = [
     estado: 'disponible',
     publicado: true,
     capacidadSemanal: 10,
+    // Mientras se programa el envío en la web, se pide y se hace por WhatsApp.
+    contacto: 'whatsapp',
+    mensajeWhatsapp: {
+      es: 'Hola Manu, quiero la revisión de técnica en vídeo.',
+      en: 'Hi Manu, I would like the video technique review.',
+    },
   },
 ];
 
 export const visibleProducts = () => PRODUCTS.filter((p) => p.publicado);
 
-/** ¿Se puede comprar? Sin enlace de pago o en lista de espera, no: nunca un botón roto. */
-export const isBuyable = (p: Product) => p.estado === 'disponible' && Boolean(p.enlacePago);
+/** ¿Se puede comprar? Sin enlace de pago (ni WhatsApp) o en lista de espera, no: nunca un botón roto. */
+export const isBuyable = (p: Product) => p.estado === 'disponible' && (Boolean(p.enlacePago) || p.contacto === 'whatsapp');
 
 export const productBySlug = (locale: Locale, slug: string) =>
   visibleProducts().find((p) => p.slug[locale] === slug) ?? null;

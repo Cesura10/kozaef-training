@@ -112,6 +112,11 @@ export const PAGES = {
         'Grabas 3 vídeos de tus ejercicios, los subes a Google Drive, a YouTube como "no listado" o a iCloud y me pasas los enlaces en un formulario.',
         'Te devuelvo las correcciones de técnica de cada vídeo.',
       ],
+      howWhatsapp: [
+        'Me escribes por WhatsApp y te explico cómo pagar.',
+        'Grabas 3 vídeos de tus ejercicios y me los envías por WhatsApp.',
+        'Te devuelvo las correcciones de técnica de cada vídeo.',
+      ],
       sendTitle: '¿Ya la has comprado?',
       sendCta: 'Enviar mis vídeos',
     },
@@ -224,6 +229,11 @@ export const PAGES = {
       how: [
         'You buy the review.',
         'You record 3 videos of your lifts, upload them to Google Drive, YouTube (unlisted) or iCloud, and send me the links through a form.',
+        'I send you technique corrections for each video.',
+      ],
+      howWhatsapp: [
+        'You message me on WhatsApp and I explain how to pay.',
+        'You record 3 videos of your lifts and send them to me on WhatsApp.',
         'I send you technique corrections for each video.',
       ],
       sendTitle: 'Already bought it?',
