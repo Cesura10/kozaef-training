@@ -8,6 +8,9 @@ import type { CategoryId, ProfileId } from './taxonomy';
  * - demo: contenido gratuito de muestra que se ve en la página del producto (indexable).
  * - capacidadSemanal: para servicios manuales; al llenarse se muestra lista de espera.
  * El contenido de pago lo entrega Shopify (descarga digital): nunca está en la web.
+ * Infoproductos: `trailer` son las escenas del tráiler en scroll y `capitulos` el índice que se
+ *   enseña (títulos y de qué va cada parte, nunca el contenido completo).
+ * - borrador: true = solo se ve en desarrollo (npm run dev), para revisar la página antes de publicar.
  */
 export type Product = {
   id: string;
@@ -34,6 +37,11 @@ export type Product = {
   /** Mensaje ya escrito para WhatsApp. */
   mensajeWhatsapp?: Record<Locale, string>;
   demo?: Record<Locale, { titulo: string; secciones: Array<{ h: string; p: string }> }>;
+  /** Escenas del tráiler: frase corta (k), titular (t) y una línea de apoyo (p). */
+  trailer?: Record<Locale, Array<{ k: string; t: string; p: string }>>;
+  /** Índice público del infoproducto. */
+  capitulos?: Record<Locale, Array<{ t: string; p: string }>>;
+  borrador?: boolean;
 };
 
 export const PRODUCTS: Product[] = [
@@ -146,9 +154,79 @@ export const PRODUCTS: Product[] = [
       en: 'Hi Manu, I would like the video technique review.',
     },
   },
+  {
+    // BORRADOR para revisar la página de venta. Textos de estructura, NO el método: los
+    // capítulos reales, el precio y el enlace de Shopify los decide Manu (docs/privado/infoproducto/).
+    id: 'metodo-kozaef',
+    slug: { es: 'metodo-kozaef', en: 'kozaef-method' },
+    tipo: 'infoproducto',
+    nombre: { es: 'Método Kozaef', en: 'Kozaef Method' },
+    paraQuien: {
+      es: 'Para quien entrena por su cuenta, lleva tiempo sin ver cambios y quiere un sistema claro para medir, ajustar y progresar sin depender de nadie.',
+      en: 'For people who train on their own, have stopped seeing changes and want a clear system to measure, adjust and progress independently.',
+    },
+    incluye: {
+      es: ['Guía completa en PDF, maquetada y con imágenes', 'Plantillas para registrar tus entrenos y tus números', 'Acceso a las actualizaciones de la guía'],
+      en: ['Full PDF guide, designed and illustrated', 'Templates to log your training and your numbers', 'Access to guide updates'],
+    },
+    precio: null,
+    moneda: 'EUR',
+    categoria: 'ganar-musculo',
+    perfiles: ['principiantes'],
+    enlacePago: null,
+    estado: 'lista-espera',
+    publicado: false,
+    borrador: true,
+    trailer: {
+      es: [
+        { k: 'El problema', t: 'Entrenas. Pero no cambias.', p: 'Meses haciendo lo mismo y el espejo no se mueve.' },
+        { k: 'La causa', t: 'No es falta de ganas.', p: 'Es entrenar sin datos: sin saber qué funciona ni qué falla.' },
+        { k: 'El sistema', t: 'Mide. Ajusta. Progresa.', p: 'Las tres fases con las que trabajo, explicadas paso a paso.' },
+        { k: 'El resultado', t: 'Sabes qué hacer cada semana.', p: 'Y cuando te atasques, sabes por qué.' },
+      ],
+      en: [
+        { k: 'The problem', t: 'You train. But nothing changes.', p: 'Months of the same and the mirror does not move.' },
+        { k: 'The cause', t: 'It is not lack of effort.', p: 'It is training without data: not knowing what works or what fails.' },
+        { k: 'The system', t: 'Measure. Adjust. Progress.', p: 'The three phases I work with, explained step by step.' },
+        { k: 'The result', t: 'You know what to do every week.', p: 'And when you get stuck, you know why.' },
+      ],
+    },
+    capitulos: {
+      es: [
+        { t: 'Mide', p: 'Qué números importan, cómo tomarlos sin obsesionarte y cómo leerlos.' },
+        { t: 'Ajusta', p: 'Cuándo y cómo cambiar volumen, descanso y comida según tus datos.' },
+        { t: 'Progresa', p: 'Cómo planificar la sobrecarga semana a semana para seguir avanzando.' },
+        { t: 'Cuando te estancas', p: 'Cómo detectar un estancamiento real y qué revisar primero.' },
+      ],
+      en: [
+        { t: 'Measure', p: 'Which numbers matter, how to track them without obsessing and how to read them.' },
+        { t: 'Adjust', p: 'When and how to change volume, rest and food based on your data.' },
+        { t: 'Progress', p: 'How to plan overload week by week to keep moving forward.' },
+        { t: 'When you stall', p: 'How to spot a real plateau and what to check first.' },
+      ],
+    },
+    demo: {
+      es: {
+        titulo: 'Capítulo 1 (muestra): Mide',
+        secciones: [
+          { h: 'Por qué empezar midiendo', p: 'Sin un punto de partida no hay forma de saber si lo que haces funciona. Medir no es obsesionarse: es tener una referencia para decidir.' },
+          { h: 'Los tres números básicos', p: 'Peso medio semanal, perímetro de cintura y las cargas de tus ejercicios principales. Con eso ya se pueden tomar casi todas las decisiones.' },
+        ],
+      },
+      en: {
+        titulo: 'Chapter 1 (sample): Measure',
+        secciones: [
+          { h: 'Why start by measuring', p: 'Without a starting point there is no way to know if what you do works. Measuring is not obsessing: it is having a reference to decide.' },
+          { h: 'The three basic numbers', p: 'Weekly average weight, waist measurement and the loads on your main lifts. With that you can make almost every decision.' },
+        ],
+      },
+    },
+  },
 ];
 
-export const visibleProducts = () => PRODUCTS.filter((p) => p.publicado);
+/** Publicados; en desarrollo también los borradores (nunca llegan a producción). */
+export const visibleProducts = () =>
+  PRODUCTS.filter((p) => p.publicado || (p.borrador && process.env.NODE_ENV === 'development'));
 
 /** ¿Se puede comprar? Sin enlace de pago (ni WhatsApp) o en lista de espera, no: nunca un botón roto. */
 export const isBuyable = (p: Product) => p.estado === 'disponible' && (Boolean(p.enlacePago) || p.contacto === 'whatsapp');

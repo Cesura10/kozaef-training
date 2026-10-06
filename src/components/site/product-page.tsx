@@ -16,11 +16,15 @@ import { CtaCoaching } from '@/components/funnel/cta-coaching';
 import { VideoFacade } from '@/components/funnel/video-facade';
 import { ProductViewTracker } from '@/components/funnel/product-view-tracker';
 import { JsonLd, PageShell, sectionMetadata } from './page-shell';
+import { KineticTitle } from '@/components/motion/kinetic-title';
+import { Spotlight } from '@/components/motion/spotlight';
+import { InfoproductPage } from './infoproduct-page';
 
 export const productMetadata = (locale: Locale, p: Product) =>
   sectionMetadata('programs', locale, { title: p.nombre[locale], description: p.paraQuien[locale] }, p.slug);
 
 export async function ProductPage({ locale, product: p }: { locale: Locale; product: Product }) {
+  if (p.tipo === 'infoproducto') return <InfoproductPage locale={locale} product={p} />;
   const c = pagesCopy(locale);
   const f = FUNNEL[locale];
   const buyable = isBuyable(p);
@@ -35,10 +39,15 @@ export async function ProductPage({ locale, product: p }: { locale: Locale; prod
       <ProductViewTracker product={p.id} price={p.precio} />
       <section className="mx-auto grid w-full max-w-7xl gap-12 px-4 pb-16 pt-12 sm:px-6 md:pt-16 lg:grid-cols-[minmax(0,1fr)_24rem]">
         <div>
-          <h1 className="display animate-rise text-4xl font-bold leading-[1.02] md:text-6xl">{p.nombre[locale]}</h1>
-          <h2 className="mt-8 text-sm font-medium text-primary">{c.programs.forWho}</h2>
+          <p className="animate-fade-in flex items-center gap-4 font-mono text-xs uppercase tracking-[0.2em] text-muted">
+            <span className="text-primary">{c.programs.service}</span>
+            <span className="draw-line block h-px w-14 bg-primary/70" aria-hidden />
+            Kozaef Training
+          </p>
+          <KineticTitle lines={[p.nombre[locale]]} className="display mt-7 text-[2.75rem] font-bold leading-[0.98] sm:text-6xl xl:text-7xl" />
+          <h2 className="mt-12 font-mono text-xs uppercase tracking-[0.2em] text-primary">{c.programs.forWho}</h2>
           <p className="mt-2 max-w-[60ch] text-lg leading-relaxed text-muted">{p.paraQuien[locale]}</p>
-          <h2 className="mt-8 text-sm font-medium text-primary">{c.programs.includes}</h2>
+          <h2 className="mt-10 font-mono text-xs uppercase tracking-[0.2em] text-primary">{c.programs.includes}</h2>
           <ul className="mt-3 space-y-3">
             {p.incluye[locale].map((item) => (
               <li key={item} className="flex items-start gap-3 text-fg/90">
@@ -51,11 +60,13 @@ export async function ProductPage({ locale, product: p }: { locale: Locale; prod
           {isTechnique && (
             <div className="mt-12">
               <h2 className="display text-2xl font-bold">{c.technique.howTitle}</h2>
-              <ol className="mt-4 space-y-3">
+              <ol className="mt-6 border-t border-border">
                 {(byWhatsapp ? c.technique.howWhatsapp : c.technique.how).map((step, i) => (
-                  <li key={step} className="flex gap-4 text-muted">
-                    <span className="display text-xl font-bold text-primary">{i + 1}</span>
-                    <span className="leading-relaxed">{step}</span>
+                  <li key={step} className="group grid grid-cols-[4.5rem_minmax(0,1fr)] items-baseline gap-4 border-b border-border py-6">
+                    <span className="display outline-num text-5xl font-bold leading-none" aria-hidden>
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+                    <span className="text-lg leading-relaxed text-fg/90">{step}</span>
                   </li>
                 ))}
               </ol>
@@ -92,7 +103,7 @@ export async function ProductPage({ locale, product: p }: { locale: Locale; prod
 
         <aside className="space-y-6 lg:sticky lg:top-24 lg:self-start">
           {buyable && byWhatsapp ? (
-            <div className="rounded-[var(--radius-xl)] border border-primary/30 bg-surface p-6">
+            <Spotlight className="rounded-[var(--radius-xl)] border border-primary/30 bg-surface p-6">
               {priceText && (
                 <p>
                   <span className="display text-4xl font-bold text-fg">{priceText}</span>
@@ -112,9 +123,9 @@ export async function ProductPage({ locale, product: p }: { locale: Locale; prod
                 {w.cta}
               </a>
               <p className="mt-3 text-sm text-muted">{w.note}</p>
-            </div>
+            </Spotlight>
           ) : buyable && p.enlacePago ? (
-            <div className="rounded-[var(--radius-xl)] border border-primary/30 bg-surface p-6">
+            <Spotlight className="rounded-[var(--radius-xl)] border border-primary/30 bg-surface p-6">
               {priceText && (
                 <p>
                   <span className="display text-4xl font-bold text-fg">{priceText}</span>
@@ -133,7 +144,7 @@ export async function ProductPage({ locale, product: p }: { locale: Locale; prod
                   fullText={f.full}
                 />
               </div>
-            </div>
+            </Spotlight>
           ) : (
             <ListaEspera locale={locale} productId={p.id} productName={p.nombre[locale]} service={p.tipo === 'servicio'} stacked />
           )}

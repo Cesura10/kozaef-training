@@ -4,7 +4,6 @@ import {
   ArrowRight,
   ArrowUpRight,
   Barbell,
-  Camera,
   ChatsCircle,
   Check,
   Drop,
@@ -15,6 +14,10 @@ import { ButtonLink } from '@/components/ui/button';
 import { ProteinCalculator } from '@/components/marketing/protein-calculator';
 import { NewsletterForm } from '@/components/marketing/newsletter-form';
 import { Reveal } from '@/components/marketing/reveal';
+import { KineticTitle } from '@/components/motion/kinetic-title';
+import { Marquee } from '@/components/motion/marquee';
+import { Spotlight } from '@/components/motion/spotlight';
+import { LogoMark } from '@/components/brand';
 import { hasLocale } from '@/i18n/config';
 import Link from 'next/link';
 import { toolPath } from '@/content/tools';
@@ -40,16 +43,15 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
         {/* Hero: mensaje a la izquierda, herramienta real a la derecha */}
         <section className="mx-auto grid w-full max-w-7xl items-center gap-12 px-4 pb-20 pt-12 sm:px-6 md:pt-20 lg:min-h-[calc(100dvh-4rem)] lg:grid-cols-[1.25fr_1fr] lg:gap-14 lg:pb-24">
           {/* Hero con animación CSS: visible antes de hidratar (LCP) */}
-          <div className="animate-rise">
-            <h1 className="display text-[2.4rem] font-bold leading-[1.02] sm:text-6xl lg:text-[3.25rem] xl:text-[3.6rem]">
-              {t.hero.titleA}
-              <br />
-              <span className="text-primary">{t.hero.titleB}</span>
-            </h1>
-            <p className="mt-6 max-w-[46ch] text-lg leading-relaxed text-muted">
+          <div>
+            <KineticTitle
+              lines={[t.hero.titleA, { text: t.hero.titleB, accent: true }]}
+              className="display text-[2.4rem] font-bold leading-[1.02] sm:text-6xl lg:text-[3.25rem] xl:text-[3.6rem]"
+            />
+            <p className="animate-rise mt-6 max-w-[46ch] text-lg leading-relaxed text-muted [animation-delay:400ms]">
               {t.hero.subtitle}
             </p>
-            <div className="mt-9 flex flex-wrap gap-3">
+            <div className="animate-rise mt-9 flex flex-wrap gap-3 [animation-delay:500ms]">
               <ButtonLink href="#herramientas" className="h-12 px-6" data-track="cta_click" data-cta="tools" data-location="hero">
                 {t.hero.ctaTools}
                 <ArrowRight size={16} weight="bold" />
@@ -59,10 +61,12 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
               </ButtonLink>
             </div>
           </div>
-          <div className="animate-rise [animation-delay:120ms]">
+          <div className="animate-rise [animation-delay:250ms]">
             <ProteinCalculator t={t.calculator} />
           </div>
         </section>
+
+        <Marquee items={[...t.method.items.map((m) => m.word.replace(/\.$/, '')), 'Kozaef Training']} />
 
         {/* Herramientas: bento de 3 celdas */}
         <section id="herramientas" className="scroll-mt-20 border-t border-border/60 py-24">
@@ -76,6 +80,7 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
 
             <div className="mt-12 grid gap-4 md:grid-cols-3 md:grid-rows-2">
               <Reveal className="md:col-span-2 md:row-span-2">
+                <Spotlight className="h-full rounded-[var(--radius-xl)]">
                 <Link
                   href={toolPath('calories', locale)}
                   className="group gold-sheen relative flex h-full min-h-[22rem] flex-col justify-between overflow-hidden rounded-[var(--radius-xl)] border border-primary/25 p-8 transition-colors hover:border-primary/60 md:p-10"
@@ -97,9 +102,11 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
                     </p>
                   </div>
                 </Link>
+                </Spotlight>
               </Reveal>
 
               <Reveal delay={0.08}>
+                <Spotlight className="h-full rounded-[var(--radius-xl)]">
                 <Link
                   href={toolPath('protein', locale)}
                   className="group flex h-full flex-col justify-between gap-10 rounded-[var(--radius-xl)] border border-border bg-surface p-7 transition-colors hover:border-primary/50"
@@ -116,9 +123,11 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
                     <p className="mt-2 text-sm text-muted">{t.tools.protein.body}</p>
                   </div>
                 </Link>
+                </Spotlight>
               </Reveal>
 
               <Reveal delay={0.16}>
+                <Spotlight className="h-full rounded-[var(--radius-xl)]">
                 <Link
                   href={toolPath('bodyfat', locale)}
                   className="group flex h-full flex-col justify-between gap-10 rounded-[var(--radius-xl)] border border-border bg-surface-2 p-7 transition-colors hover:border-primary/50"
@@ -135,6 +144,7 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
                     <p className="mt-2 text-sm text-muted">{t.tools.bodyfat.body}</p>
                   </div>
                 </Link>
+                </Spotlight>
               </Reveal>
             </div>
           </div>
@@ -196,11 +206,14 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
         <section id="coaching" className="scroll-mt-20 border-t border-border/60 py-24">
           <div className="mx-auto grid w-full max-w-7xl items-center gap-12 px-4 sm:px-6 lg:grid-cols-[5fr_7fr] lg:gap-20">
             <Reveal>
-              {/* TODO: foto real de Manu entrenando, 1200x1500 (o generada con Higgsfield) */}
-              <div className="gold-sheen relative flex aspect-[4/5] w-full flex-col items-center justify-center gap-3 overflow-hidden rounded-[var(--radius-xl)] border border-primary/20 text-center">
-                <Camera size={32} weight="duotone" className="text-primary/70" />
-                <p className="max-w-[24ch] text-sm text-faint">{t.coaching.photo}</p>
-              </div>
+              {/* Panel tipográfico hasta tener foto real de Manu entrenando (1200x1500, con permiso). */}
+              <Spotlight className="gold-sheen relative flex aspect-[4/5] w-full flex-col justify-between overflow-hidden rounded-[var(--radius-xl)] border border-primary/20 p-8">
+                <LogoMark className="h-10 w-10" />
+                <p className="display foil-text text-[9rem] font-bold leading-[0.8] tracking-[-0.05em] sm:text-[11rem]" aria-hidden>
+                  1:1
+                </p>
+                <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted">{t.coaching.eyebrow}</p>
+              </Spotlight>
             </Reveal>
             <Reveal delay={0.1}>
               <p className="text-xs font-medium uppercase tracking-[0.18em] text-primary">{t.coaching.eyebrow}</p>
