@@ -11,7 +11,7 @@ export const AUTHOR = {
   photo: null as string | null,
   /** Perfiles sociales (para sameAs). */
   social: {
-    instagram: null as string | null,
+    instagram: 'https://www.instagram.com/manurodrigues.fit/' as string | null,
     tiktok: null as string | null,
     youtube: null as string | null,
   },
