@@ -15,5 +15,10 @@
       "service": "kozaef-training"
     }
   ],
+  // Dominio propio (la zona tiene que estar en Cloudflare; www redirige al dominio sin www).
+  "routes": [
+    { "pattern": "kozaeftraining.com", "custom_domain": true },
+    { "pattern": "www.kozaeftraining.com", "custom_domain": true }
+  ],
   "observability": { "enabled": true }
 }

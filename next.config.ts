@@ -25,6 +25,13 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      // Un solo dominio para Google: www → sin www.
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.kozaeftraining.com" }],
+        destination: "https://kozaeftraining.com/:path*",
+        permanent: true,
+      },
       { source: "/", destination: "/es", permanent: false },
       // /solicitud pasó a /solicitar (brief biblioteca y embudo)
       { source: "/es/solicitud", destination: "/es/solicitar", permanent: true },
