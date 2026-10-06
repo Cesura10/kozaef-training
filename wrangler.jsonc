@@ -15,6 +15,9 @@
       "service": "kozaef-training"
     }
   ],
+  // Dirección provisional *.workers.dev (sin indexar) y vistas previas de las propuestas del bot.
+  "workers_dev": true,
+  "preview_urls": true,
   // Dominio propio (la zona tiene que estar en Cloudflare; www redirige al dominio sin www).
   "routes": [
     { "pattern": "kozaeftraining.com", "custom_domain": true },
