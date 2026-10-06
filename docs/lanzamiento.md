@@ -17,7 +17,7 @@ legales y SEO. La plataforma (login, app de clientes) queda **oculta** con
 | 1 | Datos fiscales en `src/lib/legal.ts` (nombre, NIF, dirección, email) | 0 € | Obligatorio por la LSSI. Que un gestor revise los textos |
 | 2 | Cuenta de Cloudflare (plan Free, **sin tarjeta**) | 0 € | Alojamiento + Turnstile + analítica sin cookies |
 | 3 | Claves de Turnstile (Cloudflare → Turnstile → Add site) | 0 € | Sin ellas los formularios no aceptan envíos en producción |
-| 4 | Dominio (p. ej. kozaeftraining.com) | ~10-15 €/año | Opcional para lanzar (sirve `kozaef-training.<cuenta>.workers.dev`), necesario para emails y marca |
+| 4 | Dominio: **kozaeftraining.com** (comprado en IONOS el 2026-10-06; DNS a Cloudflare) | 1 € el primer año, después 15 €/año | Necesario para emails, marca y Google |
 | 5 | PostHog (región EU, sin tarjeta) | 0 € | Gráficos reales en /analitica. Opcional para lanzar |
 | 6 | Cal.com (gratis) + `CALCOM_URL` | 0 € | Las solicitudes cualificadas reservan llamada solas. Sin él, se les avisa de que les escribirás en 48 h |
 
