@@ -7,7 +7,9 @@
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   "assets": {
     "directory": ".open-next/assets",
-    "binding": "ASSETS"
+    "binding": "ASSETS",
+    // Sin quitar ".html" ni redirigir: el archivo de verificación de Google debe servirse tal cual.
+    "html_handling": "none"
   },
   "services": [
     {
