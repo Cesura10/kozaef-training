@@ -9,7 +9,10 @@ import { LEGAL_OWNER as O, type LegalSlug } from '@/lib/legal';
  */
 export type LegalDoc = { title: string; intro: string; sections: Array<{ h: string; p: string[] }> };
 
-const owner = `${O.name}, con NIF ${O.nif} y domicilio en ${O.address}`;
+/** Titular con los datos que haya (nombre, NIF y domicilio son opcionales). */
+const ownerEs = [O.name ?? O.brand, O.nif && `con NIF ${O.nif}`, O.address && `y domicilio en ${O.address}`].filter(Boolean).join(', ');
+const ownerEn = [O.name ?? O.brand, O.nif && `tax ID ${O.nif}`, O.address && O.address].filter(Boolean).join(', ');
+const holder = O.name ?? O.brand;
 
 const es: Record<LegalSlug, LegalDoc> = {
   'aviso-legal': {
@@ -18,7 +21,7 @@ const es: Record<LegalSlug, LegalDoc> = {
     sections: [
       {
         h: 'Titular',
-        p: [`${O.brand} es una marca de ${owner}. Contacto: ${O.email}.`],
+        p: [O.name ? `${O.brand} es una marca de ${ownerEs}. Contacto: ${O.email}.` : `Titular: ${ownerEs}. Contacto: ${O.email}.`],
       },
       {
         h: 'Objeto',
@@ -35,7 +38,7 @@ const es: Record<LegalSlug, LegalDoc> = {
       {
         h: 'Propiedad intelectual',
         p: [
-          `Los textos, diseños, logotipos, vídeos y el código de esta web pertenecen a ${O.name} o se usan con licencia. No se permite su reproducción sin autorización expresa.`,
+          `Los textos, diseños, logotipos, vídeos y el código de esta web pertenecen a ${holder} o se usan con licencia. No se permite su reproducción sin autorización expresa.`,
         ],
       },
       {
@@ -54,7 +57,7 @@ const es: Record<LegalSlug, LegalDoc> = {
     title: 'Política de privacidad',
     intro: 'Cómo se tratan tus datos personales en esta web, según el Reglamento (UE) 2016/679 (RGPD) y la Ley Orgánica 3/2018 (LOPDGDD).',
     sections: [
-      { h: 'Responsable del tratamiento', p: [`${owner}. Email: ${O.email}.`] },
+      { h: 'Responsable del tratamiento', p: [`${ownerEs}. Email: ${O.email}.`] },
       {
         h: 'Qué datos se recogen y para qué',
         p: [
@@ -120,7 +123,7 @@ const en: Record<LegalSlug, LegalDoc> = {
     title: 'Legal notice',
     intro: 'Information about the owner of this website, as required by Spanish Law 34/2002 (LSSI-CE).',
     sections: [
-      { h: 'Owner', p: [`${O.brand} is a brand of ${O.name}, tax ID ${O.nif}, address ${O.address}. Contact: ${O.email}.`] },
+      { h: 'Owner', p: [O.name ? `${O.brand} is a brand of ${ownerEn}. Contact: ${O.email}.` : `Owner: ${ownerEn}. Contact: ${O.email}.`] },
       {
         h: 'Purpose',
         p: ['This website offers free training and nutrition content, indicative calculators and the option to apply for online personal training.'],
@@ -131,7 +134,7 @@ const en: Record<LegalSlug, LegalDoc> = {
           'Content and calculator results are general information. They do not replace advice from a health professional. Talk to your doctor before starting an exercise programme or changing your diet.',
         ],
       },
-      { h: 'Intellectual property', p: [`Texts, designs, logos, videos and code belong to ${O.name} or are used under licence.`] },
+      { h: 'Intellectual property', p: [`Texts, designs, logos, videos and code belong to ${holder} or are used under licence.`] },
       { h: 'Governing law', p: ['This website is governed by Spanish law.'] },
     ],
   },
@@ -139,7 +142,7 @@ const en: Record<LegalSlug, LegalDoc> = {
     title: 'Privacy policy',
     intro: 'How your personal data is processed, under the EU General Data Protection Regulation (GDPR).',
     sections: [
-      { h: 'Controller', p: [`${O.name}, tax ID ${O.nif}, ${O.address}. Email: ${O.email}.`] },
+      { h: 'Controller', p: [`${ownerEn}. Email: ${O.email}.`] },
       {
         h: 'What data and why',
         p: [
