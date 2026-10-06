@@ -11,6 +11,7 @@ import { chromium } from '@playwright/test';
 import { normalizeDates, parseFrontMatter } from './content-utils.mjs';
 
 const [input, output] = process.argv.slice(2);
+const METODO = JSON.parse(readFileSync(new URL('../src/content/bloque-metodo.json', import.meta.url), 'utf8')).es;
 if (!input || !output) throw new Error('Uso: node scripts/article-pdf.mjs <articulo.md> <salida.pdf>');
 
 const { data, content } = parseFrontMatter(readFileSync(input, 'utf8'));
@@ -43,13 +44,20 @@ const page = `<!doctype html><html lang="es"><head><meta charset="utf-8"><style>
   .faq { break-inside: avoid; margin-bottom: 3mm; } .faq .q { font-weight: 700; margin-bottom: 0; }
   .fuentes { font-size: 9.5pt; }
   .nota { margin: 2mm 0 0; font-size: 9pt; color: #6b675f; }
+  .metodo { break-inside: avoid; margin-top: 8mm; border: 1px solid #e3ded3; border-left: 3px solid #b8891f; border-radius: 2mm; padding: 5mm 6mm; background: #fbf7ee; }
+  .metodo .eb { font-size: 8.5pt; letter-spacing: .1em; text-transform: uppercase; color: #b8891f; margin: 0; }
+  .metodo h2 { border: 0; margin: 1mm 0 2mm; padding: 0; }
+  .metodo .btn { display: inline-block; border: 1px solid #b8891f; border-radius: 99px; padding: 1.5mm 4mm; margin: 1mm 2mm 0 0; font-size: 9.5pt; }
 </style></head><body>
   <div class="brand">KOZAEF TRAINING · VISTA PREVIA PARA REVISAR</div>
   <h1>${esc(data.titulo)}</h1>
   <div class="meta">Categoría: ${esc(data.categoria)} · Perfiles: ${esc((data.perfiles ?? []).join(', '))} · Nivel: ${esc(data.nivel)} · ${esc(data.fechaPublicacion)}</div>
   <div class="rapida"><b>Respuesta rápida</b>${esc(data.respuestaRapida)}</div>
-  <p class="nota">En la web, además, se añaden solos: el aviso de la herramienta relacionada, la caja de autor, el producto relacionado y el bloque de coaching.</p>
+  <p class="nota">En la web, además, se añaden solos: el aviso de la herramienta relacionada, el producto relacionado y el bloque de coaching.</p>
   ${html(content)}
+  <div class="metodo"><p class="eb">${esc(METODO.eyebrow)} · bloque fijo de todos los artículos</p><h2>${esc(METODO.title)}</h2>
+    <p>${esc(METODO.intro)}</p><p><b>${esc(METODO.listTitle)}</b></p><ul>${METODO.list.map((i) => `<li>${esc(i)}</li>`).join('')}</ul>
+    <p><b>${esc(METODO.closing)}</b></p><span class="btn">${esc(METODO.apply)}</span><span class="btn">${esc(METODO.whatsapp)}</span></div>
   ${faq ? `<h2>Preguntas frecuentes</h2>${faq}` : ''}
   ${fuentes ? `<h2>Fuentes</h2><ol class="fuentes">${fuentes}</ol>` : ''}
 </body></html>`;
