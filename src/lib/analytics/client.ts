@@ -25,6 +25,10 @@ function load(): Promise<PostHog | null> {
       posthog.init(key, {
         api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST ?? 'https://eu.i.posthog.com',
         persistence: 'memory',
+        // Sin cookies hasta que se acepta (y si se rechaza): PostHog cuenta la visita con un hash
+        // anónimo en su servidor. Sin esto, esta versión no registra nada hasta el consentimiento.
+        cookieless_mode: 'on_reject',
+        opt_out_capturing_by_default: true,
         disable_session_recording: true,
         capture_pageview: true,
         capture_pageleave: true,
@@ -63,6 +67,9 @@ export function track<K extends AnalyticsEventName>(name: K, props: AnalyticsEve
 
 export function setAnalyticsConsent(granted: boolean) {
   withPostHog((p) => {
+    // Aceptar: PostHog pasa a modo normal con cookies. Rechazar: sigue el modo sin cookies.
+    if (granted) p.opt_in_capturing();
+    else p.opt_out_capturing();
     p.set_config({ persistence: granted ? 'localStorage+cookie' : 'memory' });
     if (granted) p.startSessionRecording();
     else p.stopSessionRecording();
