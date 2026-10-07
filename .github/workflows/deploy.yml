@@ -38,7 +38,7 @@ jobs:
       INDEXNOW_KEY: ${{ vars.INDEXNOW_KEY }}
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
           cache: npm
