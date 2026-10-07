@@ -12,6 +12,7 @@ import { CtaHerramienta } from '@/components/funnel/cta-herramienta';
 import { BloqueProducto } from '@/components/funnel/bloque-producto';
 import { CtaCoaching } from '@/components/funnel/cta-coaching';
 import { CajaAutor } from '@/components/funnel/caja-autor';
+import { BloqueMetodo } from '@/components/funnel/bloque-metodo';
 import { JsonLd, PageShell } from './page-shell';
 
 const fmtDate = (d: string, locale: Locale) =>
@@ -47,7 +48,7 @@ export async function ArticlePage({ article: a }: { article: Article }) {
   ];
   const author = AUTHOR.name
     ? { '@type': 'Person', name: AUTHOR.name, url: `${SITE_URL}${sectionPath('about', locale)}`, sameAs: authorSameAs() }
-    : { '@type': 'Organization', name: 'Kozaef Training', url: SITE_URL };
+    : { '@type': 'Organization', name: 'Kozaef Training', url: SITE_URL, sameAs: authorSameAs() };
 
   return (
     <PageShell locale={locale}>
@@ -107,6 +108,8 @@ export async function ArticlePage({ article: a }: { article: Article }) {
         <div className="prose-kz mt-4" dangerouslySetInnerHTML={{ __html: a.html[0] }} />
         {a.herramientaRelacionada && <CtaHerramienta locale={locale} tool={a.herramientaRelacionada} location="article" />}
         {a.html[1] && <div className="prose-kz" dangerouslySetInnerHTML={{ __html: a.html[1] }} />}
+
+        <BloqueMetodo locale={locale} location="article-method" />
 
         {a.faq.length > 0 && (
           <section aria-labelledby="faq" className="mt-12">

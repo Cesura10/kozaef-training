@@ -11,11 +11,14 @@ export const AUTHOR = {
   photo: null as string | null,
   /** Perfiles sociales (para sameAs). */
   social: {
-    instagram: null as string | null,
+    instagram: 'https://www.instagram.com/manurodrigues.fit/' as string | null,
     tiktok: null as string | null,
     youtube: null as string | null,
   },
 };
+
+/** "Sobre mí" solo se muestra (menú, página, caja de autor) con nombre y titulación. */
+export const aboutReady = () => Boolean(AUTHOR.name && AUTHOR.qualification);
 
 /** Lista de datos que faltan, para el informe de pendientes. */
 export function authorPending(): string[] {

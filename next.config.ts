@@ -15,10 +15,23 @@ const nextConfig: NextConfig = {
           enforce: process.env.CSP_ENFORCE === "true",
         }),
       },
+      {
+        // La dirección provisional de Cloudflare (*.workers.dev) no se indexa: solo el dominio propio.
+        source: "/:path*",
+        has: [{ type: "host", value: "(?<sub>.*)\\.workers\\.dev" }],
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
+      },
     ];
   },
   async redirects() {
     return [
+      // Un solo dominio para Google: www → sin www.
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.kozaeftraining.com" }],
+        destination: "https://kozaeftraining.com/:path*",
+        permanent: true,
+      },
       { source: "/", destination: "/es", permanent: false },
       // /solicitud pasó a /solicitar (brief biblioteca y embudo)
       { source: "/es/solicitud", destination: "/es/solicitar", permanent: true },

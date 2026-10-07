@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { ArrowUpRight } from '@phosphor-icons/react/dist/ssr';
 import type { Locale } from '@/i18n/config';
 import { LOCALES, SITE_URL } from '@/i18n/config';
+import { pagesCopy } from '@/content/pages';
+import { sectionPath } from '@/content/routes';
 import { getDictionary } from '@/i18n/dictionaries';
 import { CALC_UI, TOOL_CONTENT, TOOL_IDS, toolPath, type ToolId } from '@/content/tools';
 import { SiteHeader } from './site-header';
@@ -53,6 +55,15 @@ export async function ToolPage({ locale, id }: { locale: Locale; id: ToolId }) {
       '@context': 'https://schema.org',
       '@type': 'FAQPage',
       mainEntity: c.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { name: locale === 'es' ? 'Inicio' : 'Home', url: `/${locale}` },
+        { name: pagesCopy(locale).tools.h1, url: sectionPath('tools', locale) },
+        { name: c.h1, url: toolPath(id, locale) },
+      ].map((cr, i) => ({ '@type': 'ListItem', position: i + 1, name: cr.name, item: `${SITE_URL}${cr.url}` })),
     },
   ];
 

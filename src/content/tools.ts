@@ -171,6 +171,22 @@ export const TOOL_CONTENT: Record<Locale, Record<ToolId, ToolContent>> = {
           h: 'Reparto de macros',
           p: 'La proteína se fija según tu peso y objetivo (1,6 a 2,4 g/kg), la grasa en unos 0,8 g/kg para cuidar tus hormonas, y el resto de calorías van a carbohidratos, la gasolina de tus entrenos.',
         },
+        {
+          h: 'Qué es el gasto diario (TDEE)',
+          p: 'Tu gasto diario total suma cuatro partes: el metabolismo basal (lo que gastas en reposo, la parte más grande), la digestión de los alimentos (alrededor de un 10 %), el ejercicio y todo lo que te mueves fuera del entreno: andar, trabajar de pie o las tareas de casa. Esta última parte es la que más cambia de una persona a otra.',
+        },
+        {
+          h: 'Los niveles de actividad',
+          p: 'Sedentaria multiplica tu metabolismo basal por 1,2; ligera, por 1,375; moderada, por 1,55; alta, por 1,725, y muy alta, por 1,9. Son los factores que se usan junto a la ecuación de Mifflin-St Jeor. Si tu trabajo es de oficina pero entrenas, elige según tus entrenos semanales.',
+        },
+        {
+          h: 'A qué ritmo perder grasa',
+          p: 'Un ritmo razonable es perder entre un 0,5 y un 1 % de tu peso a la semana. Ir más rápido suele aumentar el hambre y la pérdida de músculo, y hace más difícil mantener el resultado. El déficit del 20 % de la calculadora encaja en ese rango para la mayoría de personas.',
+        },
+        {
+          h: 'Cómo ajustar con el tiempo',
+          p: 'Pésate varias veces por semana, en las mismas condiciones, y compara medias semanales en lugar de días sueltos: el peso diario sube y baja por el agua y la sal. Si en 2-3 semanas la media no va en la dirección que buscas, ajusta 100-200 kcal. Al perder peso tu gasto baja, así que vuelve a calcular cada 4-5 kg.',
+        },
       ],
       faq: [
         {
@@ -184,6 +200,26 @@ export const TOOL_CONTENT: Record<Locale, Record<ToolId, ToolContent>> = {
         {
           q: '¿Tengo que comer siempre lo mismo?',
           a: 'No. Lo que importa es la media semanal. Puedes comer algo más los días de entreno y menos los de descanso.',
+        },
+        {
+          q: '¿Cuántas calorías necesito para adelgazar?',
+          a: 'Depende de tu gasto diario. La calculadora estima tu mantenimiento y le resta un 20 %. Por ejemplo, si mantienes con 2.500 kcal, empezarías con unas 2.000 kcal y ajustarías según la evolución de tu peso.',
+        },
+        {
+          q: '¿Por qué no bajo de peso si como poco?',
+          a: 'Lo más habitual es que comamos más de lo que creemos: aceite, bebidas, picoteo y fines de semana suman mucho. También influyen la retención de líquidos y, en mujeres, el ciclo menstrual. Registra lo que comes durante una o dos semanas y compara medias semanales de peso.',
+        },
+        {
+          q: '¿Tengo que sumar las calorías que quemo entrenando?',
+          a: 'No. El entrenamiento ya está incluido en el nivel de actividad que eliges. Si las sumas aparte, las contarías dos veces.',
+        },
+        {
+          q: '¿Qué diferencia hay entre metabolismo basal y gasto diario?',
+          a: 'El metabolismo basal es lo que gastas en reposo absoluto. El gasto diario (TDEE) añade la digestión, el ejercicio y el movimiento del día. Para planificar lo que comes se usa el gasto diario.',
+        },
+        {
+          q: '¿Sirve igual para hombres y mujeres?',
+          a: 'Sí. La ecuación de Mifflin-St Jeor tiene una versión para cada sexo: por eso la calculadora te pregunta el tuyo.',
         },
       ],
       ctaTitle: '¿Haces todo bien y no cambias?',
@@ -215,10 +251,38 @@ export const TOOL_CONTENT: Record<Locale, Record<ToolId, ToolContent>> = {
           h: 'Por qué repartirla',
           p: 'Repartir la proteína en 3-5 comidas de 25-50 g ayuda a aprovecharla mejor que concentrarla en una sola comida.',
         },
+        {
+          h: 'Si tienes bastante peso que perder',
+          p: 'Con mucho sobrepeso, calcular con el peso total da cifras más altas de lo necesario. En ese caso es razonable usar tu peso objetivo aproximado: es más fácil de cumplir y sigue protegiendo tu masa muscular.',
+        },
+        {
+          h: 'Cómo llegar a tu cifra',
+          p: 'Como referencia aproximada: 100 g de pechuga de pollo o de pavo aportan unos 22-24 g de proteína; una lata de atún escurrida, unos 20 g; un huevo, unos 6 g; un yogur alto en proteínas o un skyr, entre 10 y 15 g, y un plato de legumbres cocidas, unos 12-18 g. Combinar varias fuentes al día lo hace mucho más fácil.',
+        },
+        {
+          h: 'Proteína y edad',
+          p: 'A partir de los 50-60 años el músculo responde peor a la misma cantidad de proteína, así que conviene apuntar a la parte alta del rango y asegurar comidas con una buena ración (unos 0,4 g por kilo en cada toma), siempre junto al entrenamiento de fuerza.',
+        },
       ],
       faq: [
         { q: '¿Es malo tomar tanta proteína?', a: 'En personas sanas, estas cantidades son seguras. Si tienes una enfermedad renal, consulta con tu médico.' },
         { q: '¿Necesito batidos?', a: 'No. Son cómodos, pero puedes llegar a tu cifra con carne, pescado, huevos, lácteos y legumbres.' },
+        {
+          q: '¿Cuenta la proteína vegetal?',
+          a: 'Sí. Legumbres, tofu, tempeh, seitán y frutos secos cuentan. Si tu dieta es vegetal, combina varias fuentes a lo largo del día y apunta a la parte alta de tu rango.',
+        },
+        {
+          q: '¿Es verdad que solo se aprovechan 30 g de proteína por comida?',
+          a: 'No. El cuerpo absorbe toda la proteína que comes. Lo que ocurre es que el efecto sobre el músculo de una sola comida no crece de forma ilimitada, por eso se recomienda repartirla en varias tomas.',
+        },
+        {
+          q: '¿Calculo con mi peso actual o con el que quiero tener?',
+          a: 'Si estás en un peso normal, usa tu peso actual. Si tienes bastante sobrepeso, usa tu peso objetivo aproximado.',
+        },
+        {
+          q: '¿Necesito más proteína si entreno mucho?',
+          a: 'Los rangos de la calculadora ya están pensados para personas que entrenan fuerza. Más allá de 2,2-2,4 g por kilo no hay beneficio claro para ganar músculo.',
+        },
       ],
       ctaTitle: '¿Llegas a tu proteína y sigues igual?',
       ctaBody: 'La proteína es una pieza. Si llevas meses estancado, revisamos juntos entrenamiento, descanso y comida.',
@@ -253,10 +317,34 @@ export const TOOL_CONTENT: Record<Locale, Record<ToolId, ToolContent>> = {
           h: 'Peso objetivo',
           p: 'Si indicas tu % de grasa objetivo, se calcula el peso que tendrías manteniendo tu masa magra actual. Es la cifra realista a la que apuntar.',
         },
+        {
+          h: 'Las fórmulas',
+          p: 'En hombres: % grasa = 495 / (1,0324 − 0,19077 × log10(cintura − cuello) + 0,15456 × log10(altura)) − 450. En mujeres: % grasa = 495 / (1,29579 − 0,35004 × log10(cintura + cadera − cuello) + 0,221 × log10(altura)) − 450. Todas las medidas en centímetros.',
+        },
+        {
+          h: 'Cada cuánto medirte',
+          p: 'Cada 2-4 semanas es suficiente. La grasa cambia despacio y medirte a diario solo te enseñará el ruido de las medidas. Anota siempre los centímetros, no solo el porcentaje: la cintura por sí sola ya dice mucho.',
+        },
+        {
+          h: 'Por qué no basta con el IMC',
+          p: 'El índice de masa corporal solo usa peso y altura, así que no distingue entre grasa y músculo. Una persona musculada puede salir con sobrepeso según el IMC y tener poca grasa. El porcentaje de grasa da una imagen más útil de tu composición corporal.',
+        },
       ],
       faq: [
         { q: '¿Es más fiable que una báscula de bioimpedancia?', a: 'Suele ser igual o más fiable que las básculas domésticas, que varían mucho con lo que bebes. Lo importante es medir siempre igual y mirar la tendencia.' },
         { q: '¿Qué porcentaje es saludable?', a: 'En hombres, entre un 10 y un 20 % es un buen rango; en mujeres, entre un 18 y un 28 %. Por debajo de lo esencial no es saludable.' },
+        {
+          q: '¿Por qué mi porcentaje cambia de una medición a otra?',
+          a: 'Un centímetro de diferencia al medir la cintura mueve el resultado más de un punto. Mide siempre en las mismas condiciones, repite cada medida dos veces y fíjate en la tendencia de varias semanas.',
+        },
+        {
+          q: '¿Funciona si soy muy musculoso o tengo mucho sobrepeso?',
+          a: 'En los extremos el error es mayor. Si tienes mucha masa muscular puede sobrestimar tu grasa, y con obesidad puede quedarse corto. Aun así, sirve para seguir tu evolución si mides siempre igual.',
+        },
+        {
+          q: '¿Qué es la grasa esencial?',
+          a: 'Es la grasa mínima que el cuerpo necesita para funcionar: alrededor de un 2-5 % en hombres y un 10-13 % en mujeres. Bajar a esos niveles no es saludable ni sostenible.',
+        },
       ],
       ctaTitle: '¿Quieres bajar grasa sin perder músculo?',
       ctaBody: 'Te ayudo a llegar a tu porcentaje objetivo con un plan de entrenamiento y nutrición hecho para ti.',

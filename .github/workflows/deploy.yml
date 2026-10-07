@@ -23,9 +23,16 @@ jobs:
       NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ vars.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
       NEXT_PUBLIC_SITE_URL: ${{ vars.NEXT_PUBLIC_SITE_URL }}
       NEXT_PUBLIC_TURNSTILE_SITE_KEY: ${{ vars.NEXT_PUBLIC_TURNSTILE_SITE_KEY }}
+      NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION: ${{ vars.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }}
       NEXT_PUBLIC_POSTHOG_KEY: ${{ vars.NEXT_PUBLIC_POSTHOG_KEY }}
       NEXT_PUBLIC_META_PIXEL_ID: ${{ vars.NEXT_PUBLIC_META_PIXEL_ID }}
       NEXT_PUBLIC_PLATFORM_OPEN: ${{ vars.NEXT_PUBLIC_PLATFORM_OPEN }}
+      NEXT_PUBLIC_AUTH_GOOGLE: ${{ vars.NEXT_PUBLIC_AUTH_GOOGLE }}
+      NEXT_PUBLIC_AUTH_PASSWORD: ${{ vars.NEXT_PUBLIC_AUTH_PASSWORD }}
+      NEXT_PUBLIC_ADS_ENABLED: ${{ vars.NEXT_PUBLIC_ADS_ENABLED }}
+      # Las NEXT_PUBLIC_* se incrustan al compilar: si faltan aquí, en producción quedan apagadas.
+      NEXT_PUBLIC_SENTRY_DSN: ${{ vars.NEXT_PUBLIC_SENTRY_DSN }}
+      NEXT_PUBLIC_CF_BEACON_TOKEN: ${{ vars.NEXT_PUBLIC_CF_BEACON_TOKEN }}
       CSP_ENFORCE: ${{ vars.CSP_ENFORCE }}
       # La clave de IndexNow es pública (se sirve en /indexnow.txt): hace falta al compilar.
       INDEXNOW_KEY: ${{ vars.INDEXNOW_KEY }}
@@ -35,6 +42,16 @@ jobs:
         with:
           node-version: 24
           cache: npm
+      - name: Comprobar variables imprescindibles
+        # Sin la URL real, canonical, sitemap y robots saldrían apuntando a localhost.
+        run: |
+          case "$NEXT_PUBLIC_SITE_URL" in
+            https://*) ;;
+            *) echo "::error::NEXT_PUBLIC_SITE_URL debe ser la URL pública https:// (ahora: '$NEXT_PUBLIC_SITE_URL')"; exit 1 ;;
+          esac
+          for v in NEXT_PUBLIC_SUPABASE_URL NEXT_PUBLIC_SUPABASE_ANON_KEY; do
+            [ -n "${!v}" ] || { echo "::error::Falta la variable $v"; exit 1; }
+          done
       - run: npm ci
       - run: npm run validate:content
       - name: Compilar y desplegar en Cloudflare
@@ -42,5 +59,9 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: npm run cf:deploy
+      - name: Revisión de seguridad de la web publicada
+        run: sleep 20 && node scripts/security-check-prod.mjs
+        env:
+          SITE_URL: ${{ vars.NEXT_PUBLIC_SITE_URL }}
       - name: Avisar a Bing (IndexNow)
         run: node scripts/indexnow.mjs

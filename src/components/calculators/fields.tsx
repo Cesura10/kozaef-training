@@ -68,6 +68,7 @@ export function NumberField({
   optional?: boolean;
 }) {
   const id = useId();
+  const outOfRange = value !== '' && (value < min || value > max);
   return (
     <div>
       <label htmlFor={id} className="text-xs text-muted">
@@ -75,6 +76,7 @@ export function NumberField({
       </label>
       <div className="relative mt-2">
         <input
+          aria-invalid={outOfRange || undefined}
           id={id}
           type="number"
           inputMode="decimal"
@@ -84,7 +86,7 @@ export function NumberField({
           required={!optional}
           value={value}
           onChange={(e) => onChange(e.target.value === '' ? '' : Number(e.target.value))}
-          className="h-12 w-full min-w-0 rounded-full border border-border-strong bg-bg pl-3 pr-10 text-[16px] tabular-nums text-fg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/40 sm:pl-5 sm:pr-14"
+          className="h-12 w-full min-w-0 rounded-full border border-border-strong bg-bg pl-3 pr-10 text-[16px] tabular-nums text-fg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/40 aria-invalid:border-danger sm:pl-5 sm:pr-14"
         />
         <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-xs text-faint sm:right-5 sm:text-sm">{unit}</span>
       </div>
@@ -130,5 +132,9 @@ export function SelectField<T extends string>({
   );
 }
 
-/** Convierte '' en el valor por defecto para calcular sin romper mientras se escribe. */
-export const num = (v: number | '', fallback: number) => (v === '' || Number.isNaN(v) ? fallback : v);
+/**
+ * Convierte '' en el valor por defecto para calcular sin romper mientras se escribe,
+ * y acota al rango del campo (una edad negativa no debe dar un resultado).
+ */
+export const num = (v: number | '', fallback: number, min = -Infinity, max = Infinity) =>
+  v === '' || Number.isNaN(v) ? fallback : Math.min(max, Math.max(min, v));

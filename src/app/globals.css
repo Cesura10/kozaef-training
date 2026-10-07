@@ -1,8 +1,7 @@
 @import "tailwindcss";
 
 /* =============================================================================
-   Identidad visual — base sobria y profesional, "dark first".
-   Grafito neutro + verde esmeralda como acento de energía + violeta secundario.
+   Identidad visual Kozaef: negro + un único acento dorado, "dark first".
    ========================================================================== */
 @theme {
   /* Kozaef Training: negro casi puro + un único acento dorado. */
@@ -50,12 +49,37 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* Titular cinético: cada palabra sube desde detrás de una máscara (CSS puro: visible sin JS). */
+@keyframes word-rise {
+  from { transform: translateY(105%); }
+  to { transform: translateY(0); }
+}
+
+/* Línea dorada que se dibuja de izquierda a derecha. */
+@keyframes draw-x {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+
+/* Brillo que recorre el texto dorado (una pasada lenta, no un bucle nervioso). */
+@keyframes foil {
+  0%, 60% { background-position: 200% 0; }
+  100% { background-position: -100% 0; }
+}
+
 @keyframes shimmer {
   100% { transform: translateX(100%); }
 }
 
 html {
   color-scheme: dark;
+}
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
 }
 
 body {
@@ -67,10 +91,11 @@ body {
 }
 
 /* Fondo con un halo de color muy sutil, coherente con la paleta. */
+/* Sin repetir: el fondo se mide sobre <html> (100% de alto) y, repetido, dejaba cortes horizontales. */
 .app-backdrop {
-  background:
-    radial-gradient(60rem 40rem at 85% -10%, rgba(214, 169, 69, 0.07), transparent 60%),
-    var(--color-bg);
+  background-color: var(--color-bg);
+  background-image: radial-gradient(60rem 40rem at 85% -10%, rgba(214, 169, 69, 0.07), transparent 60%);
+  background-repeat: no-repeat;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -80,6 +105,95 @@ body {
     animation-duration: 0.001ms !important;
     transition-duration: 0.001ms !important;
   }
+}
+
+/* Movimiento de marca ------------------------------------------------------ */
+.kinetic-word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+.kinetic-word > span {
+  display: inline-block;
+  animation: word-rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: calc(var(--i, 0) * 70ms + var(--d, 0ms));
+}
+
+.draw-line {
+  transform-origin: left;
+  animation: draw-x 1.1s cubic-bezier(0.65, 0, 0.35, 1) both;
+  animation-delay: var(--d, 300ms);
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee var(--dur, 38s) linear infinite;
+}
+.marquee:hover .marquee-track { animation-play-state: paused; }
+
+.foil-text {
+  background: linear-gradient(100deg, var(--color-primary) 0%, var(--color-primary) 40%, #fff3cf 50%, var(--color-primary) 60%, var(--color-primary) 100%);
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: foil 7s ease-in-out infinite;
+}
+
+/* Foco de luz que sigue al cursor (las variables las mueve <Spotlight>). */
+.spotlight {
+  position: relative;
+  isolation: isolate;
+}
+.spotlight::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  border-radius: inherit;
+  padding: 1px;
+  background: radial-gradient(22rem circle at var(--mx, 50%) var(--my, -20%), rgba(240, 212, 138, 0.55), transparent 45%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+.spotlight::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: radial-gradient(28rem circle at var(--mx, 50%) var(--my, -20%), rgba(214, 169, 69, 0.08), transparent 50%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+.spotlight:hover::before,
+.spotlight:hover::after { opacity: 1; }
+
+/* Texto hueco que se rellena al pasar el cursor (números de índice). */
+.outline-num {
+  color: transparent;
+  -webkit-text-stroke: 1px var(--color-border-strong);
+  transition: color 0.5s cubic-bezier(0.16, 1, 0.3, 1), -webkit-text-stroke-color 0.5s;
+}
+.group:hover .outline-num,
+.group:focus-visible .outline-num {
+  color: var(--color-primary);
+  -webkit-text-stroke-color: var(--color-primary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kinetic-word > span,
+  .draw-line { animation: none; transform: none; }
+  .marquee-track { animation: none; }
+  .foil-text { animation: none; }
 }
 
 /* Utilidades pequeñas ------------------------------------------------------- */

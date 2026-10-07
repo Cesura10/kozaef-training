@@ -20,7 +20,7 @@ export function CaloriesCalculator({ ui }: { ui: CalcUi }) {
   const [goal, setGoal] = useState<ProteinGoal>('gain');
   const markUsed = useToolTracking('calories');
 
-  const input = { sex, age: num(age, 30), heightCm: num(height, 175), weightKg: num(weight, 75), activity, goal };
+  const input = { sex, age: num(age, 30, 14, 90), heightCm: num(height, 175, 120, 230), weightKg: num(weight, 75, 35, 250), activity, goal };
   const r = calculateCalories(input);
 
   // Se marca como usada al primer cambio; el resultado se guarda tras recalcular.

@@ -21,6 +21,10 @@ export async function generateMetadata({ params }: LayoutProps<'/[locale]'>): Pr
   const t = await getDictionary(locale);
   return {
     metadataBase: new URL(SITE_URL),
+    // Verificación de Google Search Console (etiqueta HTML); sin la variable no se añade nada.
+    ...(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+      ? { verification: { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION } }
+      : {}),
     title: { default: t.meta.title, template: '%s | Kozaef Training' },
     description: t.meta.description,
     applicationName: 'Kozaef Training',

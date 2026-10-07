@@ -64,6 +64,8 @@ export function BuyButton({
           mantiene enfocable y responde al teclado para mostrar el aviso. */}
       <a
         href={accepted ? href : undefined}
+        // Sin href un <a> pierde el rol de enlace: se lo devolvemos para los lectores de pantalla.
+        role={accepted ? undefined : 'link'}
         aria-disabled={!accepted}
         tabIndex={accepted ? undefined : 0}
         onKeyDown={(e) => {

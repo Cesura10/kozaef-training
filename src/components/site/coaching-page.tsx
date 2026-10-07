@@ -7,6 +7,10 @@ import { sectionPath } from '@/content/routes';
 import { PRODUCTS } from '@/content/products';
 import { ButtonLink } from '@/components/ui/button';
 import { JsonLd, PageShell, sectionMetadata } from './page-shell';
+import { PageHero } from './page-hero';
+import { Reveal } from '@/components/marketing/reveal';
+import { Spotlight } from '@/components/motion/spotlight';
+import { DrawLine } from '@/components/motion/draw-line';
 
 export const coachingMetadata = (locale: Locale) => {
   const c = pagesCopy(locale).coaching;
@@ -19,32 +23,14 @@ export async function CoachingPage({ locale }: { locale: Locale }) {
   const technique = PRODUCTS.find((p) => p.id === 'revision-tecnica' && p.publicado);
   return (
     <PageShell locale={locale}>
-      <section className="mx-auto w-full max-w-7xl px-4 pb-16 pt-12 sm:px-6 md:pt-16">
-        <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_24rem] lg:items-start">
-          <div>
-            <h1 className="display animate-rise text-4xl font-bold leading-[1.02] md:text-6xl">{c.h1}</h1>
-            <p className="mt-5 max-w-[55ch] text-lg leading-relaxed text-muted">{c.intro}</p>
-            <ul className="mt-8 space-y-4">
-              {t.coaching.items.map((item) => (
-                <li key={item} className="flex items-start gap-3 text-lg text-fg/90">
-                  <Check size={22} weight="bold" className="mt-0.5 shrink-0 text-primary" aria-hidden />
-                  {item}
-                </li>
-              ))}
-            </ul>
-            <ButtonLink
-              href={sectionPath('apply', locale)}
-              className="mt-10 h-12 px-7"
-              data-track="cta_click"
-              data-cta="apply"
-              data-location="coaching-page"
-            >
-              {t.nav.apply}
-              <ArrowRight size={16} weight="bold" />
-            </ButtonLink>
-          </div>
-          {technique && (
-            <aside className="gold-sheen rounded-[var(--radius-xl)] border border-primary/30 p-6">
+      <PageHero
+        index="04"
+        label={t.coaching.eyebrow}
+        title={[c.h1]}
+        intro={c.intro}
+        aside={
+          technique && (
+            <Spotlight className="gold-sheen w-full max-w-sm rounded-[var(--radius-xl)] border border-primary/30 p-7">
               <h2 className="display text-xl font-bold">{c.techniqueTitle}</h2>
               <p className="mt-2 text-sm leading-relaxed text-muted">{c.techniqueBody}</p>
               <Link
@@ -52,45 +38,68 @@ export async function CoachingPage({ locale }: { locale: Locale }) {
                 data-track="cta_click"
                 data-cta="technique"
                 data-location="coaching-page"
-                className="mt-4 inline-flex text-sm font-medium text-primary hover:underline"
+                className="group mt-5 inline-flex items-center gap-2 text-sm font-medium text-primary"
               >
                 {c.techniqueCta}
+                <ArrowRight size={14} weight="bold" className="transition-transform group-hover:translate-x-1" />
               </Link>
-            </aside>
-          )}
-        </div>
-      </section>
+            </Spotlight>
+          )
+        }
+      >
+        <ul className="space-y-4">
+          {t.coaching.items.map((item) => (
+            <li key={item} className="flex items-start gap-3 text-lg text-fg/90">
+              <Check size={22} weight="bold" className="mt-0.5 shrink-0 text-primary" aria-hidden />
+              {item}
+            </li>
+          ))}
+        </ul>
+        <ButtonLink
+          href={sectionPath('apply', locale)}
+          className="group mt-10 h-12 px-7"
+          data-track="cta_click"
+          data-cta="apply"
+          data-location="coaching-page"
+        >
+          {t.nav.apply}
+          <ArrowRight size={16} weight="bold" className="transition-transform duration-300 group-hover:translate-x-1" />
+        </ButtonLink>
+      </PageHero>
 
-      <section className="border-t border-border/60 py-16">
+      <section className="border-t border-border/60 py-24 md:py-32">
         <div className="mx-auto w-full max-w-7xl px-4 sm:px-6">
-          <h2 className="display text-3xl font-bold md:text-4xl">{c.howTitle}</h2>
-          <ol className="mt-10 grid gap-6 md:grid-cols-3">
-            {c.how.map((s) => (
-              <li key={s.h} className="border-t border-primary/40 pt-5">
-                <h3 className="text-xl font-semibold text-fg">{s.h}</h3>
-                <p className="mt-2 leading-relaxed text-muted">{s.p}</p>
+          <Reveal>
+            <h2 className="display max-w-[16ch] text-4xl font-bold leading-[1.02] md:text-6xl">{c.howTitle}</h2>
+          </Reveal>
+          <ol className="mt-14 grid gap-10 md:grid-cols-3 md:gap-8">
+            {c.how.map((s, i) => (
+              <li key={s.h}>
+                <Reveal delay={i * 0.12}>
+                  <span className="display text-6xl font-bold leading-none text-primary/90">{String(i + 1).padStart(2, '0')}</span>
+                  <DrawLine className="mt-6 h-px w-full bg-gradient-to-r from-primary to-primary/0" delay={0.3 + i * 0.2} />
+                  <h3 className="mt-6 text-xl font-semibold text-fg">{s.h}</h3>
+                  <p className="mt-3 leading-relaxed text-muted">{s.p}</p>
+                </Reveal>
               </li>
             ))}
           </ol>
         </div>
       </section>
 
-      <section className="border-t border-border/60 py-16">
-        <div className="mx-auto w-full max-w-3xl px-4 sm:px-6">
-          <h2 className="display text-3xl font-bold">{c.faqTitle}</h2>
-          <div className="mt-6 divide-y divide-border rounded-[var(--radius-xl)] border border-border">
-            {c.faq.map((f) => (
-              <details key={f.q} className="group px-5 py-4">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-medium text-fg">
-                  {f.q}
-                  <span className="text-primary transition-transform group-open:rotate-45" aria-hidden>
-                    +
-                  </span>
-                </summary>
-                <p className="mt-3 leading-relaxed text-muted">{f.a}</p>
-              </details>
+      <section className="border-t border-border/60 py-24 md:py-32">
+        <div className="mx-auto grid w-full max-w-7xl gap-12 px-4 sm:px-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]">
+          <Reveal>
+            <h2 className="display text-4xl font-bold leading-[1.02] md:text-5xl lg:sticky lg:top-28">{c.faqTitle}</h2>
+          </Reveal>
+          <dl className="grid gap-x-10 gap-y-12 sm:grid-cols-2">
+            {c.faq.map((f, i) => (
+              <Reveal key={f.q} delay={(i % 2) * 0.08}>
+                <dt className="border-t border-primary/40 pt-5 text-lg font-semibold text-fg">{f.q}</dt>
+                <dd className="mt-3 leading-relaxed text-muted">{f.a}</dd>
+              </Reveal>
             ))}
-          </div>
+          </dl>
         </div>
       </section>
       <JsonLd

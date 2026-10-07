@@ -10,7 +10,6 @@ import { LearnSearch } from '@/components/funnel/learn-search';
 import { AdSlot } from '@/components/funnel/ad-slot';
 import { BloqueProducto } from '@/components/funnel/bloque-producto';
 import { CtaCoaching } from '@/components/funnel/cta-coaching';
-import { ListaEspera } from '@/components/funnel/lista-espera';
 import { PageShell } from './page-shell';
 
 /* ----------------------------- /aprende ----------------------------- */
@@ -42,7 +41,8 @@ export async function LearnIndexPage({ locale }: { locale: Locale }) {
 
         <div className="mt-12">
           {entries.length === 0 ? (
-            <ListaEspera locale={locale} productName={undefined} />
+            // El formulario de aviso ya lo pinta el AdSlot de abajo: aquí solo el mensaje.
+            <p className="rounded-2xl border border-dashed border-border p-8 text-center text-sm text-faint">{c.empty}</p>
           ) : (
             <LearnSearch
               entries={entries}
@@ -99,8 +99,11 @@ const topicInfo = (locale: Locale, t: Topic) =>
 export function topicMetadata(locale: Locale, t: Topic): Metadata {
   const { entry, list, path } = topicInfo(locale, t);
   return {
-    title: entry.label[locale],
-    description: entry.intro[locale],
+    title: locale === 'es' ? `${entry.label[locale]}: guías y artículos` : `${entry.label[locale]}: guides and articles`,
+    description:
+      locale === 'es'
+        ? `${entry.intro[locale]} Artículos claros basados en la evidencia y calculadoras gratis para aplicarlo.`
+        : `${entry.intro[locale]} Clear, evidence-based articles and free calculators to apply it.`,
     alternates: { canonical: path(locale), languages: Object.fromEntries(LOCALES.map((l) => [l, path(l)])) },
     // Página real e indexable, pero solo cuando tenga artículos (evita páginas vacías en Google).
     ...(list.length === 0 ? { robots: { index: false, follow: true } } : {}),

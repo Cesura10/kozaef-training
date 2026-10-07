@@ -7,6 +7,7 @@ import { PLATFORM_OPEN } from '@/lib/platform';
 import { sectionPath } from '@/content/routes';
 import { mainNav } from './nav-items';
 import { MobileMenu } from './mobile-menu';
+import { SiteNavLink } from './site-nav-link';
 import { DIAGNOSIS_APPROVED } from '@/content/diagnosis';
 
 export function SiteHeader({ locale, t }: { locale: string; t: Dictionary }) {
@@ -25,9 +26,9 @@ export function SiteHeader({ locale, t }: { locale: string; t: Dictionary }) {
         </Link>
         <nav className="hidden items-center gap-7 lg:flex" aria-label={t.nav.main}>
           {nav.map((n) => (
-            <Link key={n.href} href={n.href} className="text-sm text-muted transition-colors hover:text-fg">
+            <SiteNavLink key={n.href} href={n.href}>
               {n.label}
-            </Link>
+            </SiteNavLink>
           ))}
         </nav>
         <div className="flex items-center gap-1">

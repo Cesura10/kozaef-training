@@ -7,13 +7,24 @@
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   "assets": {
     "directory": ".open-next/assets",
-    "binding": "ASSETS"
+    "binding": "ASSETS",
+    // Sin quitar ".html" ni redirigir: el archivo de verificación de Google debe servirse tal cual.
+    "html_handling": "none"
   },
   "services": [
     {
       "binding": "WORKER_SELF_REFERENCE",
       "service": "kozaef-training"
     }
+  ],
+  // Dirección provisional *.workers.dev (sin indexar) y vistas previas de las propuestas del bot.
+  "workers_dev": true,
+  "preview_urls": true,
+  // Dominio propio: ruta sobre la zona de Cloudflare (funciona con los registros proxied que ya hay;
+  // www necesita su propio registro proxied y redirige al dominio sin www).
+  "routes": [
+    { "pattern": "kozaeftraining.com/*", "zone_name": "kozaeftraining.com" },
+    { "pattern": "www.kozaeftraining.com/*", "zone_name": "kozaeftraining.com" }
   ],
   "observability": { "enabled": true }
 }
