@@ -216,6 +216,17 @@ export async function InfoproductPage({ locale, product: p }: { locale: Locale; 
         <CtaCoaching locale={locale} location="infoproduct-stuck" title={c.stuckTitle} body={c.stuckBody} />
       </section>
 
+      <JsonLd
+        data={{
+          '@context': 'https://schema.org',
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { name: locale === 'es' ? 'Inicio' : 'Home', url: `/${locale}` },
+            { name: pagesCopy(locale).programs.h1, url: sectionPath('programs', locale) },
+            { name: p.nombre[locale], url: sectionPath('programs', locale, p.slug[locale]) },
+          ].map((cr, i) => ({ '@type': 'ListItem', position: i + 1, name: cr.name, item: `${SITE_URL}${cr.url}` })),
+        }}
+      />
       {p.precio !== null && (
         <JsonLd
           data={{

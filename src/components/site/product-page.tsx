@@ -164,6 +164,17 @@ export async function ProductPage({ locale, product: p }: { locale: Locale; prod
       <section className="mx-auto w-full max-w-7xl px-4 pb-16 sm:px-6">
         <CtaCoaching locale={locale} location="product" />
       </section>
+      <JsonLd
+        data={{
+          '@context': 'https://schema.org',
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { name: locale === 'es' ? 'Inicio' : 'Home', url: `/${locale}` },
+            { name: c.programs.h1, url: sectionPath('programs', locale) },
+            { name: p.nombre[locale], url: sectionPath('programs', locale, p.slug[locale]) },
+          ].map((cr, i) => ({ '@type': 'ListItem', position: i + 1, name: cr.name, item: `${SITE_URL}${cr.url}` })),
+        }}
+      />
       {p.precio !== null && (
         <JsonLd
           data={{

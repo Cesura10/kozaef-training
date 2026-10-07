@@ -99,8 +99,11 @@ const topicInfo = (locale: Locale, t: Topic) =>
 export function topicMetadata(locale: Locale, t: Topic): Metadata {
   const { entry, list, path } = topicInfo(locale, t);
   return {
-    title: entry.label[locale],
-    description: entry.intro[locale],
+    title: locale === 'es' ? `${entry.label[locale]}: guías y artículos` : `${entry.label[locale]}: guides and articles`,
+    description:
+      locale === 'es'
+        ? `${entry.intro[locale]} Artículos claros basados en la evidencia y calculadoras gratis para aplicarlo.`
+        : `${entry.intro[locale]} Clear, evidence-based articles and free calculators to apply it.`,
     alternates: { canonical: path(locale), languages: Object.fromEntries(LOCALES.map((l) => [l, path(l)])) },
     // Página real e indexable, pero solo cuando tenga artículos (evita páginas vacías en Google).
     ...(list.length === 0 ? { robots: { index: false, follow: true } } : {}),

@@ -27,6 +27,9 @@ import { SiteHeader } from '@/components/site/site-header';
 import { SiteFooter } from '@/components/site/site-footer';
 import { getDictionary } from '@/i18n/dictionaries';
 import { notFound } from 'next/navigation';
+import { JsonLd } from '@/components/site/page-shell';
+import { SITE_URL } from '@/i18n/config';
+import { AUTHOR } from '@/content/author';
 
 // Página estática por idioma: todos los textos salen de src/i18n/dictionaries.
 export default async function HomePage({ params }: PageProps<'/[locale]'>) {
@@ -262,6 +265,29 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
       </main>
 
       <SiteFooter locale={locale} t={t} />
+      {/* Quién es la marca y qué es la web: ayuda a Google a mostrar el nombre y el logo. */}
+      <JsonLd
+        data={[
+          {
+            '@context': 'https://schema.org',
+            '@type': 'Organization',
+            '@id': `${SITE_URL}/#organization`,
+            name: 'Kozaef Training',
+            url: SITE_URL,
+            logo: `${SITE_URL}/icon.svg`,
+            ...(AUTHOR.social.instagram ? { sameAs: [AUTHOR.social.instagram] } : {}),
+          },
+          {
+            '@context': 'https://schema.org',
+            '@type': 'WebSite',
+            '@id': `${SITE_URL}/#website`,
+            name: 'Kozaef Training',
+            url: SITE_URL,
+            inLanguage: locale,
+            publisher: { '@id': `${SITE_URL}/#organization` },
+          },
+        ]}
+      />
     </div>
   );
 }
