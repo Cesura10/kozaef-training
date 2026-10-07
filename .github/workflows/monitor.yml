@@ -56,7 +56,7 @@ jobs:
           USAGE_CHECK_KEY: ${{ secrets.USAGE_CHECK_KEY }}
       - name: Avisar o cerrar avisos
         if: ${{ always() }}
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         env:
           TESTS: ${{ steps.tests.outcome }}
           SECURITY: ${{ steps.security.outcome }}
