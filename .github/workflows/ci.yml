@@ -42,3 +42,13 @@ jobs:
           NEXT_PUBLIC_SUPABASE_URL: https://example.supabase.co
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ci-placeholder
           NEXT_PUBLIC_SITE_URL: https://example.com
+          # Señuelos: si alguno aparece en el código del navegador, una clave secreta se ha filtrado.
+          SUPABASE_SERVICE_ROLE_KEY: KZ_SENUELO_SUPABASE_SERVICE_ROLE_KEY
+          TURNSTILE_SECRET_KEY: KZ_SENUELO_TURNSTILE_SECRET_KEY
+          POSTHOG_PERSONAL_API_KEY: KZ_SENUELO_POSTHOG_PERSONAL_API_KEY
+          USAGE_CHECK_KEY: KZ_SENUELO_USAGE_CHECK_KEY
+          GITHUB_READ_TOKEN: KZ_SENUELO_GITHUB_READ_TOKEN
+          SENTRY_AUTH_TOKEN: KZ_SENUELO_SENTRY_AUTH_TOKEN
+          CF_ANALYTICS_TOKEN: KZ_SENUELO_CF_ANALYTICS_TOKEN
+      - name: Revisión de seguridad del código público (secretos filtrados al navegador)
+        run: node scripts/security-scan-build.mjs

@@ -34,6 +34,15 @@ jobs:
         run: npx playwright test
         env:
           BASE_URL: ${{ vars.SITE_URL }}
+      - name: Seguridad en producción (archivos privados, cabeceras y base de datos)
+        id: security
+        if: ${{ always() }}
+        run: node scripts/security-check-prod.mjs 2>&1 | tee security.txt; exit ${PIPESTATUS[0]}
+        shell: bash
+        env:
+          SITE_URL: ${{ vars.SITE_URL }}
+          NEXT_PUBLIC_SUPABASE_URL: ${{ vars.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ vars.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
       - name: Uso de planes gratis (una vez al día, 08:00 UTC)
         id: usage
         if: ${{ always() }}
@@ -50,6 +59,7 @@ jobs:
         uses: actions/github-script@v7
         env:
           TESTS: ${{ steps.tests.outcome }}
+          SECURITY: ${{ steps.security.outcome }}
           USAGE: ${{ steps.usage.outputs.level }}
           SITE: ${{ vars.SITE_URL }}
         with:
@@ -81,6 +91,14 @@ jobs:
               await raise('🔴 Fallo en la web', `El bot de vigilancia ha detectado un fallo en ${process.env.SITE}.\n\n${failed.join('\n') || '(ver detalle)'}\n\nDetalle y capturas: ${run}`);
             } else if (process.env.TESTS === 'success') {
               await resolve('🔴 Fallo en la web', `✅ La web vuelve a funcionar (${new Date().toISOString()}).`);
+            }
+            // Seguridad en producción
+            if (process.env.SECURITY === 'failure') {
+              let detail = '';
+              try { detail = fs.readFileSync('security.txt', 'utf8'); } catch {}
+              await raise('🛡️ Problema de seguridad en la web', `La revisión automática ha encontrado un problema de seguridad en ${process.env.SITE}.\n\n\`\`\`\n${detail.trim()}\n\`\`\`\n\nDetalle: ${run}`);
+            } else if (process.env.SECURITY === 'success') {
+              await resolve('🛡️ Problema de seguridad en la web', `✅ La revisión de seguridad vuelve a estar correcta (${new Date().toISOString()}).`);
             }
             // Uso de planes gratis
             const u = process.env.USAGE;
