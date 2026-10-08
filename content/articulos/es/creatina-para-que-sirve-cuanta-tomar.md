@@ -27,6 +27,7 @@ faq:
     respuesta: "Creatina monohidrato. Es la forma más estudiada y ninguna otra ha demostrado ser mejor, aunque cueste más."
   - pregunta: "¿Tengo que tomarla los días que no entreno?"
     respuesta: "Sí. Lo que importa es mantener llenos los depósitos del músculo, y eso se consigue tomándola todos los días."
+recomendaciones: [creatina]
 borrador: false
 ---
 

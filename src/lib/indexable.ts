@@ -35,6 +35,7 @@ export function indexablePages(): IndexablePage[] {
     out.push({ path: sectionPath('coaching', l), alternates: each((x) => sectionPath('coaching', x)), priority: 0.8, group: 'coaching' });
     out.push({ path: sectionPath('apply', l), alternates: each((x) => sectionPath('apply', x)), priority: 0.7, group: 'coaching' });
     out.push({ path: sectionPath('programs', l), alternates: each((x) => sectionPath('programs', x)), priority: 0.8, group: 'programs' });
+    out.push({ path: sectionPath('recommendations', l), alternates: each((x) => sectionPath('recommendations', x)), priority: 0.6, group: 'programs' });
     for (const p of visibleProducts())
       out.push({ path: sectionPath('programs', l, p.slug[l]), alternates: each((x) => sectionPath('programs', x, p.slug[x])), priority: 0.8, group: 'programs', title: p.nombre[l] });
     if (AUTHOR.name && AUTHOR.qualification)

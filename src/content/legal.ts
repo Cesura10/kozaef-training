@@ -36,6 +36,12 @@ const es: Record<LegalSlug, LegalDoc> = {
         ],
       },
       {
+        h: 'Enlaces de afiliado',
+        p: [
+          'Algunas recomendaciones de productos (por ejemplo, de la tienda Prozis) pueden contener enlaces o códigos de afiliado: si compras a través de ellos, el titular puede recibir una comisión sin coste adicional para ti. Están señaladas en cada recomendación y no influyen en el contenido informativo de los artículos.',
+        ],
+      },
+      {
         h: 'Propiedad intelectual',
         p: [
           `Los textos, diseños, logotipos, vídeos y el código de esta web pertenecen a ${holder} o se usan con licencia. No se permite su reproducción sin autorización expresa.`,
@@ -108,6 +114,7 @@ const es: Record<LegalSlug, LegalDoc> = {
           'kz_attribution (almacenamiento local, propio): recuerda por qué canal llegaste la primera vez (por ejemplo, TikTok) para saber qué contenido funciona. No contiene datos personales.',
           'kz_last_tool (almacenamiento local, propio): guarda el último resultado de una calculadora para adjuntarlo si decides suscribirte. Solo números.',
           'Cloudflare Turnstile y Cloudflare Web Analytics pueden usar datos técnicos necesarios para proteger la web de bots y medir visitas de forma agregada, sin cookies de seguimiento.',
+          'Enlaces de afiliado: esta web no instala cookies de afiliación. Si pulsas un enlace a una tienda (por ejemplo, Prozis), es esa tienda la que puede usar sus propias cookies en su web para atribuir la compra, según su política de cookies.',
         ],
       },
       {
@@ -133,6 +140,10 @@ const en: Record<LegalSlug, LegalDoc> = {
         p: [
           'Content and calculator results are general information. They do not replace advice from a health professional. Talk to your doctor before starting an exercise programme or changing your diet.',
         ],
+      },
+      {
+        h: 'Affiliate links',
+        p: ['Some product recommendations (for example, from the Prozis store) may contain affiliate links or codes: if you buy through them, the owner may earn a commission at no extra cost to you. They are marked on each recommendation and do not influence the informational content.'],
       },
       { h: 'Intellectual property', p: [`Texts, designs, logos, videos and code belong to ${holder} or are used under licence.`] },
       { h: 'Governing law', p: ['This website is governed by Spanish law.'] },
@@ -182,6 +193,7 @@ const en: Record<LegalSlug, LegalDoc> = {
         p: [
           'kz_attribution (local storage): remembers which channel you first came from. No personal data.',
           'kz_last_tool (local storage): keeps your last calculator result to attach it if you subscribe. Numbers only.',
+          'Affiliate links: this website sets no affiliate cookies. If you click a link to a store (for example, Prozis), that store may use its own cookies on its website to attribute the purchase.',
         ],
       },
       { h: 'How to delete it', p: ['You can clear local storage and cookies from your browser settings at any time.'] },

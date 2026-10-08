@@ -11,6 +11,8 @@ export type AnalyticsEvents = {
   /** Clic en "Comprar" de un infoproducto: base para decidir precios. */
   buy_click: { product: string; price: number | null; currency: string };
   product_view: { product: string; price: number | null };
+  /** Clic hacia la tienda de un afiliado (Prozis): producto y dónde estaba el recuadro. */
+  affiliate_click: { product: string; location: string };
   diagnosis_completed: { profile: string; category: string };
   technique_request: { status: 'ok' | 'error' };
   newsletter_submit: { status: 'ok' | 'invalid' | 'error' };

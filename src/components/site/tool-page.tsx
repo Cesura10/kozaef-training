@@ -4,6 +4,7 @@ import { ArrowUpRight } from '@phosphor-icons/react/dist/ssr';
 import type { Locale } from '@/i18n/config';
 import { LOCALES, SITE_URL } from '@/i18n/config';
 import { pagesCopy } from '@/content/pages';
+import { RecomendacionAfiliado } from '@/components/funnel/recomendacion-afiliado';
 import { sectionPath } from '@/content/routes';
 import { getDictionary } from '@/i18n/dictionaries';
 import { CALC_UI, TOOL_CONTENT, TOOL_IDS, toolPath, type ToolId } from '@/content/tools';
@@ -143,6 +144,8 @@ export async function ToolPage({ locale, id }: { locale: Locale; id: ToolId }) {
                   </table>
                 </div>
               </article>
+
+              {id === 'protein' && <RecomendacionAfiliado locale={locale} id="proteina" location="tool-protein" />}
 
               <div>
                 <h2 className="text-2xl font-semibold text-fg">{locale === 'es' ? 'Preguntas frecuentes' : 'FAQ'}</h2>

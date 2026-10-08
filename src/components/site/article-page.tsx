@@ -13,6 +13,7 @@ import { BloqueProducto } from '@/components/funnel/bloque-producto';
 import { CtaCoaching } from '@/components/funnel/cta-coaching';
 import { CajaAutor } from '@/components/funnel/caja-autor';
 import { BloqueMetodo } from '@/components/funnel/bloque-metodo';
+import { RecomendacionAfiliado } from '@/components/funnel/recomendacion-afiliado';
 import { JsonLd, PageShell } from './page-shell';
 
 const fmtDate = (d: string, locale: Locale) =>
@@ -108,6 +109,9 @@ export async function ArticlePage({ article: a }: { article: Article }) {
         <div className="prose-kz mt-4" dangerouslySetInnerHTML={{ __html: a.html[0] }} />
         {a.herramientaRelacionada && <CtaHerramienta locale={locale} tool={a.herramientaRelacionada} location="article" />}
         {a.html[1] && <div className="prose-kz" dangerouslySetInnerHTML={{ __html: a.html[1] }} />}
+        {a.recomendaciones.map((id) => (
+          <RecomendacionAfiliado key={id} locale={locale} id={id} location="article" />
+        ))}
 
         <BloqueMetodo locale={locale} location="article-method" />
 

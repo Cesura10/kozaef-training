@@ -18,7 +18,7 @@ export const LEGAL_OWNER: {
   // Buzón del dominio reenviado al correo de Manu (Cloudflare Email Routing, gratis).
   email: 'contacto@kozaeftraining.com',
   brand: 'Kozaef Training',
-  updated: '2026-10-06',
+  updated: '2026-10-08',
 };
 
 export const LEGAL_SLUGS = ['aviso-legal', 'privacidad', 'cookies'] as const;
