@@ -7,7 +7,7 @@ import { sectionPath } from './routes';
  */
 export const applyPath = (locale: Locale) => sectionPath('apply', locale);
 
-export const QUESTION_KEYS = ['goal', 'experience', 'stuck', 'days', 'budget', 'start'] as const;
+export const QUESTION_KEYS = ['goal', 'experience', 'stuck', 'days'] as const;
 export type QuestionKey = (typeof QUESTION_KEYS)[number];
 
 export const ANSWERS: Record<QuestionKey, readonly string[]> = {
@@ -15,8 +15,6 @@ export const ANSWERS: Record<QuestionKey, readonly string[]> = {
   experience: ['none', 'under1', '1to3', 'over3'],
   stuck: ['starting', 'under3m', '3to12m', 'over1y'],
   days: ['1to2', '3to4', '5plus'],
-  budget: ['under50', '50to100', '100to200', 'over200'],
-  start: ['now', 'month', 'looking'],
 };
 
 type Copy = {
@@ -41,7 +39,8 @@ type Copy = {
     qualified: { title: string; body: string; cta: string; noCalendar: string };
     waitlist: { title: string; body: string };
     low: { title: string; body: string; cta: string };
-    lowBudget: { title: string; body: string; cta: string };
+    /** Sugerencia de programas autoguiados para quien no pasa a videollamada. */
+    selfGuided: { title: string; body: string; cta: string };
   };
 };
 
@@ -67,14 +66,6 @@ export const APPLY_COPY: Record<Locale, Copy> = {
       days: {
         label: '¿Cuántos días a la semana puedes entrenar?',
         options: { '1to2': '1-2 días', '3to4': '3-4 días', '5plus': '5 o más' },
-      },
-      budget: {
-        label: '¿Cuánto puedes invertir al mes en tu entrenamiento?',
-        options: { under50: 'Menos de 50 €', '50to100': '50-100 €', '100to200': '100-200 €', over200: 'Más de 200 €' },
-      },
-      start: {
-        label: '¿Cuándo quieres empezar?',
-        options: { now: 'Ya', month: 'En el próximo mes', looking: 'Solo estoy mirando' },
       },
     },
     tried: '¿Qué has probado hasta ahora y qué no ha funcionado? (opcional)',
@@ -105,7 +96,7 @@ export const APPLY_COPY: Record<Locale, Copy> = {
         body: 'Ahora mismo te va a ayudar más empezar por lo básico. Usa las herramientas gratis y apúntate a la lista: cada semana mando lo que funciona.',
         cta: 'Ver herramientas gratis',
       },
-      lowBudget: {
+      selfGuided: {
         title: 'Empieza por tu cuenta con un programa guiado',
         body: 'Programas y guías para entrenar con un método claro, por mucho menos que un coaching personal.',
         cta: 'Ver programas',
@@ -133,14 +124,6 @@ export const APPLY_COPY: Record<Locale, Copy> = {
       days: {
         label: 'How many days a week can you train?',
         options: { '1to2': '1-2 days', '3to4': '3-4 days', '5plus': '5 or more' },
-      },
-      budget: {
-        label: 'How much can you invest per month?',
-        options: { under50: 'Under €50', '50to100': '€50-100', '100to200': '€100-200', over200: 'Over €200' },
-      },
-      start: {
-        label: 'When do you want to start?',
-        options: { now: 'Right away', month: 'Within a month', looking: 'Just looking' },
       },
     },
     tried: 'What have you tried so far and what did not work? (optional)',
@@ -171,7 +154,7 @@ export const APPLY_COPY: Record<Locale, Copy> = {
         body: 'Right now the basics will help you most. Use the free tools and join the list: every week I send what works.',
         cta: 'See the free tools',
       },
-      lowBudget: {
+      selfGuided: {
         title: 'Start on your own with a guided programme',
         body: 'Programmes and guides to train with a clear method, for much less than 1:1 coaching.',
         cta: 'See programmes',
