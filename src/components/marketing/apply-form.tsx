@@ -80,7 +80,7 @@ export function ApplyForm({ copy, locale }: { copy: Copy; locale: Locale }) {
       {QUESTION_KEYS.map((k) => (
         <fieldset key={k}>
           <legend className="text-base font-medium text-fg">{copy.questions[k].label}</legend>
-          <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
+          <div className={`mt-3 grid gap-2 ${ANSWERS[k].length > 4 ? 'grid-cols-5 sm:grid-cols-10' : 'grid-cols-2 sm:grid-cols-4'}`}>
             {ANSWERS[k].map((v) => (
               <label
                 key={v}
@@ -91,6 +91,12 @@ export function ApplyForm({ copy, locale }: { copy: Copy; locale: Locale }) {
               </label>
             ))}
           </div>
+          {copy.questions[k].scale && (
+            <p className="mt-2 flex justify-between gap-4 text-xs text-faint">
+              <span>{copy.questions[k].scale![0]}</span>
+              <span className="text-right">{copy.questions[k].scale![1]}</span>
+            </p>
+          )}
         </fieldset>
       ))}
 
