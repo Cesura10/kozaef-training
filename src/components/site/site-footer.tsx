@@ -8,6 +8,7 @@ import { LOCALES, type Locale } from '@/i18n/config';
 import { LEGAL } from '@/content/legal';
 import { LEGAL_SLUGS } from '@/lib/legal';
 import { mainNav } from './nav-items';
+import { sectionPath } from '@/content/routes';
 import { ConsentSettingsLink } from '@/components/consent-banner';
 import type { Dictionary } from '@/i18n/dictionaries';
 
@@ -53,6 +54,9 @@ export function SiteFooter({ locale, t }: { locale: string; t: Dictionary }) {
                 {n.label}
               </Link>
             ))}
+            <Link href={sectionPath('recommendations', locale as Locale)} className="hover:text-fg">
+              {locale === 'es' ? 'Recomendaciones' : 'Recommendations'}
+            </Link>
           </nav>
         </div>
         <div className="mt-10 flex flex-col gap-4 border-t border-border/60 pt-6 text-sm text-faint md:flex-row md:items-center md:justify-between">

@@ -32,6 +32,8 @@ const Frontmatter = z.object({
     .refine((id) => id === null || PRODUCTS.some((p) => p.id === id), 'productoRelacionado no existe en products.ts'),
   fuentes: z.array(z.object({ titulo: z.string().min(3), url: z.string().url() })).min(1, 'al menos una fuente'),
   faq: z.array(z.object({ pregunta: z.string().min(5), respuesta: z.string().min(10) })).default([]),
+  /** Recomendaciones con enlace de afiliado (src/content/affiliates.ts) al final del artículo. */
+  recomendaciones: z.array(z.enum(['creatina', 'proteina'])).default([]),
   borrador: z.boolean().default(false),
 });
 

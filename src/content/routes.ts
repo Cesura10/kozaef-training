@@ -13,6 +13,7 @@ export const SECTIONS = {
   about: { es: 'sobre-mi', en: 'about' },
   diagnosis: { es: 'diagnostico', en: 'diagnosis' },
   apply: { es: 'solicitar', en: 'apply' },
+  recommendations: { es: 'recomendaciones', en: 'recommendations' },
 } as const satisfies Record<string, Record<Locale, string>>;
 
 export type SectionId = keyof typeof SECTIONS;
