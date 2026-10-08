@@ -12,7 +12,7 @@ import { Turnstile, resetTurnstile } from '@/components/turnstile';
 import { Honeypot } from '@/components/honeypot';
 
 type Copy = (typeof APPLY_COPY)[Locale];
-type Result = { result: 'qualified' | 'waitlist' | 'low'; bookingUrl: string | null; lowBudget?: boolean };
+type Result = { result: 'qualified' | 'waitlist' | 'low'; bookingUrl: string | null };
 type Status = 'idle' | 'sending' | 'missing' | 'limited' | 'failed';
 
 export function ApplyForm({ copy, locale }: { copy: Copy; locale: Locale }) {
@@ -64,7 +64,7 @@ export function ApplyForm({ copy, locale }: { copy: Copy; locale: Locale }) {
       }
       const data = (await res.json()) as Result & { scoreBand: 'low' | 'mid' | 'high' };
       track('application_submitted', { score_band: data.scoreBand });
-      setResult({ ...data, lowBudget: answers.budget === 'under50' });
+      setResult(data);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch {
       setStatus('failed');
@@ -217,22 +217,20 @@ function ResultView({ copy, locale, result }: { copy: Copy; locale: Locale; resu
         {r.low.cta}
         <ArrowRight size={16} weight="bold" />
       </a>
-      {/* Brief: con presupuesto bajo se ofrece el programa autoguiado. */}
-      {result.lowBudget && (
-        <div className="mt-6 rounded-2xl border border-primary/30 bg-primary/5 p-5">
-          <p className="font-medium text-fg">{r.lowBudget.title}</p>
-          <p className="mt-1 text-sm text-muted">{r.lowBudget.body}</p>
-          <a
-            href={sectionPath('programs', locale)}
-            data-track="cta_click"
-            data-cta="product"
-            data-location="apply-low-budget"
-            className="mt-3 inline-flex text-sm font-medium text-primary hover:underline"
-          >
-            {r.lowBudget.cta}
-          </a>
-        </div>
-      )}
+      {/* Quien no pasa a videollamada: alternativa autoguiada (programas). */}
+      <div className="mt-6 rounded-2xl border border-primary/30 bg-primary/5 p-5">
+        <p className="font-medium text-fg">{r.selfGuided.title}</p>
+        <p className="mt-1 text-sm text-muted">{r.selfGuided.body}</p>
+        <a
+          href={sectionPath('programs', locale)}
+          data-track="cta_click"
+          data-cta="product"
+          data-location="apply-self-guided"
+          className="mt-3 inline-flex text-sm font-medium text-primary hover:underline"
+        >
+          {r.selfGuided.cta}
+        </a>
+      </div>
     </div>
   );
 }
