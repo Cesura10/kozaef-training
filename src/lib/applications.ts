@@ -8,8 +8,8 @@ export type ScoringRule = { question: string; answer: string; points: number };
 export type FlagRow = { key: string; value: unknown };
 export type ApplicationStatus = 'qualified' | 'waitlist' | 'new';
 
-// Máximo posible 40 (experiencia 10 + estancamiento 15 + días 15): 25 ≈ dos tercios.
-export const DEFAULT_THRESHOLD = 25;
+// Máximo posible 60 (experiencia 10 + estancamiento 15 + días 15 + compromiso 20): 40 = dos tercios.
+export const DEFAULT_THRESHOLD = 40;
 export const DEFAULT_WEEKLY_CAPACITY = 8;
 
 function flagNumber(flags: FlagRow[], key: string, field: string, fallback: number) {

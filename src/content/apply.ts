@@ -7,7 +7,7 @@ import { sectionPath } from './routes';
  */
 export const applyPath = (locale: Locale) => sectionPath('apply', locale);
 
-export const QUESTION_KEYS = ['goal', 'experience', 'stuck', 'days'] as const;
+export const QUESTION_KEYS = ['goal', 'experience', 'stuck', 'days', 'commitment'] as const;
 export type QuestionKey = (typeof QUESTION_KEYS)[number];
 
 export const ANSWERS: Record<QuestionKey, readonly string[]> = {
@@ -15,6 +15,7 @@ export const ANSWERS: Record<QuestionKey, readonly string[]> = {
   experience: ['none', 'under1', '1to3', 'over3'],
   stuck: ['starting', 'under3m', '3to12m', 'over1y'],
   days: ['1to2', '3to4', '5plus'],
+  commitment: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
 };
 
 type Copy = {
@@ -22,7 +23,8 @@ type Copy = {
   metaDescription: string;
   h1: string;
   intro: string;
-  questions: Record<QuestionKey, { label: string; options: Record<string, string> }>;
+  /** scale: textos de los extremos para preguntas de escala (1 y 10). */
+  questions: Record<QuestionKey, { label: string; options: Record<string, string>; scale?: [string, string] }>;
   tried: string;
   triedHint: string;
   name: string;
@@ -66,6 +68,11 @@ export const APPLY_COPY: Record<Locale, Copy> = {
       days: {
         label: '¿Cuántos días a la semana puedes entrenar?',
         options: { '1to2': '1-2 días', '3to4': '3-4 días', '5plus': '5 o más' },
+      },
+      commitment: {
+        label: 'Del 1 al 10, ¿cuál es tu compromiso para conseguir tu objetivo?',
+        options: { '1': '1', '2': '2', '3': '3', '4': '4', '5': '5', '6': '6', '7': '7', '8': '8', '9': '9', '10': '10' },
+        scale: ['1 = Solo estoy mirando', '10 = Voy a por todas'],
       },
     },
     tried: '¿Qué has probado hasta ahora y qué no ha funcionado? (opcional)',
@@ -124,6 +131,11 @@ export const APPLY_COPY: Record<Locale, Copy> = {
       days: {
         label: 'How many days a week can you train?',
         options: { '1to2': '1-2 days', '3to4': '3-4 days', '5plus': '5 or more' },
+      },
+      commitment: {
+        label: 'From 1 to 10, how committed are you to reaching your goal?',
+        options: { '1': '1', '2': '2', '3': '3', '4': '4', '5': '5', '6': '6', '7': '7', '8': '8', '9': '9', '10': '10' },
+        scale: ['1 = Just looking', '10 = All in'],
       },
     },
     tried: 'What have you tried so far and what did not work? (optional)',
