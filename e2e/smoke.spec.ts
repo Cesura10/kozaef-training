@@ -11,7 +11,10 @@ async function noErrors(page: Page, path: string) {
   page.on('console', (m) => {
     if (m.type() === 'error' && !/Content.Security.Policy|favicon|net::ERR_BLOCKED/i.test(m.text())) errors.push(m.text());
   });
-  const res = await page.goto(path, { waitUntil: 'networkidle' });
+  // 'load' y no 'networkidle': el widget de Turnstile mantiene una conexión abierta y la red nunca queda
+  // en reposo (las pruebas agotaban el tiempo desde que se activó). La espera de red es corta y opcional.
+  const res = await page.goto(path, { waitUntil: 'load' });
+  await page.waitForLoadState('networkidle', { timeout: 5_000 }).catch(() => {});
   expect(res?.status(), `${path} responde`).toBe(200);
   return errors;
 }
