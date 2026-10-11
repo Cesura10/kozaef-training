@@ -50,5 +50,7 @@ jobs:
           GITHUB_READ_TOKEN: KZ_SENUELO_GITHUB_READ_TOKEN
           SENTRY_AUTH_TOKEN: KZ_SENUELO_SENTRY_AUTH_TOKEN
           CF_ANALYTICS_TOKEN: KZ_SENUELO_CF_ANALYTICS_TOKEN
+          TELEGRAM_BOT_TOKEN: KZ_SENUELO_TELEGRAM_BOT_TOKEN
+          TELEGRAM_CHAT_ID: KZ_SENUELO_TELEGRAM_CHAT_ID
       - name: Revisión de seguridad del código público (secretos filtrados al navegador)
         run: node scripts/security-scan-build.mjs

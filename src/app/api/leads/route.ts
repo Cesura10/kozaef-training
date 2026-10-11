@@ -1,3 +1,4 @@
+import { notifyLead } from '@/lib/notify';
 import { NextResponse } from 'next/server';
 import { isBot } from '@/components/honeypot';
 import { z } from 'zod';
@@ -98,5 +99,12 @@ export async function POST(req: Request) {
       : Promise.resolve(),
   ]);
 
+  await notifyLead({
+    email: b.email,
+    kind: b.waitlistProduct ? 'waitlist' : b.tool ? 'tool_email' : 'subscribed',
+    source: b.source ?? 'directo',
+    product: b.waitlistProduct ?? null,
+    tool: b.tool ?? null,
+  });
   return NextResponse.json({ ok: true });
 }
