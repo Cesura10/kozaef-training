@@ -1,3 +1,4 @@
+import { notifyServiceRequest } from '@/lib/notify';
 import { NextResponse } from 'next/server';
 import { isBot } from '@/components/honeypot';
 import { z } from 'zod';
@@ -58,5 +59,12 @@ export async function POST(req: Request) {
     payload: { videos: b.videos, notes: b.notes ?? null },
   });
   if (error) return fail(500, 'store_failed');
+  await notifyServiceRequest({
+    name: b.name,
+    email: b.email,
+    product: PRODUCTS.find((p) => p.id === b.productId)?.nombre.es ?? b.productId,
+    videos: b.videos.length,
+    notes: b.notes ?? null,
+  });
   return NextResponse.json({ ok: true });
 }

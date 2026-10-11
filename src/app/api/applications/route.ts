@@ -1,3 +1,4 @@
+import { notifyApplication } from '@/lib/notify';
 import { NextResponse } from 'next/server';
 import { isBot } from '@/components/honeypot';
 import { z } from 'zod';
@@ -101,6 +102,7 @@ export async function POST(req: Request) {
   if (error || !app) return fail(500, 'store_failed');
 
   if (leadId) await db.from('lead_events').insert({ lead_id: leadId, type: 'applied', data: { score, status } });
+  await notifyApplication({ name: b.name, email: b.email, score, status, answers, tried: b.tried ?? null });
 
   const booking = status === 'qualified' ? bookingUrl(process.env.CALCOM_URL, b.name, b.email, app.booking_token) : null;
 

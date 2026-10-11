@@ -81,7 +81,7 @@ const es: Record<LegalSlug, LegalDoc> = {
       {
         h: 'Quién trata los datos por encargo',
         p: [
-          'Proveedores que prestan servicios técnicos con contrato de encargado del tratamiento: Supabase (base de datos, alojada en la Unión Europea), Cloudflare (alojamiento web y protección anti-bots), PostHog (analítica, servidores en la UE) y el proveedor de envío de emails. Algunos pueden tratar datos fuera del Espacio Económico Europeo con las garantías del RGPD (cláusulas contractuales tipo o marco de privacidad UE-EE. UU.).',
+          'Proveedores que prestan servicios técnicos con contrato de encargado del tratamiento: Supabase (base de datos, alojada en la Unión Europea), Cloudflare (alojamiento web y protección anti-bots), PostHog (analítica, servidores en la UE), el proveedor de envío de emails y Telegram (para que el titular reciba en su móvil el aviso de cada solicitud o suscripción, con el nombre y el email indicados). Algunos pueden tratar datos fuera del Espacio Económico Europeo con las garantías del RGPD (cláusulas contractuales tipo o marco de privacidad UE-EE. UU.).',
           'No se venden ni se ceden tus datos a terceros.',
         ],
       },
@@ -166,7 +166,7 @@ const en: Record<LegalSlug, LegalDoc> = {
       {
         h: 'Processors',
         p: [
-          'Supabase (database, EU), Cloudflare (hosting and bot protection), PostHog (analytics, EU) and the email provider, under data processing agreements. Your data is never sold.',
+          'Supabase (database, EU), Cloudflare (hosting and bot protection), PostHog (analytics, EU), the email provider and Telegram (so the owner gets a phone alert for each request or sign-up, with the name and email provided), under data processing agreements. Your data is never sold.',
         ],
       },
       {
