@@ -8,8 +8,9 @@ import { expect, test, type Page } from '@playwright/test';
 async function noErrors(page: Page, path: string) {
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
+  // "font-size:0;color:transparent": ruido que escribe a propósito el script de Turnstile (Cloudflare).
   page.on('console', (m) => {
-    if (m.type() === 'error' && !/Content.Security.Policy|favicon|net::ERR_BLOCKED/i.test(m.text())) errors.push(m.text());
+    if (m.type() === 'error' && !/Content.Security.Policy|favicon|net::ERR_BLOCKED|font-size:0;color:transparent/i.test(m.text())) errors.push(m.text());
   });
   // 'load' y no 'networkidle': el widget de Turnstile mantiene una conexión abierta y la red nunca queda
   // en reposo (las pruebas agotaban el tiempo desde que se activó). La espera de red es corta y opcional.
@@ -43,14 +44,14 @@ test('portada en inglés', async ({ page }) => {
 test('calculadora de calorías calcula', async ({ page }) => {
   const errors = await noErrors(page, '/es/herramientas/calculadora-calorias');
   await page.getByRole('button', { name: 'Perder grasa' }).click();
-  await expect(page.locator('[aria-live=polite]')).toContainText('kcal al día');
+  await expect(page.locator('[aria-live=polite]', { hasText: 'kcal al día' })).toBeVisible();
   await expect(page.getByText('Ejemplo resuelto')).toBeVisible();
   expect(errors, errors.join('\n')).toEqual([]);
 });
 
 test('calculadora de grasa corporal calcula', async ({ page }) => {
   await noErrors(page, '/es/herramientas/calculadora-grasa-corporal');
-  await expect(page.locator('[aria-live=polite]')).toContainText('%');
+  await expect(page.locator('[aria-live=polite]', { hasText: '%' }).first()).toBeVisible();
 });
 
 test('solicitud: el formulario valida sin enviar', async ({ page }) => {
