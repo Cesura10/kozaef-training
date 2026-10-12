@@ -8,6 +8,8 @@ import { ProductFilter, type ProductCard } from '@/components/funnel/product-fil
 import { formatProductPrice } from '@/components/funnel/bloque-producto';
 import { ListaEspera } from '@/components/funnel/lista-espera';
 import { CtaCoaching } from '@/components/funnel/cta-coaching';
+import { PackElige3, type PackItem } from '@/components/funnel/pack-elige-3';
+import { PACK_SIZE } from '@/content/pack';
 import { PageShell, sectionMetadata } from './page-shell';
 import { PageHero } from './page-hero';
 
@@ -32,6 +34,12 @@ export async function ProgramsPage({ locale }: { locale: Locale }) {
     kind: p.tipo === 'infoproducto' ? c.kind : c.service,
     infoproduct: p.tipo === 'infoproducto',
   }));
+  // Pack "elige 3": solo guías con compra en Shopify (enlace /cart/VARIANTE:1) y precio.
+  const SHOPIFY_CART = /^(https:\/\/[^/]+)\/cart\/(\d+):1$/;
+  const packItems: PackItem[] = visibleProducts().flatMap((p) => {
+    const m = p.tipo === 'infoproducto' && isBuyable(p) && p.precio ? SHOPIFY_CART.exec(p.enlacePago ?? '') : null;
+    return m ? [{ id: p.id, name: p.nombre[locale], price: p.precio!, variant: m[2], shop: m[1] }] : [];
+  });
   const showWaitlist = !visibleProducts().some((p) => p.tipo === 'infoproducto');
   return (
     <PageShell locale={locale}>
@@ -45,6 +53,9 @@ export async function ProgramsPage({ locale }: { locale: Locale }) {
             labels={{ all: c.all, empty: c.empty, launch: f.launch, waitlist: f.waitlistTitle }}
           />
         </div>
+        {packItems.length >= PACK_SIZE && (
+          <PackElige3 items={packItems} shop={packItems[0].shop} locale={locale} labels={c.pack} />
+        )}
         {/* El aviso general "en camino" solo tiene sentido mientras no haya ningún programa. */}
         <div className={`mt-16 grid gap-6 ${showWaitlist ? 'lg:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)]' : ''}`}>
           {showWaitlist && <ListaEspera locale={locale} />}
