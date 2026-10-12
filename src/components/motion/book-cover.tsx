@@ -8,6 +8,7 @@ import { LogoMark } from '@/components/brand';
  * física de muelle. Cuando haya portada real, se pasa como `image` y se usa en la cara frontal.
  */
 export function BookCover({ title, subtitle, image }: { title: string; subtitle: string; image?: string }) {
+  const longWord = Math.max(...title.split(' ').map((w) => w.length)) > 8;
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
   const rotY = useSpring(useTransform(mx, [-0.5, 0.5], [-28, -8]), { stiffness: 140, damping: 18 });
@@ -50,7 +51,7 @@ export function BookCover({ title, subtitle, image }: { title: string; subtitle:
               <LogoMark className="h-9 w-9" />
               <div>
                 <span className="block h-px w-10 bg-primary/70" />
-                <p className="display foil-text mt-4 text-[2.1rem] font-bold uppercase leading-[0.92] sm:text-[2.5rem]">{title}</p>
+                <p className={`display foil-text mt-4 font-bold uppercase leading-[0.92] ${longWord ? 'text-[1.45rem] sm:text-[1.75rem]' : 'text-[2.1rem] sm:text-[2.5rem]'}`}>{title}</p>
                 <p className="mt-3 text-xs leading-relaxed text-muted">{subtitle}</p>
               </div>
               <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-faint">Kozaef Training</p>
