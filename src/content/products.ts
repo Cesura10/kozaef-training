@@ -77,7 +77,7 @@ export const PRODUCTS: Product[] = [
     lanzamiento: true,
     categoria: 'ganar-musculo',
     perfiles: ['entreno-casa', 'principiantes'],
-    enlacePago: null, // Enlace de compra de Shopify: mientras sea null se muestra lista de espera.
+    enlacePago: 'https://cxdjyg-7c.myshopify.com/cart/55395636019543:1',
     estado: 'disponible',
     publicado: true,
     demo: {
@@ -315,7 +315,6 @@ export const PRODUCTS: Product[] = [
     },
   },
   {
-    // BORRADOR hasta que Manu apruebe la guía (docs/privado/infoproductos/entrena-sin-dolor).
     id: 'entrena-sin-dolor',
     slug: { es: 'entrena-sin-dolor', en: 'train-without-pain' },
     tipo: 'infoproducto',
@@ -349,8 +348,7 @@ export const PRODUCTS: Product[] = [
     perfiles: ['principiantes', 'entreno-casa'],
     enlacePago: 'https://cxdjyg-7c.myshopify.com/cart/55399388315991:1',
     estado: 'disponible',
-    publicado: false,
-    borrador: true,
+    publicado: true,
     trailer: {
       es: [
         { k: 'El problema', t: 'Te duele y dejas de entrenar.', p: 'La espalda, la rodilla o el hombro. Y no sabes qué puedes hacer.' },
@@ -499,7 +497,6 @@ export const PRODUCTS: Product[] = [
     },
   },
   {
-    // BORRADOR hasta que Manu apruebe la guía (docs/privado/infoproductos/tu-primer-mes-en-el-gimnasio).
     id: 'tu-primer-mes-en-el-gimnasio',
     slug: { es: 'tu-primer-mes-en-el-gimnasio', en: 'your-first-month-at-the-gym' },
     tipo: 'infoproducto',
@@ -533,8 +530,7 @@ export const PRODUCTS: Product[] = [
     perfiles: ['principiantes'],
     enlacePago: 'https://cxdjyg-7c.myshopify.com/cart/55395633529175:1',
     estado: 'disponible',
-    publicado: false,
-    borrador: true,
+    publicado: true,
     trailer: {
       es: [
         { k: 'El miedo', t: 'Entras y no sabes qué hacer.', p: 'Acabas en la cinta mientras la zona de pesas te intimida.' },
@@ -591,7 +587,6 @@ export const PRODUCTS: Product[] = [
     },
   },
   {
-    // BORRADOR hasta que Manu apruebe la guía (docs/privado/infoproductos/gana-peso-y-musculo).
     id: 'gana-peso-y-musculo',
     slug: { es: 'gana-peso-y-musculo', en: 'gain-weight-and-muscle' },
     tipo: 'infoproducto',
@@ -625,8 +620,7 @@ export const PRODUCTS: Product[] = [
     perfiles: ['cuesta-ganar-peso', 'principiantes'],
     enlacePago: 'https://cxdjyg-7c.myshopify.com/cart/55395634807127:1',
     estado: 'disponible',
-    publicado: false,
-    borrador: true,
+    publicado: true,
     trailer: {
       es: [
         { k: 'El problema', t: 'Comes mucho. No subes.', p: 'Te dicen "come más", pero nadie te dice cuánto ni cómo.' },
