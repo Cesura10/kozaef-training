@@ -1,7 +1,7 @@
 const es = {
   meta: {
-    title: 'Kozaef Training | Entrenamiento personal online',
-    description: 'Calculadoras gratis, guías de entrenamiento y coaching 1:1 con plazas limitadas.',
+    title: 'Kozaef Training | Entrenador personal online',
+    description: 'Kozaef Training: entrenador personal online en español. Coaching 1:1 de entrenamiento y nutrición, guías en PDF y calculadoras gratis de calorías y proteína.',
   },
   nav: {
     home: 'Kozaef Training, inicio',
