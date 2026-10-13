@@ -29,7 +29,7 @@ import { getDictionary } from '@/i18n/dictionaries';
 import { notFound } from 'next/navigation';
 import { JsonLd } from '@/components/site/page-shell';
 import { SITE_URL } from '@/i18n/config';
-import { AUTHOR } from '@/content/author';
+import { authorSameAs } from '@/content/author';
 
 // Página estática por idioma: todos los textos salen de src/i18n/dictionaries.
 export default async function HomePage({ params }: PageProps<'/[locale]'>) {
@@ -273,9 +273,15 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
             '@type': 'Organization',
             '@id': `${SITE_URL}/#organization`,
             name: 'Kozaef Training',
+            alternateName: ['Kozaef', 'KozaefTraining'],
             url: SITE_URL,
             logo: `${SITE_URL}/icon.svg`,
-            ...(AUTHOR.social.instagram ? { sameAs: [AUTHOR.social.instagram] } : {}),
+            description:
+              'Entrenador personal online en español: coaching 1:1 de entrenamiento y nutrición, guías de entrenamiento en PDF y calculadoras gratis.',
+            email: 'contacto@kozaeftraining.com',
+            areaServed: { '@type': 'Country', name: 'España' },
+            knowsAbout: ['Entrenamiento de fuerza', 'Pérdida de grasa', 'Ganar masa muscular', 'Nutrición deportiva', 'Entrenamiento en la menopausia'],
+            ...(authorSameAs().length ? { sameAs: authorSameAs() } : {}),
           },
           {
             '@context': 'https://schema.org',
