@@ -2,7 +2,7 @@ import type { Locale } from '@/i18n/config';
 import { pagesCopy } from '@/content/pages';
 import { FUNNEL } from '@/content/funnel';
 import { sectionPath } from '@/content/routes';
-import { isBuyable, visibleProducts } from '@/content/products';
+import { WITHDRAWAL_CONSENT, isBuyable, visibleProducts } from '@/content/products';
 import { CATEGORIES, CATEGORY_IDS, PROFILES, PROFILE_IDS } from '@/content/taxonomy';
 import { ProductFilter, type ProductCard } from '@/components/funnel/product-filter';
 import { formatProductPrice } from '@/components/funnel/bloque-producto';
@@ -54,7 +54,13 @@ export async function ProgramsPage({ locale }: { locale: Locale }) {
           />
         </div>
         {packItems.length >= PACK_SIZE && (
-          <PackElige3 items={packItems} shop={packItems[0].shop} locale={locale} labels={c.pack} />
+          <PackElige3
+            items={packItems}
+            locale={locale}
+            labels={c.pack}
+            consentText={WITHDRAWAL_CONSENT[locale]}
+            consentRequiredText={f.consentRequired}
+          />
         )}
         {/* El aviso general "en camino" solo tiene sentido mientras no haya ningún programa. */}
         <div className={`mt-16 grid gap-6 ${showWaitlist ? 'lg:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)]' : ''}`}>
