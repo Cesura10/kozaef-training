@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: PageProps<'/[locale]/legal/[s
   return {
     title: LEGAL[locale][slug].title,
     // Cada texto legal con su propia descripción (si no, heredaba la de la portada: duplicada).
-    description: `${LEGAL[locale][slug].title} de Kozaef Training. ${LEGAL[locale][slug].intro}`.slice(0, 155),
+    description: `${LEGAL[locale][slug].title} · Kozaef Training. ${LEGAL[locale][slug].intro}`.slice(0, 155),
     alternates: {
       canonical: `/${locale}/legal/${slug}`,
       languages: Object.fromEntries(LOCALES.map((l) => [l, `/${l}/legal/${slug}`])),
