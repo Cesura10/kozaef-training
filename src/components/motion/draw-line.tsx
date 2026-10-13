@@ -1,12 +1,12 @@
 'use client';
 
-import { MotionConfig, motion } from 'motion/react';
+import { MotionConfig, m } from 'motion/react';
 
 /** Línea que se dibuja de izquierda a derecha al entrar en pantalla. */
 export function DrawLine({ className, delay = 0 }: { className?: string; delay?: number }) {
   return (
     <MotionConfig reducedMotion="user">
-      <motion.span
+      <m.span
         aria-hidden
         className={`block origin-left ${className ?? ''}`}
         initial={{ scaleX: 0 }}

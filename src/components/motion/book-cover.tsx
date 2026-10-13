@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, useMotionValue, useSpring, useTransform } from 'motion/react';
+import { m, useMotionValue, useSpring, useTransform } from 'motion/react';
 import { LogoMark } from '@/components/brand';
 
 /**
@@ -29,7 +29,7 @@ export function BookCover({ title, subtitle, image }: { title: string; subtitle:
         my.set(0);
       }}
     >
-      <motion.div
+      <m.div
         style={{ rotateY: rotY, rotateX: rotX }}
         initial={{ opacity: 0, y: 40, rotateZ: -4 }}
         animate={{ opacity: 1, y: 0, rotateZ: 0 }}
@@ -58,7 +58,7 @@ export function BookCover({ title, subtitle, image }: { title: string; subtitle:
             </div>
           )}
           {/* Reflejo que se desplaza con la inclinación */}
-          <motion.div
+          <m.div
             aria-hidden
             style={{ backgroundPositionX: glare }}
             className="pointer-events-none absolute inset-0 bg-[linear-gradient(105deg,transparent_35%,rgba(255,240,200,0.10)_50%,transparent_65%)] bg-[length:250%_100%]"
@@ -66,7 +66,7 @@ export function BookCover({ title, subtitle, image }: { title: string; subtitle:
           {/* Pliegue junto al lomo */}
           <div aria-hidden className="absolute inset-y-0 left-3 w-px bg-black/50 shadow-[1px_0_0_rgba(255,255,255,0.05)]" />
         </div>
-      </motion.div>
+      </m.div>
       <div aria-hidden className="mx-auto mt-6 h-6 w-3/4 rounded-[100%] bg-black/60 blur-xl" />
     </div>
   );

@@ -1,3 +1,4 @@
+import { MotionProvider } from '@/components/motion/motion-provider';
 import type { Metadata, Viewport } from 'next';
 import { fontVariables } from '../fonts';
 import '../globals.css';
@@ -19,7 +20,9 @@ export const viewport: Viewport = {
 export default function PlatformLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es" className={`${fontVariables} h-full antialiased`}>
-      <body className="app-backdrop grain min-h-full flex flex-col">{children}</body>
+      <body className="app-backdrop grain min-h-full flex flex-col">
+        <MotionProvider>{children}</MotionProvider>
+      </body>
     </html>
   );
 }

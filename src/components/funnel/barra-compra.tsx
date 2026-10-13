@@ -4,11 +4,13 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ArrowRight, X } from '@phosphor-icons/react';
-import { AnimatePresence, MotionConfig, motion } from 'motion/react';
+import { AnimatePresence, MotionConfig, m } from 'motion/react';
 
 /** Rutas donde la barra estorba: formularios, gracias, legal y la propia página de pago. */
 const HIDDEN = /\/(solicitar|apply|gracias|thanks|legal|diagnostico|diagnosis|enviar|send)(\/|$)/;
 const KEY = 'kz-barra-compra-cerrada';
+/** ¿Se ve el aviso de cookies? (es fixed: offsetParent no sirve; display:none deja 0 rectángulos). */
+const bannerOpen = () => (document.querySelector('.kz-consent')?.getClientRects().length ?? 0) > 0;
 
 /**
  * Barra de compra fija con el producto estrella (src/content/pack.ts). Aparece al bajar,
@@ -51,12 +53,12 @@ export function BarraCompra({
         if (e.isIntersecting) visible.add(e.target);
         else visible.delete(e.target);
       }
-      setCovered(visible.size > 0 || Boolean(document.querySelector('[role="dialog"][aria-label="Cookies"]')));
+      setCovered(visible.size > 0 || bannerOpen());
     });
     zones.forEach((z) => io.observe(z));
     const onScroll = () => {
       setScrolled(window.scrollY > 640);
-      setCovered(visible.size > 0 || Boolean(document.querySelector('[role="dialog"][aria-label="Cookies"]')));
+      setCovered(visible.size > 0 || bannerOpen());
     };
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
@@ -79,7 +81,7 @@ export function BarraCompra({
     <MotionConfig reducedMotion="user">
       <AnimatePresence>
         {show && (
-          <motion.aside
+          <m.aside
             aria-label={kicker}
             initial={{ y: 96, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -114,7 +116,7 @@ export function BarraCompra({
                 <X size={16} />
               </button>
             </div>
-          </motion.aside>
+          </m.aside>
         )}
       </AnimatePresence>
     </MotionConfig>

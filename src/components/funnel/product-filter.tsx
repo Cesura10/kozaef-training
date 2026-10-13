@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { ArrowRight } from '@phosphor-icons/react';
-import { AnimatePresence, MotionConfig, motion } from 'motion/react';
+import { AnimatePresence, MotionConfig, m } from 'motion/react';
 
 export type ProductCard = {
   id: string;
@@ -81,10 +81,10 @@ export function ProductFilter({
         <p className="mt-8 rounded-2xl border border-dashed border-border p-8 text-center text-sm text-faint">{labels.empty}</p>
       ) : (
         <MotionConfig reducedMotion="user">
-          <motion.ul layout className="mt-10 grid gap-5 md:grid-cols-2">
+          <m.ul layout className="mt-10 grid gap-5 md:grid-cols-2">
             <AnimatePresence mode="popLayout" initial={false}>
               {shown.map((p, i) => (
-                <motion.li
+                <m.li
                   key={p.id}
                   layout
                   initial={{ opacity: 0, scale: 0.96 }}
@@ -131,10 +131,10 @@ export function ProductFilter({
                       </div>
                     </div>
                   </Link>
-                </motion.li>
+                </m.li>
               ))}
             </AnimatePresence>
-          </motion.ul>
+          </m.ul>
         </MotionConfig>
       )}
     </div>
