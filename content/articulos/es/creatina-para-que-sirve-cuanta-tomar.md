@@ -6,7 +6,7 @@ categoria: nutricion
 perfiles: [principiantes, mujeres-45]
 nivel: basico
 fechaPublicacion: "2026-10-08"
-fechaRevision: "2026-10-08"
+fechaRevision: "2026-10-13"
 herramientaRelacionada: null
 productoRelacionado: null
 fuentes:
@@ -52,7 +52,7 @@ En la práctica, eso se traduce en poder hacer alguna repetición más por serie
 
 La fase de carga solo sirve para llenar los depósitos antes. La revisión de 2021 de la ISSN concluye que dosis diarias pequeñas (3-5 g) son eficaces y que **la carga no es necesaria** ([Antonio et al., 2021](https://doi.org/10.1186/s12970-021-00412-w)).
 
-Con la comida es difícil llegar a esas cantidades: una ración de carne de unos 170 g aporta alrededor de 0,7 g de creatina ([Antonio et al., 2021](https://doi.org/10.1186/s12970-021-00412-w)). Si comes poca carne y pescado, partes con los depósitos más bajos.
+Con la comida es difícil llegar a esas cantidades: una ración de carne de unos 170 g aporta alrededor de 0,7 g de creatina ([Antonio et al., 2021](https://doi.org/10.1186/s12970-021-00412-w)). Si comes poca carne y pescado, partes con los depósitos más bajos. Y recuerda que la creatina no sustituye a lo básico: comer [suficiente proteína](/es/aprende/nutricion/cuanta-proteina-para-ganar-musculo) y entrenar fuerza.
 
 ### ¿Cuándo tomarla: antes o después de entrenar?
 

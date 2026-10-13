@@ -6,7 +6,7 @@ categoria: ganar-musculo
 perfiles: [principiantes]
 nivel: basico
 fechaPublicacion: "2026-10-05"
-fechaRevision: "2026-10-05"
+fechaRevision: "2026-10-13"
 herramientaRelacionada: null
 productoRelacionado: null
 fuentes:
@@ -47,6 +47,8 @@ Es un estudio pequeño, corto y con hombres jóvenes entrenados, así que no hay
 Porque para ganar músculo y fuerza necesitas **progresar**: más peso, más repeticiones o más series con el tiempo. Si cambias de ejercicios cada dos semanas, nunca tienes una referencia para saber si progresas, y cada ejercicio nuevo te obliga a aprender la técnica desde cero. En palabras de Stuart Phillips, autor principal de la guía: "El mejor programa de entrenamiento de fuerza es el que vas a mantener" ([EurekAlert, 2026](https://www.eurekalert.org/news-releases/1119943)).
 
 ## Cómo lo aplico yo
+
+Si acabas de empezar, antes de pensar en cambiar de rutina conviene saber qué esperar de las primeras semanas: lo explico en [cuánto tarda en notarse el gimnasio](/es/aprende/fuerza-y-tecnica/cuanto-tarda-en-notarse-el-gimnasio).
 
 ### Bloques de 8-12 semanas
 
