@@ -6,7 +6,7 @@ categoria: perder-grasa
 perfiles: [sobrepeso, principiantes, mujeres-45]
 nivel: basico
 fechaPublicacion: "2026-10-13"
-fechaRevision: "2026-10-13"
+fechaRevision: "2026-10-14"
 herramientaRelacionada: calories
 productoRelacionado: pierde-grasa-sin-pasar-hambre
 fuentes:
@@ -51,16 +51,6 @@ La buena noticia es que el ejercicio reduce la grasa visceral incluso sin hacer 
 
 Un grupo internacional de expertos propone medir el perímetro de cintura en cada revisión médica, porque aporta información sobre el riesgo para la salud que el peso y el IMC no dan, y considera que **reducir la cintura es un objetivo de tratamiento muy importante** ([Ross et al., 2020](https://doi.org/10.1038/s41574-019-0310-7)). Para ti, es además la forma más fiable de ver si estás perdiendo barriga, aunque la báscula se mueva poco.
 
-## Cómo lo aplico yo
-
-Mi recomendación: la barriga no se trabaja con ejercicios "para la barriga", sino con tres piezas que actúan sobre todo el cuerpo:
-
-1. **Un déficit calórico moderado.** Comer algo menos de lo que gastas, lo justo para perder entre un 0,5 y un 1 % del peso a la semana, el ritmo que mejor conserva el músculo ([Helms et al., 2014](https://doi.org/10.1186/1550-2783-11-20)). Puedes calcular tu punto de partida con la [calculadora de calorías](/es/herramientas/calculadora-calorias).
-2. **Entrenamiento de fuerza.** No quema la barriga directamente, pero protege el músculo mientras pierdes grasa. Si pierdes peso sin entrenar fuerza, parte de lo que pierdes es músculo.
-3. **Moverte cada día.** Caminar más es una de las formas más sencillas de aumentar lo que gastas cada día.
-
-Y para medir el progreso: cintura una vez por semana, a la altura del ombligo, sin apretar la cinta y en las mismas condiciones.
-
 ## Errores comunes
 
 - **Hacer cientos de abdominales para perder barriga.** Fortalecen, pero no reducen la grasa que hay encima.
@@ -68,3 +58,9 @@ Y para medir el progreso: cintura una vez por semana, a la altura del ombligo, s
 - **Mirar solo la báscula.** El peso sube y baja por el agua; la cintura dice mucho más sobre la grasa abdominal.
 - **Hacer un déficit enorme para ir más rápido.** Más hambre, menos energía y más músculo perdido. Lo que se mantiene es un déficit moderado.
 - **Rendirse porque la barriga es lo último.** Es normal que sea de las últimas zonas en cambiar. Si tu cintura baja aunque sea poco, vas bien.
+
+## ¿Quieres saber cómo lo hago yo?
+
+Cómo aplico todo esto depende de cada persona: tu punto de partida, tu horario y cómo responde tu cuerpo. Si quieres saber cómo lo haría contigo, [agenda una llamada](/es/solicitar) y lo vemos juntos.
+
+Si prefieres hacerlo por tu cuenta, en [Programas](/es/programas) tienes las guías con el plan completo, paso a paso.

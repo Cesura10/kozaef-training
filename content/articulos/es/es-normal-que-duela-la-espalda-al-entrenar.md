@@ -6,7 +6,7 @@ categoria: recuperacion
 perfiles: [principiantes, entreno-casa]
 nivel: basico
 fechaPublicacion: "2026-10-13"
-fechaRevision: "2026-10-13"
+fechaRevision: "2026-10-14"
 herramientaRelacionada: null
 productoRelacionado: entrena-sin-dolor
 fuentes:
@@ -61,17 +61,6 @@ Una revisión de 33 estudios con 3.110 personas **sin dolor de espalda** encontr
 
 Por eso una palabra alarmante en un informe no significa necesariamente que tengas que dejar de entrenar.
 
-## Cómo lo aplico yo
-
-Si no hay señales de alarma, mi criterio es sencillo: **bajar la carga, no parar**. Algunas pautas generales:
-
-- **Reduce lo que lo provoca durante unos días**: menos peso, menos recorrido o una variante más cómoda del ejercicio que molesta.
-- **Sigue moviéndote**: caminar suele sentar bien y es lo que recomiendan las guías.
-- **Vuelve poco a poco**: sube la carga cuando el ejercicio deje de molestar, no de golpe.
-- **Usa el día siguiente como termómetro**: si al día siguiente estás igual o mejor, el entreno fue adecuado; si estás peor, bájalo la próxima vez.
-
-Cada caso es distinto, y qué ejercicios hacer y cómo progresarlos depende de cómo responde tu espalda. Si quieres un plan paso a paso, con niveles de ejercicios y una forma clara de saber cuánto dolor es aceptable, lo tienes en la guía [Entrena sin dolor](/es/programas/entrena-sin-dolor).
-
 ## Errores comunes
 
 - **Quedarse en la cama.** Las guías recomiendan lo contrario: mantenerse activo.
@@ -79,3 +68,9 @@ Cada caso es distinto, y qué ejercicios hacer y cómo progresarlos depende de c
 - **Volver con todo el peso el primer día que no duele.** La espalda necesita recuperar tolerancia poco a poco.
 - **Ignorar las señales de alarma.** Si tienes alguna de la tabla, primero médico, después entrenamiento.
 - **Buscar la postura perfecta.** Moverte con variedad y cambiar de postura a menudo importa más que sentarte "perfecto".
+
+## ¿Quieres saber cómo lo hago yo?
+
+Cómo aplico todo esto depende de cada persona: tu punto de partida, tu horario y cómo responde tu cuerpo. Si quieres saber cómo lo haría contigo, [agenda una llamada](/es/solicitar) y lo vemos juntos.
+
+Si prefieres hacerlo por tu cuenta, en la guía [Entrena sin dolor](/es/programas/entrena-sin-dolor) tienes el plan completo, paso a paso.

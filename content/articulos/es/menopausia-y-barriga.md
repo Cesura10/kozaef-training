@@ -6,7 +6,7 @@ categoria: fuerza-tecnica
 perfiles: [mujeres-45]
 nivel: basico
 fechaPublicacion: "2026-10-13"
-fechaRevision: "2026-10-13"
+fechaRevision: "2026-10-14"
 herramientaRelacionada: protein
 productoRelacionado: fuerte-en-la-menopausia
 fuentes:
@@ -52,16 +52,6 @@ Muchas mujeres notan que, en esta etapa, la grasa se acumula sobre todo en la zo
 
 La Organización Mundial de la Salud recomienda a los adultos entre 150 y 300 minutos semanales de actividad moderada y ejercicios de fortalecimiento muscular al menos 2 días por semana ([Bull et al., 2020](https://doi.org/10.1136/bjsports-2020-102955)). En la menopausia, esa parte de fuerza deja de ser opcional: es la que ayuda a frenar la pérdida de músculo.
 
-## Cómo lo aplico yo
-
-Mi enfoque en esta etapa tiene tres pilares:
-
-1. **Fuerza, lo primero.** Entrenar con cargas que supongan un esfuerzo real, de forma progresiva, 2-3 días por semana. Es la señal que le dice a tu cuerpo que necesita conservar el músculo.
-2. **Proteína suficiente en cada comida.** El músculo necesita material para mantenerse. Puedes calcular tu cifra con la [calculadora de proteína](/es/herramientas/calculadora-proteina) y leer más en [cuánta proteína necesitas](/es/aprende/nutricion/cuanta-proteina-para-ganar-musculo).
-3. **Moverte cada día y medir la cintura.** Caminar suma minutos de actividad, y la cintura te dice si vas bien aunque el peso no cambie.
-
-Cómo organizar las sesiones, qué ejercicios elegir si nunca has entrenado y cómo progresar sin miedo es justo lo que desarrollo paso a paso en la guía [Fuerte en la Menopausia](/es/programas/fuerte-en-la-menopausia).
-
 ## Errores comunes
 
 - **Hacer solo cardio.** Ayuda a moverte más, pero no frena la pérdida de músculo como lo hace la fuerza.
@@ -69,3 +59,9 @@ Cómo organizar las sesiones, qué ejercicios elegir si nunca has entrenado y c�
 - **Guiarse solo por la báscula.** En esta etapa el peso puede no cambiar mientras aumenta la grasa. Mide la cintura.
 - **Pensar que es tarde.** Empezar a entrenar fuerza a los 50 o a los 60 sigue dando resultados.
 - **Usar pesos que no suponen esfuerzo.** Para conservar el músculo, las últimas repeticiones de cada serie tienen que costar.
+
+## ¿Quieres saber cómo lo hago yo?
+
+Cómo aplico todo esto depende de cada persona: tu punto de partida, tu horario y cómo responde tu cuerpo. Si quieres saber cómo lo haría contigo, [agenda una llamada](/es/solicitar) y lo vemos juntos.
+
+Si prefieres hacerlo por tu cuenta, en la guía [Fuerte en la Menopausia](/es/programas/fuerte-en-la-menopausia) tienes el plan completo, paso a paso.

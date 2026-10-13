@@ -6,7 +6,7 @@ categoria: nutricion
 perfiles: [principiantes, cuesta-ganar-peso, mujeres-45]
 nivel: basico
 fechaPublicacion: "2026-10-13"
-fechaRevision: "2026-10-13"
+fechaRevision: "2026-10-14"
 herramientaRelacionada: protein
 productoRelacionado: gana-peso-y-musculo
 fuentes:
@@ -53,20 +53,6 @@ La ISSN recomienda tomas de **20-40 g de proteína de calidad** (unos 0,25 g por
 
 En el metaanálisis de Morton, el efecto de la proteína extra sobre el músculo **disminuía con la edad** ([Morton et al., 2018](https://doi.org/10.1136/bjsports-2017-097608)). Por eso el grupo europeo PROT-AGE recomienda a los mayores de 65 años más proteína que a los adultos jóvenes sedentarios ([Bauer et al., 2013](https://doi.org/10.1016/j.jamda.2013.05.021)).
 
-## Cómo lo aplico yo
-
-1. **Calcula tu cifra**: multiplica tu peso por 1,6 (o usa la [calculadora de proteína](/es/herramientas/calculadora-proteina)). Si tienes bastante sobrepeso, usa tu peso objetivo aproximado: con el total sale una cifra más alta de lo necesario.
-2. **Divídela entre tus comidas**: si comes 4 veces, cada comida lleva un cuarto.
-3. **Empieza cada comida por la proteína**: carne, pescado, huevos, lácteos, legumbres o tofu.
-
-Un ejemplo para una persona de 70 kg:
-
-| Peso | Cifra diaria (1,6 g/kg) | En 4 comidas | Margen alto (2,2 g/kg) |
-|---|---|---|---|
-| 70 kg | 112 g | 28 g por comida | 154 g |
-
-Si te cuesta subir de peso, la proteína es solo una parte: también necesitas comer más energía en total. Lo explico en [por qué no engordas aunque comas mucho](/es/aprende/ganar-musculo-y-peso/soy-delgado-y-no-engordo-aunque-coma-mucho).
-
 ## Errores comunes
 
 - **Calcular con el peso total si tienes mucho sobrepeso.** La cifra sale inflada; usa tu peso objetivo aproximado.
@@ -74,3 +60,9 @@ Si te cuesta subir de peso, la proteína es solo una parte: también necesitas c
 - **Pensar que más siempre es mejor.** Para ganar músculo, por encima de unos 1,6 g/kg el beneficio extra es mínimo.
 - **Subir la proteína y olvidar el resto.** Sin entrenamiento de fuerza progresivo, la proteína sola no construye músculo.
 - **Creer que hace falta un batido.** Es cómodo, pero no imprescindible.
+
+## ¿Quieres saber cómo lo hago yo?
+
+Cómo aplico todo esto depende de cada persona: tu punto de partida, tu horario y cómo responde tu cuerpo. Si quieres saber cómo lo haría contigo, [agenda una llamada](/es/solicitar) y lo vemos juntos.
+
+Si prefieres hacerlo por tu cuenta, en la guía [Gana peso y músculo](/es/programas/gana-peso-y-musculo) tienes el plan completo, paso a paso.

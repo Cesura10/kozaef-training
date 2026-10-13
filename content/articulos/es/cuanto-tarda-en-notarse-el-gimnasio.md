@@ -6,7 +6,7 @@ categoria: fuerza-tecnica
 perfiles: [principiantes]
 nivel: basico
 fechaPublicacion: "2026-10-13"
-fechaRevision: "2026-10-13"
+fechaRevision: "2026-10-14"
 herramientaRelacionada: null
 productoRelacionado: tu-primer-mes-en-el-gimnasio
 fuentes:
@@ -52,18 +52,6 @@ Al terminar las 8 semanas, el área del muslo había aumentado **un 9,6 %** ([De
 
 Perder grasa a un ritmo sano, entre un 0,5 y un 1 % del peso a la semana ([Helms et al., 2014](https://doi.org/10.1186/1550-2783-11-20)), significa que los cambios visibles se acumulan semana a semana, no de golpe. Por eso conviene medir: lo que no se ve en el espejo de un día para otro sí aparece en la cinta métrica y en las fotos de un mes a otro.
 
-## Cómo lo aplico yo
-
-Mi consejo al empezar: no juzgues tu progreso por el espejo durante el primer mes, sino por tres cosas:
-
-| Qué medir | Cada cuánto | Qué te dice |
-|---|---|---|
-| Pesos y repeticiones en tu libreta | Cada sesión | Si progresas (lo primero que cambia) |
-| Cintura y otras medidas | Cada semana | Si pierdes grasa |
-| Fotos con la misma luz y ropa | Cada 4 semanas | El cambio que no ves en el día a día |
-
-Si tus pesos suben y comes suficiente proteína (en torno a 1,6 g por kilo de peso al día, la cifra a partir de la cual los estudios dejan de ver más beneficio para el músculo; [Morton et al., 2018](https://doi.org/10.1136/bjsports-2017-097608)), el músculo está llegando aunque aún no lo veas. Puedes calcular tu cifra con la [calculadora de proteína](/es/herramientas/calculadora-proteina).
-
 ## Errores comunes
 
 - **Abandonar en la semana 3.** Es justo cuando empieza el crecimiento real del músculo.
@@ -71,3 +59,9 @@ Si tus pesos suben y comes suficiente proteína (en torno a 1,6 g por kilo de pe
 - **Medir solo con la báscula.** Al empezar a entrenar, el peso puede subir por agua y glucógeno aunque estés perdiendo grasa.
 - **Fijarse en las agujetas.** No indican que el entreno haya funcionado. Lo que indica progreso es subir peso o repeticiones con buena técnica.
 - **Compararte con fotos de redes.** Iluminación, postura y años de entrenamiento. Compárate contigo hace un mes.
+
+## ¿Quieres saber cómo lo hago yo?
+
+Cómo aplico todo esto depende de cada persona: tu punto de partida, tu horario y cómo responde tu cuerpo. Si quieres saber cómo lo haría contigo, [agenda una llamada](/es/solicitar) y lo vemos juntos.
+
+Si prefieres hacerlo por tu cuenta, en la guía [Tu primer mes en el gimnasio](/es/programas/tu-primer-mes-en-el-gimnasio) tienes el plan completo, paso a paso.

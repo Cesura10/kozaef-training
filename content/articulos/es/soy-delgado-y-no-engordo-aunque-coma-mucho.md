@@ -6,7 +6,7 @@ categoria: ganar-musculo
 perfiles: [cuesta-ganar-peso, principiantes]
 nivel: basico
 fechaPublicacion: "2026-10-13"
-fechaRevision: "2026-10-13"
+fechaRevision: "2026-10-14"
 herramientaRelacionada: calories
 productoRelacionado: gana-peso-y-musculo
 fuentes:
@@ -52,17 +52,6 @@ No. Que te cueste más no significa que tu cuerpo no pueda ganar peso: en ambos 
 | Ritmo | Subir un 0,25-0,5 % del peso a la semana (principiantes e intermedios) | [Iraki et al., 2019](https://doi.org/10.3390/sports7070154) |
 | Proteína | Unos 1,6 g por kilo al día; el beneficio extra por encima es mínimo | [Morton et al., 2018](https://doi.org/10.1136/bjsports-2017-097608) |
 
-## Cómo lo aplico yo
-
-El primer paso siempre es comprobar cuánto comes de verdad. Muchas personas que "comen mucho" lo hacen en algunas comidas o algunos días, pero compensan sin querer en otros: se saltan el desayuno, comen poco cuando están ocupadas o el fin de semana. Lo que cuenta es la media de la semana.
-
-1. **Calcula tu punto de partida** con la [calculadora de calorías](/es/herramientas/calculadora-calorias) y súmale ese 10-20 %.
-2. **Pésate varias mañanas por semana** y compara la media: si en 2-3 semanas no sube, come algo más.
-3. **Entrena fuerza** para que el peso que ganes sea músculo y no solo grasa.
-4. **Llega a tu proteína**: más detalles en [cuánta proteína necesitas](/es/aprende/nutricion/cuanta-proteina-para-ganar-musculo).
-
-Cómo comer más sin sentirte lleno todo el día, qué rutina seguir y cómo ajustar semana a semana es lo que tienes paso a paso en la guía [Gana peso y músculo](/es/programas/gana-peso-y-musculo).
-
 ## Errores comunes
 
 - **Juzgar por lo que comes en un día.** Mira la media de la semana, no el día que comiste mucho.
@@ -70,3 +59,9 @@ Cómo comer más sin sentirte lleno todo el día, qué rutina seguir y cómo aju
 - **Comer más sin entrenar fuerza.** Subirá la báscula, pero en buena parte será grasa.
 - **Subir demasiado rápido.** Más allá de un ritmo moderado, lo que se gana es sobre todo grasa.
 - **Rendirse a las dos semanas.** Ajusta la cantidad según lo que diga la báscula y dale tiempo.
+
+## ¿Quieres saber cómo lo hago yo?
+
+Cómo aplico todo esto depende de cada persona: tu punto de partida, tu horario y cómo responde tu cuerpo. Si quieres saber cómo lo haría contigo, [agenda una llamada](/es/solicitar) y lo vemos juntos.
+
+Si prefieres hacerlo por tu cuenta, en la guía [Gana peso y músculo](/es/programas/gana-peso-y-musculo) tienes el plan completo, paso a paso.
