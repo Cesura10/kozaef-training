@@ -10,7 +10,7 @@ export const PAGES = {
       intro: 'Calcula tus números en segundos. Sin registro y con la explicación de cómo se calcula cada resultado.',
     },
     coaching: {
-      metaTitle: 'Entrenador personal online: entrenamiento y nutrición 1:1',
+      metaTitle: 'Entrenador personal online y nutrición 1:1',
       metaDescription: 'Entrenador personal online en español: plan de entrenamiento y nutrición hecho para ti, revisión semanal y contacto directo. Empezamos con una videollamada.',
       h1: 'Entrenador personal online',
       intro: 'Un plan de entrenamiento y nutrición hecho para ti, con seguimiento cada semana y contacto directo conmigo.',
@@ -162,7 +162,7 @@ export const PAGES = {
       intro: 'Work out your numbers in seconds. No sign-up, and every result explains how it is calculated.',
     },
     coaching: {
-      metaTitle: 'Online personal trainer: 1:1 training and nutrition coaching',
+      metaTitle: 'Online personal trainer: 1:1 coaching',
       metaDescription: 'Personalised training and nutrition with weekly check-ins. We start with a video call to see if we are a fit.',
       h1: 'Online 1:1 coaching',
       intro: 'A training and nutrition plan built for you, with weekly check-ins and direct contact with me.',
