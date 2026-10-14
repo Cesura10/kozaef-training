@@ -26,7 +26,9 @@ publica nada roto.
 | `borrador` | `true` mientras lo escribes (solo se ve en tu ordenador); `false` para publicar |
 
 3. Escribe el cuerpo con estas secciones (`## ` es un título de sección):
-   `## Qué dice la evidencia`, `## Cómo lo aplico yo`, `## Errores comunes`.
+   `## Qué dice la evidencia`, `## Errores comunes`, `## ¿Quieres saber cómo lo hago yo?`.
+   **Nunca expliques el método propio de Manu** (rutinas, menús, planes, "cómo lo aplico yo"): es su trabajo y lo que vende.
+   La última sección solo invita a [agendar una llamada](/es/solicitar) y a la guía relacionada.
    El aviso de herramienta, las preguntas frecuentes, las fuentes, tu caja de autor, el producto y el
    coaching se añaden solos.
 4. Tablas: usa tablas de Markdown (`| a | b |`). Cada cifra con su fuente enlazada al lado.

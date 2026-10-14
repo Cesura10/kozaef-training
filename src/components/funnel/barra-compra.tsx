@@ -91,9 +91,9 @@ export function BarraCompra({
           >
             <div className="flex items-center gap-3 rounded-full border border-primary/40 bg-elevated/95 py-2 pl-5 pr-2 shadow-[0_18px_50px_-12px_rgba(214,169,69,0.35)] backdrop-blur">
               <div className="min-w-0 flex-1">
-                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-primary">
+                <p className="truncate whitespace-nowrap font-mono text-[10px] uppercase tracking-[0.12em] text-primary sm:tracking-[0.2em]">
                   {kicker}
-                  {priceText && <span className="ml-2 tabular-nums text-fg">· {priceText}</span>}
+                  {priceText && <span className="ml-1.5 tabular-nums tracking-normal text-fg">· {priceText}</span>}
                 </p>
                 <p className="truncate text-sm font-semibold text-fg">{name}</p>
               </div>

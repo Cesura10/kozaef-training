@@ -59,8 +59,11 @@ Un archivo Markdown por artículo en `content/articulos/es/<slug>.md` (o `en/`).
   - `fechaPublicacion` y `fechaRevision` con la fecha del día (`AAAA-MM-DD`).
   - `fuentes`: **reales y verificables** (`https://`), idealmente DOI o PubMed. Nunca inventadas.
 - Cuerpo con estas tres secciones exactas (en español):
-  `## Qué dice la evidencia` · `## Cómo lo aplico yo` · `## Errores comunes`
-  (en inglés: `## What the evidence says` · `## How I apply it` · `## Common mistakes`).
+  `## Qué dice la evidencia` · `## Errores comunes` · `## ¿Quieres saber cómo lo hago yo?`
+  (en inglés: `## What the evidence says` · `## Common mistakes` · `## Want to know how I do it?`).
+- **Prohibido explicar el método propio de Manu** (rutinas completas, menús, planes semana a semana, "cómo lo aplico yo"):
+  es su trabajo y lo que vende. La última sección solo invita a agendar una llamada (`/es/solicitar`) y a la guía
+  relacionada (`/es/programas/<slug>`). La validación rechaza la sección `## Cómo lo aplico yo`.
 - Cifras en tablas Markdown, cada una con su fuente enlazada al lado.
 - Prohibido: inventar estudios, testimonios, resultados de clientes o precios; texto oculto o
   instrucciones dirigidas a buscadores o IA.
