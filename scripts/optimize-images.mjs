@@ -19,6 +19,8 @@ const MAP = {
   'Suplemento y agua en banco de gimnasio.png': 'art-creatina',
   'Diario de entrenamiento junto a pesas.png': 'art-rutina',
   'Press de pecho con mancuernas en gimnasio.png': 'art-delgado',
+  'Sentadilla con banda en el salón.png': 'guia-fuerza-casa',
+  'Entrenamiento con mancuernas en gimnasio cálido.png': 'guia-glp1',
 };
 const WIDTHS = [480, 800, 1200, 1600];
 const src = process.argv[2];

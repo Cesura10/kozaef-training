@@ -49,6 +49,7 @@ export type Product = {
 export const PRODUCTS: Product[] = [
   {
     id: 'fuerza-en-casa-8-semanas',
+    imagen: 'guia-fuerza-casa',
     slug: { es: 'fuerza-en-casa-8-semanas', en: 'home-strength-8-weeks' },
     tipo: 'infoproducto',
     nombre: { es: 'Fuerza en casa: 8 semanas', en: 'Home strength: 8 weeks' },
@@ -412,6 +413,7 @@ export const PRODUCTS: Product[] = [
   {
     // BORRADOR hasta que Manu apruebe la guía (docs/privado/infoproductos/fuerte-con-mounjaro-u-ozempic).
     id: 'fuerte-con-mounjaro-u-ozempic',
+    imagen: 'guia-glp1',
     slug: { es: 'fuerte-con-mounjaro-u-ozempic', en: 'strong-on-glp1' },
     tipo: 'infoproducto',
     nombre: { es: 'Fuerte con Mounjaro u Ozempic', en: 'Strong on Mounjaro or Ozempic' },
