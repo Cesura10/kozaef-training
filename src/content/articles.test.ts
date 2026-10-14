@@ -7,9 +7,15 @@ import { articlesFor } from './articles';
  * Importar ./articles ya valida los datos con zod; aquí van las reglas editoriales extra.
  */
 const REQUIRED: Record<'es' | 'en', string[]> = {
-  es: ['Qué dice la evidencia', 'Cómo lo aplico yo', 'Errores comunes'],
-  en: ['What the evidence says', 'How I apply it', 'Common mistakes'],
+  es: ['Qué dice la evidencia', 'Errores comunes', '¿Quieres saber cómo lo hago yo?'],
+  en: ['What the evidence says', 'Common mistakes', 'Want to know how I do it?'],
 };
+
+/**
+ * Decisión de Manu (2026-10-14): el método propio NO se explica en los artículos (es su trabajo y
+ * lo que vende). En su lugar, la sección final invita a agendar una llamada y a la guía.
+ */
+const FORBIDDEN_SECTIONS = ['Cómo lo aplico yo', 'How I apply it'];
 
 const all = [...articlesFor('es'), ...articlesFor('en')];
 
@@ -31,6 +37,7 @@ describe('artículos', () => {
   it.each(all.map((a) => [`${a.locale}/${a.slug}`, a] as const))('%s: estructura editorial', (_, a) => {
     expect(a.slug, 'el nombre del archivo debe ser minúsculas-con-guiones').toMatch(/^[a-z0-9]+(-[a-z0-9]+)*$/);
     for (const h of REQUIRED[a.locale]) expect(a.headings, `falta la sección "## ${h}"`).toContain(h);
+    for (const h of FORBIDDEN_SECTIONS) expect(a.headings, `sección prohibida "## ${h}": no se explica el método propio`).not.toContain(h);
     for (const f of a.fuentes) expect(f.url, 'las fuentes deben ser https').toMatch(/^https:\/\//);
     expect(a.fechaRevision >= a.fechaPublicacion, 'fechaRevision no puede ser anterior a fechaPublicacion').toBe(true);
   });
