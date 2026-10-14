@@ -15,6 +15,7 @@ import { CajaAutor } from '@/components/funnel/caja-autor';
 import { BloqueMetodo } from '@/components/funnel/bloque-metodo';
 import { RecomendacionAfiliado } from '@/components/funnel/recomendacion-afiliado';
 import { JsonLd, PageShell } from './page-shell';
+import { Foto } from './foto';
 
 const fmtDate = (d: string, locale: Locale) =>
   new Date(`${d}T12:00:00Z`).toLocaleDateString(locale === 'es' ? 'es-ES' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
@@ -31,6 +32,7 @@ export function articleMetadata(a: Article): Metadata {
       url: a.url,
       publishedTime: a.fechaPublicacion,
       modifiedTime: a.fechaRevision,
+      ...(a.imagen ? { images: [{ url: `/img/og/${a.imagen.nombre}.jpg`, width: 1200, height: 630, alt: a.imagen.alt }] } : {}),
     },
     ...(a.borrador ? { robots: { index: false, follow: false } } : {}),
   };
@@ -97,6 +99,16 @@ export async function ArticlePage({ article: a }: { article: Article }) {
             </li>
           ))}
         </ul>
+
+        {a.imagen && (
+          <Foto
+            name={a.imagen.nombre}
+            alt={a.imagen.alt}
+            sizes="(min-width: 768px) 768px, 100vw"
+            priority
+            className="mt-8 aspect-[1200/630]"
+          />
+        )}
 
         <section aria-labelledby="quick" className="mt-8 rounded-[var(--radius-xl)] border border-primary/30 bg-primary/5 p-6">
           <h2 id="quick" className="flex items-center gap-2 text-sm font-medium text-primary">
@@ -188,6 +200,7 @@ export async function ArticlePage({ article: a }: { article: Article }) {
             description: a.descripcion,
             datePublished: a.fechaPublicacion,
             dateModified: a.fechaRevision,
+            ...(a.imagen ? { image: `${SITE_URL}/img/og/${a.imagen.nombre}.jpg` } : {}),
             inLanguage: locale,
             author,
             publisher: { '@type': 'Organization', name: 'Kozaef Training', url: SITE_URL },

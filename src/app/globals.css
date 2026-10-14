@@ -108,6 +108,23 @@ body {
 }
 
 /* Movimiento de marca ------------------------------------------------------ */
+/* Aviso de cookies ya decidido: oculto desde el primer pintado (ver CONSENT_HIDE_SCRIPT). */
+html.kz-consented .kz-consent { display: none; }
+
+/* Móvil: animaciones de entrada más cortas para que la página termine de pintarse antes
+   (Speed Index). En ordenador se mantienen igual. */
+@media (max-width: 639px) {
+  .kinetic-word > span {
+    animation-duration: 0.55s;
+    animation-delay: calc(var(--i, 0) * 35ms + var(--d, 0ms) / 2);
+  }
+  /* Lo que entra con fundido no cuenta para LCP (Google ignora lo que pinta con opacidad 0):
+     en móvil se muestra directamente. */
+  .animate-rise {
+    animation: none;
+  }
+}
+
 .kinetic-word {
   display: inline-block;
   overflow: hidden;

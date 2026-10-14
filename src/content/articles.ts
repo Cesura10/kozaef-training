@@ -34,6 +34,11 @@ const Frontmatter = z.object({
   faq: z.array(z.object({ pregunta: z.string().min(5), respuesta: z.string().min(10) })).default([]),
   /** Recomendaciones con enlace de afiliado (src/content/affiliates.ts) al final del artículo. */
   recomendaciones: z.array(z.enum(['creatina', 'proteina'])).default([]),
+  /** Imagen de cabecera: nombre en public/img (p. ej. "art-proteina"), con su texto alternativo. */
+  imagen: z
+    .object({ nombre: z.string().regex(/^[a-z0-9-]+$/), alt: z.string().min(10).max(160) })
+    .nullable()
+    .default(null),
   borrador: z.boolean().default(false),
 });
 

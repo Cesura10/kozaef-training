@@ -32,6 +32,8 @@ export async function InfoproductPage({ locale, product: p }: { locale: Locale; 
   const trailer = p.trailer?.[locale] ?? [];
   const chapters = p.capitulos?.[locale] ?? [];
   const [first, ...rest] = p.nombre[locale].split(' ');
+  // Palabras largas ("MENOPAUSIA"): letra más pequeña para que no choquen con la portada.
+  const longTitle = Math.max(...p.nombre[locale].split(' ').map((w) => w.length)) > 8;
 
   return (
     <PageShell locale={locale}>
@@ -57,7 +59,7 @@ export async function InfoproductPage({ locale, product: p }: { locale: Locale; 
             </p>
             <KineticTitle
               lines={[first, { text: rest.join(' '), accent: true }].filter((l) => (typeof l === 'string' ? l : l.text))}
-              className="display mt-7 text-[3.2rem] font-bold uppercase leading-[0.92] sm:text-7xl xl:text-[6.5rem]"
+              className={`display mt-7 font-bold uppercase leading-[0.92] ${longTitle ? 'text-[2.4rem] sm:text-6xl xl:text-[4.6rem]' : 'text-[3.2rem] sm:text-7xl xl:text-[6.5rem]'}`}
             />
             <p className="animate-rise mt-8 max-w-[48ch] text-lg leading-relaxed text-muted [animation-delay:350ms] [text-wrap:pretty]">
               {p.paraQuien[locale]}
@@ -88,7 +90,7 @@ export async function InfoproductPage({ locale, product: p }: { locale: Locale; 
               )}
             </div>
           </div>
-          <BookCover title={p.nombre[locale]} subtitle={chapters.map((ch) => ch.t).join(' · ')} />
+          <BookCover title={p.nombre[locale]} subtitle={chapters.map((ch) => ch.t).join(' · ')} photo={p.imagen} />
         </div>
       </section>
 
