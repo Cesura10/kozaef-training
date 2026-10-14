@@ -27,6 +27,9 @@ faq:
     respuesta: "Sí, si llegas a la cantidad diaria y combinas fuentes variadas (legumbres, soja, cereales). Puede costar algo más llegar a la cifra con comida vegetal sola."
   - pregunta: "¿Cuándo tomarla: antes o después de entrenar?"
     respuesta: "Según la ISSN, el beneficio aparece tanto antes como después, y el efecto del entrenamiento dura al menos 24 horas. Lo importante es el total del día y repartirlo."
+imagen:
+  nombre: "art-proteina"
+  alt: "Alimentos ricos en proteína: huevos, pollo, salmón, yogur y legumbres"
 borrador: false
 ---
 

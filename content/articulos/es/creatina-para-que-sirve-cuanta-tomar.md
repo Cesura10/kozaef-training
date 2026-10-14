@@ -28,6 +28,9 @@ faq:
   - pregunta: "¿Tengo que tomarla los días que no entreno?"
     respuesta: "Sí. Lo que importa es mantener llenos los depósitos del músculo, y eso se consigue tomándola todos los días."
 recomendaciones: [creatina]
+imagen:
+  nombre: "art-creatina"
+  alt: "Bote de creatina en polvo con un cacito y un vaso de agua en un banco de gimnasio"
 borrador: false
 ---
 

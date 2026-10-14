@@ -27,6 +27,9 @@ faq:
     respuesta: "Sí sirven, pero para otra cosa: fortalecen el tronco y mejoran la resistencia del abdomen. No reducen la grasa que lo cubre."
   - pregunta: "¿Por qué la barriga es lo último que se va?"
     respuesta: "El orden en que pierdes grasa depende en gran parte de tu genética, tu sexo y tu edad. No puedes elegirlo, pero sí acelerar el proceso global con un déficit constante."
+imagen:
+  nombre: "art-grasa-abdominal"
+  alt: "Mujer midiéndose la cintura con una cinta métrica en el gimnasio"
 borrador: false
 ---
 

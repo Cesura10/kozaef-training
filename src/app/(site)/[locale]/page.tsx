@@ -18,6 +18,7 @@ import { KineticTitle } from '@/components/motion/kinetic-title';
 import { Marquee } from '@/components/motion/marquee';
 import { Spotlight } from '@/components/motion/spotlight';
 import { LogoMark } from '@/components/brand';
+import { Foto } from '@/components/site/foto';
 import { hasLocale } from '@/i18n/config';
 import Link from 'next/link';
 import { toolPath } from '@/content/tools';
@@ -160,6 +161,13 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
               <h2 className="display max-w-[22ch] text-4xl font-bold leading-[1.02] md:text-5xl">
                 {t.method.title}
               </h2>
+            </Reveal>
+            <Reveal className="mt-12">
+              <Foto
+                name="portada"
+                alt={locale === 'es' ? 'Entrenador corrigiendo la técnica de una sentadilla con mancuerna' : 'Coach correcting a dumbbell squat'}
+                className="aspect-[4/3] sm:aspect-[16/9] lg:aspect-[21/9]"
+              />
             </Reveal>
             <div className="mt-14 divide-y divide-border">
               {t.method.items.map((m, i) => (

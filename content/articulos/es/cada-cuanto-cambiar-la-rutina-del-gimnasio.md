@@ -23,6 +23,9 @@ faq:
     respuesta: "Mientras sigas progresando. Como referencia, bloques de 8-12 semanas con los ejercicios principales fijos."
   - pregunta: "¿Puedo cambiar ejercicios si me aburro?"
     respuesta: "Sí. Cambia los accesorios y mantén los básicos: así recuperas las ganas sin perder la referencia de tu progreso."
+imagen:
+  nombre: "art-rutina"
+  alt: "Cuaderno de entrenamiento abierto junto a unas mancuernas"
 borrador: false
 ---
 
