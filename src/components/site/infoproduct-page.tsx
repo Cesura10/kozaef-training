@@ -90,7 +90,7 @@ export async function InfoproductPage({ locale, product: p }: { locale: Locale; 
               )}
             </div>
           </div>
-          <BookCover title={p.nombre[locale]} subtitle={chapters.map((ch) => ch.t).join(' · ')} />
+          <BookCover title={p.nombre[locale]} subtitle={chapters.map((ch) => ch.t).join(' · ')} photo={p.imagen} />
         </div>
       </section>
 
