@@ -8,6 +8,7 @@ import { PRODUCTS } from '@/content/products';
 import { ButtonLink } from '@/components/ui/button';
 import { JsonLd, PageShell, sectionMetadata } from './page-shell';
 import { PageHero } from './page-hero';
+import { Foto } from './foto';
 import { Reveal } from '@/components/marketing/reveal';
 import { Spotlight } from '@/components/motion/spotlight';
 import { DrawLine } from '@/components/motion/draw-line';
@@ -67,6 +68,16 @@ export async function CoachingPage({ locale }: { locale: Locale }) {
         </ButtonLink>
       </PageHero>
 
+      <div className="mx-auto w-full max-w-7xl px-4 pb-20 sm:px-6">
+        <Reveal>
+          <Foto
+            name="coaching"
+            alt={locale === 'es' ? 'Plan de entrenamiento personalizado en el móvil, en el gimnasio' : 'Personalised training plan on a phone at the gym'}
+            className="aspect-[4/3] sm:aspect-[16/9] lg:aspect-[21/9]"
+          />
+        </Reveal>
+      </div>
+
       <section className="border-t border-border/60 py-24 md:py-32">
         <div className="mx-auto w-full max-w-7xl px-4 sm:px-6">
           <Reveal>
@@ -84,6 +95,13 @@ export async function CoachingPage({ locale }: { locale: Locale }) {
               </li>
             ))}
           </ol>
+          <Reveal className="mt-16">
+            <Foto
+              name="coaching-llamada"
+              alt={locale === 'es' ? 'Videollamada de seguimiento entre entrenador y clienta' : 'Check-in video call between coach and client'}
+              className="aspect-[4/3] md:aspect-[21/9]"
+            />
+          </Reveal>
         </div>
       </section>
 

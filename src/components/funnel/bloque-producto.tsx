@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { FondoFoto } from '@/components/site/foto';
 import { Package } from '@phosphor-icons/react/dist/ssr';
 import type { Locale } from '@/i18n/config';
 import { FUNNEL } from '@/content/funnel';
@@ -34,7 +35,13 @@ export async function BloqueProducto({
   const f = FUNNEL[locale];
   const priceText = price(p, locale);
   return (
-    <section className="gold-sheen rounded-[var(--radius-xl)] border border-primary/30 p-6 sm:p-8">
+    <section className={`gold-sheen rounded-[var(--radius-xl)] border border-primary/30 p-6 sm:p-8 ${p.imagen ? 'grid gap-6 sm:grid-cols-[11rem_minmax(0,1fr)] sm:items-center' : ''}`}>
+      {p.imagen && (
+        <div className="group relative aspect-[4/3] overflow-hidden rounded-[var(--radius-lg,1rem)] border border-primary/20 sm:aspect-[3/4]">
+          <FondoFoto name={p.imagen} sizes="(min-width: 640px) 176px, 90vw" />
+        </div>
+      )}
+      <div>
       <div className="flex items-center gap-3 text-primary">
         <Package size={22} weight="duotone" aria-hidden />
         <span className="text-sm font-medium">{f.productEyebrow}</span>
@@ -57,6 +64,7 @@ export async function BloqueProducto({
             {p.lanzamiento && <span className="ml-2 text-xs text-primary">{f.launch}</span>}
           </span>
         )}
+      </div>
       </div>
     </section>
   );

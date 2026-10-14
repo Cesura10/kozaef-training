@@ -6,7 +6,7 @@ categoria: nutricion
 perfiles: [principiantes, mujeres-45]
 nivel: basico
 fechaPublicacion: "2026-10-08"
-fechaRevision: "2026-10-08"
+fechaRevision: "2026-10-14"
 herramientaRelacionada: null
 productoRelacionado: null
 fuentes:
@@ -28,6 +28,9 @@ faq:
   - pregunta: "¿Tengo que tomarla los días que no entreno?"
     respuesta: "Sí. Lo que importa es mantener llenos los depósitos del músculo, y eso se consigue tomándola todos los días."
 recomendaciones: [creatina]
+imagen:
+  nombre: "art-creatina"
+  alt: "Bote de creatina en polvo con un cacito y un vaso de agua en un banco de gimnasio"
 borrador: false
 ---
 
@@ -52,7 +55,7 @@ En la práctica, eso se traduce en poder hacer alguna repetición más por serie
 
 La fase de carga solo sirve para llenar los depósitos antes. La revisión de 2021 de la ISSN concluye que dosis diarias pequeñas (3-5 g) son eficaces y que **la carga no es necesaria** ([Antonio et al., 2021](https://doi.org/10.1186/s12970-021-00412-w)).
 
-Con la comida es difícil llegar a esas cantidades: una ración de carne de unos 170 g aporta alrededor de 0,7 g de creatina ([Antonio et al., 2021](https://doi.org/10.1186/s12970-021-00412-w)). Si comes poca carne y pescado, partes con los depósitos más bajos.
+Con la comida es difícil llegar a esas cantidades: una ración de carne de unos 170 g aporta alrededor de 0,7 g de creatina ([Antonio et al., 2021](https://doi.org/10.1186/s12970-021-00412-w)). Si comes poca carne y pescado, partes con los depósitos más bajos. Y recuerda que la creatina no sustituye a lo básico: comer [suficiente proteína](/es/aprende/nutricion/cuanta-proteina-para-ganar-musculo) y entrenar fuerza.
 
 ### ¿Cuándo tomarla: antes o después de entrenar?
 
@@ -80,27 +83,6 @@ El posicionamiento de la ISSN concluye que no hay pruebas sólidas de efectos pe
 
 Lo que sí ocurre: con la fase de carga es habitual subir de 1 a 3 kg en pocos días, sobre todo por agua retenida ([Antonio et al., 2021](https://doi.org/10.1186/s12970-021-00412-w)). No es grasa.
 
-## Cómo lo aplico yo
-
-### Un punto de partida para la mayoría
-
-| Qué | Cómo |
-|---|---|
-| Tipo | Creatina monohidrato en polvo, sin mezclas ni "fórmulas avanzadas" |
-| Cantidad | 3-5 g al día. Para la mayoría, 5 g al día es una buena cifra fija |
-| Cuándo | A la hora que te sea más fácil no olvidarla: con el desayuno, con la comida de después de entrenar… |
-| Días | Todos, también los que no entrenas |
-| Carga | No hace falta. Si quieres notar el efecto antes, 4 tomas de 5 g al día durante 5-7 días, contando con 1-3 kg más en la báscula |
-| Cuánto tarda | Sin carga, unas cuatro semanas en llenar los depósitos |
-
-Mézclala con agua, leche, un batido o un yogur. Lo práctico es atarla a algo que ya haces cada día, porque la constancia importa mucho más que la hora.
-
-### Cómo saber si te está funcionando
-
-Fíjate en tus entrenos, no en el espejo: a partir del primer mes, mira si sacas alguna repetición más con los mismos pesos o si mantienes mejor la intensidad entre series. Apúntalo para poder compararlo.
-
-Lo que no puede hacer la creatina es compensar un entrenamiento sin progresión, poca proteína o mal descanso. Cuánto notes depende también de tu punto de partida (si comes poca carne o pescado, tus depósitos parten más bajos), del tipo de entrenamiento y de cómo responde tu cuerpo. Si tienes alguna enfermedad renal o tomas medicación, consulta antes con tu médico.
-
 ## Errores comunes
 
 - **Tomarla solo los días de entreno.** Los depósitos se llenan y se mantienen con la toma diaria. Tómala todos los días.
@@ -109,3 +91,9 @@ Lo que no puede hacer la creatina es compensar un entrenamiento sin progresión,
 - **Dejarla porque "no notas nada" a la semana.** Sin fase de carga tarda unas cuatro semanas en hacer efecto completo.
 - **Pensar que sustituye al entrenamiento.** Ayuda a entrenar más fuerte; sin un entrenamiento de fuerza progresivo, el beneficio es mucho menor.
 - **Obsesionarse con tomarla justo después de entrenar.** La evidencia sobre el momento es débil: mejor una hora fija que no se te olvide.
+
+## ¿Quieres saber cómo lo hago yo?
+
+Cómo aplico todo esto depende de cada persona: tu punto de partida, tu horario y cómo responde tu cuerpo. Si quieres saber cómo lo haría contigo, [agenda una llamada](/es/solicitar) y lo vemos juntos.
+
+Si prefieres hacerlo por tu cuenta, en [Programas](/es/programas) tienes las guías con el plan completo, paso a paso.

@@ -1,7 +1,7 @@
 'use client';
 
 import { useId } from 'react';
-import { motion } from 'motion/react';
+import { m } from 'motion/react';
 
 /** Selector de opciones en píldora (2-3 opciones). */
 export function Segmented<T extends string>({
@@ -33,7 +33,7 @@ export function Segmented<T extends string>({
             className="relative rounded-full px-1 py-2 text-[11px] font-medium text-muted transition-colors hover:text-fg aria-pressed:text-primary-fg min-[400px]:px-2 min-[400px]:text-xs sm:text-[13px]"
           >
             {value === o.value && (
-              <motion.span
+              <m.span
                 layoutId={`seg-${name}`}
                 className="absolute inset-0 rounded-full bg-primary"
                 transition={{ type: 'spring', stiffness: 380, damping: 32 }}

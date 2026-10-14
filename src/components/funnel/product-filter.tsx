@@ -3,7 +3,8 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { ArrowRight } from '@phosphor-icons/react';
-import { AnimatePresence, MotionConfig, motion } from 'motion/react';
+import { FondoFoto } from '@/components/site/foto';
+import { AnimatePresence, MotionConfig, m } from 'motion/react';
 
 export type ProductCard = {
   id: string;
@@ -18,6 +19,8 @@ export type ProductCard = {
   /** Etiqueta del tipo: "Guía", "Servicio"... */
   kind: string;
   infoproduct: boolean;
+  /** Foto de fondo (public/img). */
+  image?: string;
 };
 
 type Option = { id: string; label: string };
@@ -81,10 +84,10 @@ export function ProductFilter({
         <p className="mt-8 rounded-2xl border border-dashed border-border p-8 text-center text-sm text-faint">{labels.empty}</p>
       ) : (
         <MotionConfig reducedMotion="user">
-          <motion.ul layout className="mt-10 grid gap-5 md:grid-cols-2">
+          <m.ul layout className="mt-10 grid gap-5 md:grid-cols-2">
             <AnimatePresence mode="popLayout" initial={false}>
               {shown.map((p, i) => (
-                <motion.li
+                <m.li
                   key={p.id}
                   layout
                   initial={{ opacity: 0, scale: 0.96 }}
@@ -101,6 +104,7 @@ export function ProductFilter({
                       p.infoproduct ? 'gold-sheen border-primary/25 hover:border-primary/60' : 'border-border bg-surface hover:border-primary/50'
                     }`}
                   >
+                    {p.image && <FondoFoto name={p.image} />}
                     <span
                       aria-hidden
                       className="display pointer-events-none absolute -right-4 -top-8 select-none text-[11rem] font-bold leading-none text-transparent [-webkit-text-stroke:1px_rgba(214,169,69,0.18)] transition-transform duration-700 group-hover:-translate-x-3"
@@ -110,7 +114,7 @@ export function ProductFilter({
                     <p className="relative font-mono text-xs uppercase tracking-[0.2em] text-primary">{p.kind}</p>
                     <div className="relative">
                       <h2 className="display max-w-[14ch] text-3xl font-bold leading-[1.02] text-fg md:text-4xl">{p.name}</h2>
-                      <p className="mt-3 line-clamp-2 max-w-[46ch] text-sm leading-relaxed text-muted">{p.forWho}</p>
+                      <p className={`mt-3 line-clamp-2 max-w-[46ch] text-sm leading-relaxed ${p.image ? 'text-fg/80' : 'text-muted'}`}>{p.forWho}</p>
                       <div className="mt-6 flex items-center justify-between border-t border-border/80 pt-5">
                         <p className="text-sm">
                           {p.waitlist ? (
@@ -131,10 +135,10 @@ export function ProductFilter({
                       </div>
                     </div>
                   </Link>
-                </motion.li>
+                </m.li>
               ))}
             </AnimatePresence>
-          </motion.ul>
+          </m.ul>
         </MotionConfig>
       )}
     </div>

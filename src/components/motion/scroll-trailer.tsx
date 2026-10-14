@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef } from 'react';
-import { motion, useScroll, useTransform, type MotionValue } from 'motion/react';
+import { m, useScroll, useTransform, type MotionValue } from 'motion/react';
 
 export type TrailerScene = { k: string; t: string; p: string };
 
@@ -33,7 +33,7 @@ export function ScrollTrailer({ scenes, label }: { scenes: TrailerScene[]; label
       </section>
       <section ref={ref} aria-label={label} className="relative motion-reduce:hidden" style={{ height: `${(n + 0.5) * 100}dvh` }}>
         <div className="sticky top-0 flex h-[100dvh] items-center overflow-hidden">
-          <motion.div
+          <m.div
             aria-hidden
             style={{ left: glowX }}
             className="pointer-events-none absolute top-1/2 h-[40rem] w-[40rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(214,169,69,0.14),transparent)]"
@@ -43,7 +43,7 @@ export function ScrollTrailer({ scenes, label }: { scenes: TrailerScene[]; label
             <div className="flex items-center gap-4 md:flex-col md:items-start">
               <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted">{label}</p>
               <div className="relative h-px w-24 bg-border md:h-40 md:w-px">
-                <motion.span style={{ scaleX: bar, scaleY: bar }} className="absolute inset-0 origin-left bg-primary md:origin-top" />
+                <m.span style={{ scaleX: bar, scaleY: bar }} className="absolute inset-0 origin-left bg-primary md:origin-top" />
               </div>
             </div>
             <div className="relative min-h-[22rem] md:min-h-[26rem]">
@@ -74,7 +74,7 @@ function Scene({ scene, index, total, progress }: { scene: TrailerScene; index: 
   const filter = useTransform(blur, (v) => `blur(${v}px)`);
 
   return (
-    <motion.div style={{ opacity, y, filter }} className="absolute inset-0 flex flex-col justify-center">
+    <m.div style={{ opacity, y, filter }} className="absolute inset-0 flex flex-col justify-center">
       <span
         aria-hidden
         className="display pointer-events-none absolute right-0 top-1/2 hidden -translate-y-1/2 select-none text-[22rem] font-bold leading-none text-transparent [-webkit-text-stroke:1px_rgba(214,169,69,0.22)] lg:block"
@@ -89,6 +89,6 @@ function Scene({ scene, index, total, progress }: { scene: TrailerScene; index: 
         {scene.t}
       </h3>
       <p className="mt-6 max-w-[44ch] text-lg text-muted md:text-xl">{scene.p}</p>
-    </motion.div>
+    </m.div>
   );
 }
