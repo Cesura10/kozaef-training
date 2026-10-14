@@ -27,6 +27,9 @@ faq:
     respuesta: "No es lo habitual. En esta etapa, el entrenamiento de fuerza sirve sobre todo para conservar el músculo que el cuerpo tiende a perder y para sentirte más fuerte en el día a día."
   - pregunta: "¿Y la terapia hormonal?"
     respuesta: "Es una decisión médica que debes valorar con tu ginecóloga o tu médico. El entrenamiento y la alimentación son útiles en cualquier caso."
+imagen:
+  nombre: "art-menopausia"
+  alt: "Mujer de unos 50 años haciendo peso muerto rumano con mancuernas"
 borrador: false
 ---
 

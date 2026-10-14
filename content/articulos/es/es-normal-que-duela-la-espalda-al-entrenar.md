@@ -25,6 +25,9 @@ faq:
     respuesta: "No es malo en sí. Como cualquier ejercicio, puede molestar si la carga sube más rápido de lo que te adaptas. Con peso adecuado y progresión, fortalece la espalda."
   - pregunta: "¿Cuándo debería ver a un profesional aunque no sea urgente?"
     respuesta: "Si el dolor no mejora en unas semanas, baja por la pierna con hormigueo o debilidad, o te despierta por la noche y no cambia con nada."
+imagen:
+  nombre: "art-espalda"
+  alt: "Hombre practicando la bisagra de cadera con un palo apoyado en la espalda"
 borrador: false
 ---
 

@@ -12,6 +12,7 @@ import { PackElige3, type PackItem } from '@/components/funnel/pack-elige-3';
 import { PACK_SIZE } from '@/content/pack';
 import { PageShell, sectionMetadata } from './page-shell';
 import { PageHero } from './page-hero';
+import { Foto } from './foto';
 
 export const programsMetadata = (locale: Locale) => {
   const c = pagesCopy(locale).programs;
@@ -45,6 +46,11 @@ export async function ProgramsPage({ locale }: { locale: Locale }) {
     <PageShell locale={locale}>
       <PageHero index="03" label={c.h1} title={[c.h1]} intro={c.intro} />
       <section className="mx-auto w-full max-w-7xl px-4 pb-16 sm:px-6">
+        <Foto
+          name="programas"
+          alt={locale === 'es' ? 'Guía de entrenamiento en una tablet y cuaderno de notas en el gimnasio' : 'Training guide on a tablet with a notebook at the gym'}
+          className="mb-14 aspect-[16/9] lg:aspect-[21/9]"
+        />
         <div>
           <ProductFilter
             products={products}

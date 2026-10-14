@@ -25,6 +25,9 @@ faq:
     respuesta: "Sí. Suelen ser más fuertes al principio y disminuyen a medida que el cuerpo se acostumbra. No son una medida de si el entreno ha servido."
   - pregunta: "¿Las mujeres notan los cambios igual de rápido?"
     respuesta: "El proceso es el mismo: la fuerza sube pronto y el músculo crece con semanas de entrenamiento constante. Lo que cambia es la cantidad absoluta de músculo, no la lógica."
+imagen:
+  nombre: "art-cuanto-tarda"
+  alt: "Mujer haciendo curl de bíceps con mancuerna frente al espejo del gimnasio"
 borrador: false
 ---
 

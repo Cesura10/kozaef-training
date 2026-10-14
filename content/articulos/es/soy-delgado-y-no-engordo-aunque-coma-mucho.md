@@ -27,6 +27,9 @@ faq:
     respuesta: "No son imprescindibles, pero las calorías líquidas llenan menos y pueden ayudarte a comer más si te cuesta."
   - pregunta: "¿Cuánto debería subir por semana?"
     respuesta: "Una revisión sobre ganar músculo propone alrededor del 0,25-0,5 % del peso a la semana para principiantes e intermedios. Más rápido suele ser sobre todo grasa."
+imagen:
+  nombre: "art-delgado"
+  alt: "Chico joven y delgado haciendo press de pecho con mancuernas en un banco del gimnasio"
 borrador: false
 ---
 
