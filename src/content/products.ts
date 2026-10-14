@@ -42,6 +42,8 @@ export type Product = {
   /** Índice público del infoproducto. */
   capitulos?: Record<Locale, Array<{ t: string; p: string }>>;
   borrador?: boolean;
+  /** Foto de la guía (nombre en public/img, p. ej. "art-menopausia"): fichas y portada. */
+  imagen?: string;
 };
 
 export const PRODUCTS: Product[] = [
@@ -127,6 +129,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'fuerte-en-la-menopausia',
+    imagen: 'art-menopausia',
     slug: { es: 'fuerte-en-la-menopausia', en: 'strong-through-menopause' },
     tipo: 'infoproducto',
     nombre: { es: 'Fuerte en la Menopausia', en: 'Strong Through Menopause' },
@@ -221,6 +224,7 @@ export const PRODUCTS: Product[] = [
   {
     // BORRADOR hasta que Manu apruebe la guía (docs/privado/infoproductos/pierde-grasa-sin-pasar-hambre).
     id: 'pierde-grasa-sin-pasar-hambre',
+    imagen: 'art-grasa-abdominal',
     slug: { es: 'pierde-grasa-sin-pasar-hambre', en: 'lose-fat-without-hunger' },
     tipo: 'infoproducto',
     nombre: { es: 'Pierde grasa sin pasar hambre', en: 'Lose Fat Without Hunger' },
@@ -316,6 +320,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'entrena-sin-dolor',
+    imagen: 'art-espalda',
     slug: { es: 'entrena-sin-dolor', en: 'train-without-pain' },
     tipo: 'infoproducto',
     nombre: { es: 'Entrena sin dolor', en: 'Train Without Pain' },
@@ -498,6 +503,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'tu-primer-mes-en-el-gimnasio',
+    imagen: 'art-cuanto-tarda',
     slug: { es: 'tu-primer-mes-en-el-gimnasio', en: 'your-first-month-at-the-gym' },
     tipo: 'infoproducto',
     nombre: { es: 'Tu primer mes en el gimnasio', en: 'Your First Month at the Gym' },
@@ -588,6 +594,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'gana-peso-y-musculo',
+    imagen: 'art-delgado',
     slug: { es: 'gana-peso-y-musculo', en: 'gain-weight-and-muscle' },
     tipo: 'infoproducto',
     nombre: { es: 'Gana peso y músculo', en: 'Gain Weight and Muscle' },
@@ -680,6 +687,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'revision-tecnica',
+    imagen: 'portada',
     slug: { es: 'revision-de-tecnica', en: 'technique-review' },
     tipo: 'servicio',
     nombre: { es: 'Revisión de técnica en vídeo', en: 'Video technique review' },

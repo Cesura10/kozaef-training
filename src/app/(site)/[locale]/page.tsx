@@ -18,7 +18,7 @@ import { KineticTitle } from '@/components/motion/kinetic-title';
 import { Marquee } from '@/components/motion/marquee';
 import { Spotlight } from '@/components/motion/spotlight';
 import { LogoMark } from '@/components/brand';
-import { Foto } from '@/components/site/foto';
+import { FondoFoto, Foto } from '@/components/site/foto';
 import { hasLocale } from '@/i18n/config';
 import Link from 'next/link';
 import { toolPath } from '@/content/tools';
@@ -196,18 +196,19 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
           <div className="no-scrollbar mt-12 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-px-4 px-4 pb-2 sm:scroll-px-6 sm:px-6 xl:px-[calc((100vw_-_80rem)/2_+_1.5rem)] xl:scroll-px-[calc((100vw_-_80rem)/2_+_1.5rem)]">
             {/* Artículos reales más recientes; si aún no hay, las categorías como puerta de entrada. */}
             {(latest.length > 0
-              ? latest.map((a) => ({ key: a.url, href: a.url, tag: CATEGORIES[a.categoria].label[locale], title: a.titulo }))
-              : CATEGORY_IDS.map((id) => ({ key: id, href: categoryPath(locale, id), tag: t.nav.learn, title: CATEGORIES[id].label[locale] }))
+              ? latest.map((a) => ({ key: a.url, href: a.url, tag: CATEGORIES[a.categoria].label[locale], title: a.titulo, image: a.imagen?.nombre }))
+              : CATEGORY_IDS.map((id) => ({ key: id, href: categoryPath(locale, id), tag: t.nav.learn, title: CATEGORIES[id].label[locale], image: undefined as string | undefined }))
             ).map((g, i) => (
               <Link
                 key={g.key}
                 href={g.href}
-                className={`flex aspect-[4/5] w-[78vw] max-w-[20rem] shrink-0 snap-start flex-col justify-between rounded-[var(--radius-xl)] border p-7 transition-colors hover:border-primary/60 sm:w-[20rem] ${
-                  i % 2 === 0 ? 'gold-sheen border-primary/20' : 'border-border bg-surface'
+                className={`group relative flex aspect-[4/5] w-[78vw] max-w-[20rem] shrink-0 snap-start flex-col justify-between overflow-hidden rounded-[var(--radius-xl)] border p-7 transition-colors hover:border-primary/60 sm:w-[20rem] ${
+                  g.image ? 'border-primary/20 bg-surface' : i % 2 === 0 ? 'gold-sheen border-primary/20' : 'border-border bg-surface'
                 }`}
               >
-                <span className="text-xs font-medium text-primary">{g.tag}</span>
-                <h3 className="display text-2xl font-bold leading-[1.1]">{g.title}</h3>
+                {g.image && <FondoFoto name={g.image} sizes="320px" fuerte />}
+                <span className="relative text-xs font-medium text-primary">{g.tag}</span>
+                <h3 className="display relative text-2xl font-bold leading-[1.1]">{g.title}</h3>
               </Link>
             ))}
           </div>
@@ -217,13 +218,14 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
         <section id="coaching" className="scroll-mt-20 border-t border-border/60 py-24">
           <div className="mx-auto grid w-full max-w-7xl items-center gap-12 px-4 sm:px-6 lg:grid-cols-[5fr_7fr] lg:gap-20">
             <Reveal>
-              {/* Panel tipográfico hasta tener foto real de Manu entrenando (1200x1500, con permiso). */}
-              <Spotlight className="gold-sheen relative flex aspect-[4/5] w-full flex-col justify-between overflow-hidden rounded-[var(--radius-xl)] border border-primary/20 p-8">
-                <LogoMark className="h-10 w-10" />
-                <p className="display foil-text text-[9rem] font-bold leading-[0.8] tracking-[-0.05em] sm:text-[11rem]" aria-hidden>
+              {/* Foto provisional (generada); sustituir por una foto real de Manu entrenando cuando la haya. */}
+              <Spotlight className="group relative flex aspect-[4/5] w-full flex-col justify-between overflow-hidden rounded-[var(--radius-xl)] border border-primary/20 bg-surface p-8">
+                <FondoFoto name="coaching-llamada" sizes="(min-width: 1024px) 40vw, 90vw" />
+                <LogoMark className="relative h-10 w-10" />
+                <p className="display foil-text relative text-[9rem] font-bold leading-[0.8] tracking-[-0.05em] sm:text-[11rem]" aria-hidden>
                   1:1
                 </p>
-                <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted">{t.coaching.eyebrow}</p>
+                <p className="relative font-mono text-xs uppercase tracking-[0.2em] text-fg/80">{t.coaching.eyebrow}</p>
               </Spotlight>
             </Reveal>
             <Reveal delay={0.1}>

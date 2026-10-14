@@ -34,6 +34,7 @@ export async function ProgramsPage({ locale }: { locale: Locale }) {
     waitlist: !isBuyable(p),
     kind: p.tipo === 'infoproducto' ? c.kind : c.service,
     infoproduct: p.tipo === 'infoproducto',
+    image: p.imagen,
   }));
   // Pack "elige 3": solo guías con compra en Shopify (enlace /cart/VARIANTE:1) y precio.
   const SHOPIFY_CART = /^(https:\/\/[^/]+)\/cart\/(\d+):1$/;
