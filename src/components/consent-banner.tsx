@@ -26,17 +26,24 @@ function apply(marketing: boolean) {
   else revokeMetaPixel();
 }
 
-/** Banner de consentimiento. Rechazar y Aceptar con la misma visibilidad. */
+/**
+ * Banner de consentimiento. Rechazar y Aceptar con la misma visibilidad.
+ * Va en el HTML del servidor para pintarse en el primer render (antes esperaba a hidratar y era
+ * el elemento LCP en móvil, ~3 s tarde). CONSENT_HIDE_SCRIPT añade `kz-consented` a <html>
+ * antes de pintar si ya hay decisión guardada, y el CSS lo oculta: sin parpadeo.
+ */
 export function ConsentBanner({ locale }: { locale: 'es' | 'en' }) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
 
   useEffect(() => {
-    if (!consentNeeded()) return;
     const c = readConsent();
-    // Se abre en el siguiente tick: el HTML del servidor (sin banner) y el primer render coinciden.
-    const timer = c ? undefined : setTimeout(() => setOpen(true), 0);
     if (c) apply(c.marketing);
-    const reopen = () => setOpen(true);
+    // Ya oculto por CSS si había decisión; lo quitamos también del DOM sin cambiar nada visible.
+    const timer = c ? setTimeout(() => setOpen(false), 0) : undefined;
+    const reopen = () => {
+      document.documentElement.classList.remove('kz-consented');
+      setOpen(true);
+    };
     window.addEventListener(CONSENT_EVENT, reopen);
     return () => {
       clearTimeout(timer);
@@ -44,16 +51,18 @@ export function ConsentBanner({ locale }: { locale: 'es' | 'en' }) {
     };
   }, []);
 
+  if (!consentNeeded()) return null;
   if (!open) return null;
   const t = COPY[locale];
   const choose = (marketing: boolean) => {
     saveConsent(marketing);
     apply(marketing);
+    document.documentElement.classList.add('kz-consented');
     setOpen(false);
   };
   const btn = 'h-11 flex-1 rounded-full border border-border-strong px-5 text-sm font-semibold text-fg transition hover:border-primary hover:text-primary sm:flex-none';
   return (
-    <div role="dialog" aria-live="polite" aria-label="Cookies" className="fixed inset-x-3 bottom-3 z-50 mx-auto max-w-3xl rounded-[var(--radius-xl)] border border-border bg-elevated p-5 shadow-2xl sm:inset-x-6">
+    <div role="dialog" aria-live="polite" aria-label="Cookies" className="kz-consent fixed inset-x-3 bottom-3 z-50 mx-auto max-w-3xl rounded-[var(--radius-xl)] border border-border bg-elevated p-5 shadow-2xl sm:inset-x-6">
       <p className="text-sm leading-relaxed text-muted">
         {t.text}{' '}
         <a href={`/${locale}/legal/cookies`} className="text-fg underline underline-offset-4 hover:text-primary">
@@ -71,6 +80,9 @@ export function ConsentBanner({ locale }: { locale: 'es' | 'en' }) {
     </div>
   );
 }
+
+/** Script en línea (antes de pintar): oculta el banner si ya hay decisión guardada. */
+export const CONSENT_HIDE_SCRIPT = `try{localStorage.getItem('kz_consent')&&document.documentElement.classList.add('kz-consented')}catch(e){}`;
 
 /** Enlace del pie para cambiar la decisión. */
 export function ConsentSettingsLink({ label }: { label: string }) {

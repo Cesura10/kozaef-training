@@ -3,7 +3,7 @@
 import { useId, useRef, useState } from 'react';
 import { track } from '@/lib/analytics/client';
 import { saveLastToolResult } from '@/lib/analytics/last-tool';
-import { motion } from 'motion/react';
+import { m } from 'motion/react';
 import { AnimatedNumber } from '@/components/calculators/animated-number';
 import { ArrowRight } from '@phosphor-icons/react/dist/ssr';
 import {
@@ -61,7 +61,7 @@ export function ProteinCalculator({ t }: { t: Dictionary['calculator'] }) {
               className="relative rounded-full px-1 py-2 text-[11px] font-medium text-muted transition-colors hover:text-fg aria-pressed:text-primary-fg min-[400px]:px-2 min-[400px]:text-xs sm:text-[13px]"
             >
               {goal === key && (
-                <motion.span
+                <m.span
                   layoutId="goal-pill"
                   className="absolute inset-0 rounded-full bg-primary"
                   transition={{ type: 'spring', stiffness: 380, damping: 32 }}

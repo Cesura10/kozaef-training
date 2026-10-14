@@ -1,7 +1,7 @@
 'use client';
 
 import type { ReactNode } from 'react';
-import { MotionConfig, motion } from 'motion/react';
+import { MotionConfig, m } from 'motion/react';
 
 /**
  * Aparición al entrar en pantalla. Jerarquía: guía la lectura sección a sección.
@@ -19,7 +19,7 @@ export function Reveal({
 }) {
   return (
     <MotionConfig reducedMotion="user">
-      <motion.div
+      <m.div
         className={className}
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -27,7 +27,7 @@ export function Reveal({
         transition={{ duration: 0.7, delay, ease: [0.16, 1, 0.3, 1] }}
       >
         {children}
-      </motion.div>
+      </m.div>
     </MotionConfig>
   );
 }
