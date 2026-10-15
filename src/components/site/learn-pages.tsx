@@ -19,7 +19,11 @@ export function learnIndexMetadata(locale: Locale): Metadata {
   return {
     title: c.metaTitle,
     description: c.metaDescription,
-    alternates: { canonical: sectionPath('learn', locale), languages: Object.fromEntries(LOCALES.map((l) => [l, sectionPath('learn', l)])) },
+    // hreflang solo hacia idiomas con artículos: si no, Google descubre páginas vacías (noindex) y las cuenta como excluidas.
+    alternates: {
+      canonical: sectionPath('learn', locale),
+      languages: Object.fromEntries(LOCALES.filter((l) => articlesFor(l).length > 0).map((l) => [l, sectionPath('learn', l)])),
+    },
     // Sin artículos, la portada de la biblioteca no se indexa (contenido vacío).
     ...(articlesFor(locale).length === 0 ? { robots: { index: false, follow: true } } : {}),
   };
@@ -104,7 +108,11 @@ export function topicMetadata(locale: Locale, t: Topic): Metadata {
       locale === 'es'
         ? `${entry.intro[locale]} Artículos claros basados en la evidencia y calculadoras gratis para aplicarlo.`
         : `${entry.intro[locale]} Clear, evidence-based articles and free calculators to apply it.`,
-    alternates: { canonical: path(locale), languages: Object.fromEntries(LOCALES.map((l) => [l, path(l)])) },
+    alternates: {
+      canonical: path(locale),
+      // Solo idiomas donde este tema tiene artículos (ver learnIndexMetadata).
+      languages: Object.fromEntries(LOCALES.filter((l) => topicInfo(l, t).list.length > 0).map((l) => [l, path(l)])),
+    },
     // Página real e indexable, pero solo cuando tenga artículos (evita páginas vacías en Google).
     ...(list.length === 0 ? { robots: { index: false, follow: true } } : {}),
   };

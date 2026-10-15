@@ -32,7 +32,8 @@ const nextConfig: NextConfig = {
         destination: "https://kozaeftraining.com/:path*",
         permanent: true,
       },
-      { source: "/", destination: "/es", permanent: false },
+      // Permanente: Google consolida la portada en /es en vez de marcarla como "página con redirección temporal".
+      { source: "/", destination: "/es", permanent: true },
       // /solicitud pasó a /solicitar (brief biblioteca y embudo)
       { source: "/es/solicitud", destination: "/es/solicitar", permanent: true },
     ];
