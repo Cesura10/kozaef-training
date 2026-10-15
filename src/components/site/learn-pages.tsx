@@ -162,12 +162,12 @@ export async function TopicPage({ locale, topic }: { locale: Locale; topic: Topi
         )}
 
         <div className="mt-14 space-y-6">
+          <CtaCoaching locale={locale} location="topic" />
           {topic.kind === 'category' ? (
             <BloqueProducto locale={locale} categoria={topic.id} location="topic" />
           ) : (
             <BloqueProducto locale={locale} perfiles={[topic.id]} location="topic" />
           )}
-          <CtaCoaching locale={locale} location="topic" />
         </div>
       </section>
     </PageShell>

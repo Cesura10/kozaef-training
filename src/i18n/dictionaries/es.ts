@@ -11,7 +11,7 @@ const es = {
     guides: 'Guías',
     coaching: 'Coaching',
     login: 'Entrar',
-    apply: 'Solicitar plaza',
+    apply: 'Auditoría gratis',
     learn: 'Aprende',
     programs: 'Programas',
     about: 'Sobre mí',

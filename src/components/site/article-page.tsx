@@ -168,8 +168,8 @@ export async function ArticlePage({ article: a }: { article: Article }) {
         </div>
 
         <div className="mt-12 space-y-6">
-          <BloqueProducto locale={locale} productId={a.productoRelacionado} categoria={a.categoria} perfiles={a.perfiles} location="article-end" />
           <CtaCoaching locale={locale} location="article-end" />
+          <BloqueProducto locale={locale} productId={a.productoRelacionado} categoria={a.categoria} perfiles={a.perfiles} location="article-end" />
         </div>
 
         {rel.length > 0 && (

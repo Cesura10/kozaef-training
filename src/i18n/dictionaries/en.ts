@@ -13,7 +13,7 @@ const en: Dictionary = {
     guides: 'Guides',
     coaching: 'Coaching',
     login: 'Log in',
-    apply: 'Apply now',
+    apply: 'Free audit',
     learn: 'Learn',
     programs: 'Programs',
     about: 'About',

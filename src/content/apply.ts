@@ -48,10 +48,10 @@ type Copy = {
 
 export const APPLY_COPY: Record<Locale, Copy> = {
   es: {
-    metaTitle: 'Solicitar plaza de coaching 1:1',
-    metaDescription: 'Cuéntame tu situación en 2 minutos y vemos si puedo ayudarte con un plan de entrenamiento y nutrición hecho para ti.',
-    h1: 'Solicita tu plaza',
-    intro: 'Dos minutos para ver si encajamos. Trabajo con pocas personas a la vez para dedicar a cada una el tiempo que necesita.',
+    metaTitle: 'Auditoría 1:1 gratuita de entrenamiento y nutrición',
+    metaDescription: 'Cuéntame tu caso en 2 minutos y lo revisamos juntos en una videollamada gratuita de 20 minutos: dónde estás, qué falla y tu siguiente paso.',
+    h1: 'Pide tu auditoría gratis',
+    intro: 'Cuéntame tu caso en 2 minutos. Si puedo ayudarte, lo revisamos juntos en una videollamada de 20 minutos. Gratis y sin compromiso.',
     questions: {
       goal: {
         label: '¿Cuál es tu objetivo principal?',
@@ -82,15 +82,15 @@ export const APPLY_COPY: Record<Locale, Copy> = {
     privacy: 'He leído la',
     privacyLink: 'política de privacidad',
     age: 'Tengo 14 años o más',
-    submit: 'Enviar solicitud',
+    submit: 'Pedir mi auditoría',
     sending: 'Enviando…',
     missing: 'Responde todas las preguntas y acepta la privacidad para continuar.',
     limited: 'Ya has enviado una solicitud hace poco. Te responderé pronto.',
     failed: 'No se pudo enviar. Inténtalo de nuevo en un momento.',
     results: {
       qualified: {
-        title: 'Encajamos. Elige tu llamada.',
-        body: 'Por lo que me cuentas, puedo ayudarte. Reserva una videollamada de 20 minutos y vemos tu plan.',
+        title: 'Encajamos. Elige día para tu auditoría.',
+        body: 'Por lo que me cuentas, puedo ayudarte. Reserva tu videollamada gratuita de 20 minutos y revisamos tu caso.',
         cta: 'Elegir día y hora',
         noCalendar: 'Te escribo en las próximas 48 horas para cerrar la llamada.',
       },
@@ -111,10 +111,10 @@ export const APPLY_COPY: Record<Locale, Copy> = {
     },
   },
   en: {
-    metaTitle: 'Apply for 1:1 coaching',
+    metaTitle: 'Free 1:1 training and nutrition audit',
     metaDescription: 'Tell me about your situation in 2 minutes and we will see if I can help with a plan built for you.',
-    h1: 'Apply for a spot',
-    intro: 'Two minutes to see if we are a fit. I work with a small number of people so each one gets the time they need.',
+    h1: 'Get your free audit',
+    intro: 'Tell me about your case in 2 minutes. If I can help, we review it together in a free 20-minute video call. No strings attached.',
     questions: {
       goal: {
         label: 'What is your main goal?',

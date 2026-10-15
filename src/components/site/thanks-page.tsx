@@ -42,7 +42,7 @@ export async function ThanksPage({ locale }: { locale: Locale }) {
             data-location="thanks"
             className="mt-4 inline-flex h-11 items-center rounded-full bg-primary px-5 text-sm font-semibold text-primary-fg hover:bg-primary-hover"
           >
-            {locale === 'es' ? 'Solicitar plaza' : 'Apply now'}
+            {locale === 'es' ? 'Pedir auditoría gratis' : 'Get your free audit'}
           </Link>
         </div>
       </section>

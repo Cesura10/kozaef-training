@@ -105,8 +105,8 @@ export async function ToolPage({ locale, id }: { locale: Locale; id: ToolId }) {
 
           {/* Embudo (brief): resultado sin email -> extra por email -> producto -> coaching */}
           <div className="mt-6 grid gap-6 lg:grid-cols-2">
-            <BloqueProducto locale={locale} categoria={TOOL_CATEGORY[id]} location={`tool-${id}`} />
             <CtaCoaching locale={locale} location={`tool-${id}`} />
+            <BloqueProducto locale={locale} categoria={TOOL_CATEGORY[id]} location={`tool-${id}`} />
           </div>
         </section>
 
