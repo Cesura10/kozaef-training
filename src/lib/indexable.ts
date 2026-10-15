@@ -7,7 +7,6 @@ import { AUTHOR } from '@/content/author';
 import { DIAGNOSIS_APPROVED } from '@/content/diagnosis';
 import { CATEGORY_IDS, PROFILE_IDS } from '@/content/taxonomy';
 import { articlesFor, categoryPath, forProfile, inCategory, profilePath } from '@/content/articles';
-import { LEGAL_SLUGS } from './legal';
 
 /**
  * Fuente ÚNICA de páginas indexables (sitemap, llms.txt, IndexNow).
@@ -20,7 +19,7 @@ export type IndexablePage = {
   lastmod?: string;
   priority: number;
   title?: string;
-  group: 'home' | 'tools' | 'learn' | 'article' | 'programs' | 'coaching' | 'about' | 'legal';
+  group: 'home' | 'tools' | 'learn' | 'article' | 'programs' | 'coaching' | 'about';
 };
 
 const each = (fn: (l: Locale) => string) => Object.fromEntries(LOCALES.map((l) => [l, fn(l)])) as Record<Locale, string>;
@@ -56,7 +55,8 @@ export function indexablePages(): IndexablePage[] {
       }
       for (const a of arts) out.push({ path: a.url, lastmod: a.fechaRevision, priority: 0.7, group: 'article', title: a.titulo });
     }
-    for (const slug of LEGAL_SLUGS) out.push({ path: `/${l}/legal/${slug}`, alternates: each((x) => `/${x}/legal/${slug}`), priority: 0.2, group: 'legal' });
+    // Textos legales: siguen accesibles e indexables por enlace, pero fuera del sitemap para que
+    // Google dedique el rastreo de una web nueva a las páginas que importan.
   }
   return out;
 }
