@@ -5,7 +5,7 @@ import { SECTIONS, sectionPath } from './routes';
  * Herramientas públicas: slugs por idioma y textos (SEO + interfaz).
  * Añadir una herramienta = una entrada aquí + su componente en components/calculators.
  */
-export const TOOL_IDS = ['calories', 'protein', 'bodyfat'] as const;
+export const TOOL_IDS = ['calories', 'protein', 'bodyfat', 'bmi', 'onerm'] as const;
 export type ToolId = (typeof TOOL_IDS)[number];
 
 /** Segmento de la URL por idioma: /es/herramientas/..., /en/tools/... */
@@ -15,6 +15,8 @@ export const TOOL_SLUGS: Record<ToolId, Record<Locale, string>> = {
   calories: { es: 'calculadora-calorias', en: 'calorie-calculator' },
   protein: { es: 'calculadora-proteina', en: 'protein-calculator' },
   bodyfat: { es: 'calculadora-grasa-corporal', en: 'body-fat-calculator' },
+  bmi: { es: 'calculadora-imc', en: 'bmi-calculator' },
+  onerm: { es: 'calculadora-1rm', en: 'one-rep-max-calculator' },
 };
 
 export const toolPath = (id: ToolId, locale: Locale) => sectionPath('tools', locale, TOOL_SLUGS[id][locale]);
@@ -44,6 +46,10 @@ const SRC = {
   morton: { titulo: 'Morton et al. (2018). Protein supplementation and resistance training: meta-analysis. Br J Sports Med', url: 'https://doi.org/10.1136/bjsports-2017-097608' },
   issn: { titulo: 'Jäger et al. (2017). ISSN Position Stand: protein and exercise. J Int Soc Sports Nutr', url: 'https://doi.org/10.1186/s12970-017-0177-8' },
   navy: { titulo: 'Friedl (2015). History of the U.S. Navy Body Composition program (ecuaciones de Hodgdon y Beckett). Mil Med', url: 'https://pubmed.ncbi.nlm.nih.gov/25562863/' },
+  who: { titulo: 'Organización Mundial de la Salud (2025). Obesidad y sobrepeso: datos y cifras (clasificación del IMC)', url: 'https://www.who.int/es/news-room/fact-sheets/detail/obesity-and-overweight' },
+  okorodudu: { titulo: 'Okorodudu et al. (2010). Rendimiento diagnóstico del IMC para identificar obesidad definida por grasa corporal: revisión sistemática y metaanálisis. Int J Obes', url: 'https://doi.org/10.1038/ijo.2010.5' },
+  ross: { titulo: 'Ross et al. (2020). El perímetro de cintura como signo vital en la práctica clínica: declaración de consenso. Nat Rev Endocrinol', url: 'https://doi.org/10.1038/s41574-019-0310-7' },
+  mayhew: { titulo: 'Mayhew et al. (2008). Precisión de las ecuaciones de predicción del 1RM en press de banca en mujeres antes y después del entrenamiento de fuerza. J Strength Cond Res', url: 'https://doi.org/10.1519/JSC.0b013e31817b02ad' },
 };
 
 /** Textos de interfaz compartidos por las calculadoras. */
@@ -92,6 +98,15 @@ const CALC_UI_RAW = {
       high: 'Elevado',
     },
     invalid: 'Revisa las medidas: parecen mal tomadas (la cintura debe ser mayor que el cuello).',
+    bmi: 'Tu IMC',
+    bmiCategories: { under: 'Bajo peso', normal: 'Peso normal', over: 'Sobrepeso', obese1: 'Obesidad grado I', obese2: 'Obesidad grado II', obese3: 'Obesidad grado III' },
+    healthyRange: 'Peso con IMC normal para tu altura',
+    bmiNote: 'El IMC no distingue grasa de músculo: si entrenas fuerza, mira también tu cintura o tu % de grasa.',
+    liftWeight: 'Peso levantado',
+    reps: 'Repeticiones',
+    oneRm: 'Tu 1RM estimado',
+    percentOf: '% del 1RM',
+    imprecise: 'Con más de 10 repeticiones la estimación pierde precisión. Usa un peso con el que hagas entre 2 y 10.',
     emailTitle: 'Guarda tu resultado',
     emailBody: 'Te mando guías para sacarle partido a estos números.',
     disclaimer: 'Estimación orientativa. No sustituye el consejo de un profesional sanitario.',
@@ -139,6 +154,15 @@ const CALC_UI_RAW = {
       high: 'High',
     },
     invalid: 'Check your measurements: they look off (waist must be larger than neck).',
+    bmi: 'Your BMI',
+    bmiCategories: { under: 'Underweight', normal: 'Normal weight', over: 'Overweight', obese1: 'Obesity class I', obese2: 'Obesity class II', obese3: 'Obesity class III' },
+    healthyRange: 'Normal-BMI weight for your height',
+    bmiNote: 'BMI does not tell fat from muscle: if you lift, check your waist or body fat % too.',
+    liftWeight: 'Weight lifted',
+    reps: 'Reps',
+    oneRm: 'Your estimated 1RM',
+    percentOf: '% of 1RM',
+    imprecise: 'Above 10 reps the estimate loses accuracy. Use a weight you can lift 2-10 times.',
     emailTitle: 'Save your result',
     emailBody: 'I will send you guides to make the most of these numbers.',
     disclaimer: 'Indicative estimate. Not a substitute for advice from a health professional.',
@@ -362,6 +386,72 @@ export const TOOL_CONTENT: Record<Locale, Record<ToolId, ToolContent>> = {
       },
       sources: [SRC.navy],
     },
+    bmi: {
+      metaTitle: 'Calculadora de IMC (índice de masa corporal) gratis',
+      metaDescription: 'Calcula tu IMC con tu peso y altura, descubre en qué categoría de la OMS estás y qué peso corresponde a un IMC normal para tu altura.',
+      h1: 'Calculadora de IMC',
+      intro: 'Tu índice de masa corporal en segundos, con la clasificación de la Organización Mundial de la Salud y el rango de peso normal para tu altura.',
+      how: [
+        { h: 'Cómo se calcula', p: 'El IMC es tu peso en kilos dividido entre tu altura en metros al cuadrado. Por ejemplo, 70 kg y 1,75 m: 70 / (1,75 × 1,75) = 22,9.' },
+        { h: 'Las categorías de la OMS', p: 'Por debajo de 18,5, bajo peso; de 18,5 a 24,9, peso normal; de 25 a 29,9, sobrepeso; y a partir de 30, obesidad, que se divide en grado I (30-34,9), grado II (35-39,9) y grado III (40 o más).' },
+        { h: 'Para qué sirve (y para qué no)', p: 'Es una medida rápida y útil para poblaciones grandes, pero no distingue entre grasa y músculo. Un metaanálisis con casi 32.000 personas encontró que el IMC no detecta a la mitad de quienes tienen exceso de grasa: acierta cuando dice "obesidad", pero se le escapan muchos casos.' },
+        { h: 'Qué mirar además del IMC', p: 'El perímetro de cintura aporta información sobre tu salud que el IMC no da, y un grupo internacional de expertos recomienda medirlo siempre. Si entrenas fuerza, tu porcentaje de grasa describe mejor tu cuerpo: puedes calcularlo con nuestra calculadora de grasa corporal.' },
+      ],
+      faq: [
+        { q: '¿Qué IMC es saludable?', a: 'Según la OMS, entre 18,5 y 24,9 se considera peso normal en adultos. Es una referencia general: tu cintura, tu fuerza y tus análisis también cuentan.' },
+        { q: '¿El IMC sirve si hago pesas?', a: 'Sirve menos. Como no distingue músculo de grasa, una persona musculada puede salir con sobrepeso teniendo poca grasa. En ese caso, mira tu cintura o tu porcentaje de grasa.' },
+        { q: '¿Es igual para hombres y mujeres?', a: 'Sí, la fórmula y las categorías son las mismas para adultos de ambos sexos. En niños y adolescentes se usan tablas por edad, no esta calculadora.' },
+        { q: '¿Cada cuánto lo calculo?', a: 'Cuando cambie tu peso de forma clara. Para seguir tu progreso semana a semana, es más útil la media de tu peso y la cintura.' },
+        { q: 'Tengo sobrepeso según el IMC, ¿qué hago?', a: 'Úsalo como punto de partida, no como diagnóstico. Mídete la cintura y, si quieres perder grasa, calcula tus calorías con nuestra calculadora. Si tienes alguna enfermedad, consulta con tu médico.' },
+      ],
+      ctaTitle: '¿Quieres que revise tu caso?',
+      ctaBody: 'En una auditoría gratuita de 20 minutos vemos dónde estás y cuál sería tu siguiente paso.',
+      reviewed: '2026-10-16',
+      example: {
+        title: 'Ejemplos resueltos',
+        intro: 'IMC = peso (kg) / altura (m)². Valores calculados con esta misma calculadora.',
+        head: ['Persona', 'IMC', 'Categoría OMS', 'Peso con IMC normal'],
+        rows: [
+          ['165 cm y 60 kg', '22,0', 'Peso normal', '50,4-67,8 kg'],
+          ['175 cm y 85 kg', '27,8', 'Sobrepeso', '56,7-76,3 kg'],
+          ['180 cm y 100 kg', '30,9', 'Obesidad grado I', '59,9-80,7 kg'],
+        ],
+      },
+      sources: [SRC.who, SRC.okorodudu, SRC.ross],
+    },
+    onerm: {
+      metaTitle: 'Calculadora de 1RM (repetición máxima) gratis',
+      metaDescription: 'Calcula tu repetición máxima (1RM) sin arriesgarte a levantarla, y los pesos para entrenar al 60-95 % en sentadilla, press de banca o peso muerto.',
+      h1: 'Calculadora de 1RM',
+      intro: 'Estima el peso máximo que podrías levantar una vez a partir de una serie normal, y los pesos para cada porcentaje de tu entrenamiento.',
+      how: [
+        { h: 'Qué es el 1RM', p: 'Es el peso máximo que puedes levantar una sola vez con buena técnica en un ejercicio. Sirve para calcular con qué peso entrenar, pero probarlo de verdad cansa mucho y tiene más riesgo, sobre todo si estás empezando.' },
+        { h: 'Cómo se calcula', p: 'Introduces un peso y las repeticiones que hiciste con él hasta casi no poder más. Se calcula la media de dos fórmulas muy usadas: Epley (peso × (1 + repeticiones / 30)) y Brzycki (peso × 36 / (37 − repeticiones)).' },
+        { h: 'Cuándo es fiable', p: 'Las fórmulas aciertan más cuando haces menos de 10 repeticiones. Con series más largas el error crece, por eso la calculadora te avisa. Lo ideal es usar un peso con el que hagas entre 2 y 10.' },
+        { h: 'Cómo usar la tabla de porcentajes', p: 'Muchos programas indican el peso como porcentaje del 1RM: por ejemplo, 3 series al 75 %. La tabla te da directamente los kilos para cada porcentaje, redondeados a medio kilo.' },
+      ],
+      faq: [
+        { q: '¿Es peligroso probar mi 1RM real?', a: 'Para quien empieza, no merece la pena: el cansancio y el riesgo son mayores y la estimación es suficiente para programar. Si lo pruebas, hazlo con buena técnica, calentando bien y con alguien que te ayude.' },
+        { q: '¿Sirve para cualquier ejercicio?', a: 'Funciona mejor en ejercicios básicos con barra o mancuernas (sentadilla, press de banca, peso muerto, press militar). En máquinas y ejercicios pequeños la estimación es menos precisa.' },
+        { q: '¿Qué repeticiones pongo?', a: 'Las que hiciste con buena técnica dejando como mucho una en reserva. Si paraste lejos del fallo, el 1RM saldrá más bajo de lo real.' },
+        { q: '¿Cada cuánto lo recalculo?', a: 'Cada 4-8 semanas o cuando notes que los pesos de tus series te resultan fáciles.' },
+        { q: '¿Por qué me sale distinto en cada ejercicio?', a: 'Porque cada ejercicio mueve músculos diferentes. Calcula el 1RM de cada uno por separado.' },
+      ],
+      ctaTitle: '¿Quieres que revise tu caso?',
+      ctaBody: 'En una auditoría gratuita de 20 minutos vemos cómo entrenas y cuál sería tu siguiente paso.',
+      reviewed: '2026-10-16',
+      example: {
+        title: 'Ejemplos resueltos',
+        intro: 'Media de Epley y Brzycki, redondeada a medio kilo. Valores calculados con esta misma calculadora.',
+        head: ['Serie', '1RM estimado', 'Al 90 %', 'Al 80 %', 'Al 70 %'],
+        rows: [
+          ['60 kg × 8 repeticiones', '75 kg', '67,5 kg', '60 kg', '52,5 kg'],
+          ['80 kg × 5 repeticiones', '91,5 kg', '82,5 kg', '73,5 kg', '64 kg'],
+          ['100 kg × 3 repeticiones', '108 kg', '97 kg', '86,5 kg', '75,5 kg'],
+        ],
+      },
+      sources: [SRC.mayhew],
+    },
   },
   en: {
     calories: {
@@ -449,6 +539,60 @@ export const TOOL_CONTENT: Record<Locale, Record<ToolId, ToolContent>> = {
         ],
       },
       sources: [SRC.navy],
+    },
+    bmi: {
+      metaTitle: 'Free BMI calculator (body mass index)',
+      metaDescription: 'Work out your BMI from your weight and height, your WHO category and the normal-BMI weight range for your height.',
+      h1: 'BMI calculator',
+      intro: 'Your body mass index in seconds, with the World Health Organization categories and the normal weight range for your height.',
+      how: [
+        { h: 'How it works', p: 'BMI is your weight in kilos divided by your height in metres squared.' },
+        { h: 'Its limits', p: 'BMI does not tell fat from muscle. A meta-analysis of almost 32,000 people found it misses about half of people with excess body fat.' },
+      ],
+      faq: [
+        { q: 'What is a healthy BMI?', a: 'The WHO considers 18.5-24.9 normal weight in adults.' },
+        { q: 'Does BMI work if I lift weights?', a: 'Less so. If you are muscular, check your waist or body fat % instead.' },
+      ],
+      ctaTitle: 'Want me to review your case?',
+      ctaBody: 'In a free 20-minute audit we look at where you are and your next step.',
+      reviewed: '2026-10-16',
+      example: {
+        title: 'Worked examples',
+        intro: 'BMI = weight (kg) / height (m)².',
+        head: ['Person', 'BMI', 'WHO category'],
+        rows: [
+          ['165 cm, 60 kg', '22.0', 'Normal weight'],
+          ['175 cm, 85 kg', '27.8', 'Overweight'],
+        ],
+      },
+      sources: [SRC.who, SRC.okorodudu],
+    },
+    onerm: {
+      metaTitle: 'Free one-rep max (1RM) calculator',
+      metaDescription: 'Estimate your one-rep max without testing it, plus the weights to train at 60-95% of your 1RM.',
+      h1: 'One-rep max calculator',
+      intro: 'Estimate the most you could lift once from a normal set, and the weights for each training percentage.',
+      how: [
+        { h: 'How it works', p: 'The average of the Epley and Brzycki formulas, from a weight and the reps you did with it.' },
+        { h: 'When it is accurate', p: 'The equations are more accurate below 10 reps.' },
+      ],
+      faq: [
+        { q: 'Should I test my real 1RM?', a: 'If you are a beginner it is not worth it: the estimate is enough to plan your training.' },
+        { q: 'How often should I recalculate it?', a: 'Every 4-8 weeks or when your working sets feel easy.' },
+      ],
+      ctaTitle: 'Want me to review your case?',
+      ctaBody: 'In a free 20-minute audit we look at how you train and your next step.',
+      reviewed: '2026-10-16',
+      example: {
+        title: 'Worked examples',
+        intro: 'Average of Epley and Brzycki, rounded to 0.5 kg.',
+        head: ['Set', 'Estimated 1RM', 'At 80%'],
+        rows: [
+          ['60 kg × 8 reps', '75 kg', '60 kg'],
+          ['80 kg × 5 reps', '91.5 kg', '73.5 kg'],
+        ],
+      },
+      sources: [SRC.mayhew],
     },
   },
 };

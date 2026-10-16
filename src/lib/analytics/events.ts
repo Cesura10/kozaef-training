@@ -3,8 +3,8 @@
  * (docs/privado/ecosistema.md §15). Nombres en snake_case, propiedades pequeñas y sin datos personales.
  */
 export type AnalyticsEvents = {
-  calculator_used: { tool: 'protein' | 'calories' | 'bodyfat'; goal?: string };
-  calculator_email_click: { tool: 'protein' | 'calories' | 'bodyfat' };
+  calculator_used: { tool: 'protein' | 'calories' | 'bodyfat' | 'bmi' | 'onerm'; goal?: string };
+  calculator_email_click: { tool: 'protein' | 'calories' | 'bodyfat' | 'bmi' | 'onerm' };
   /** Clic en cualquier CTA: cuál y dónde (la página va en $pathname automáticamente). */
   cta_click: { cta: CtaId; location: string };
   waitlist_join: { product: string };

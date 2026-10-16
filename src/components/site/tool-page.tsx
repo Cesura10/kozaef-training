@@ -14,12 +14,14 @@ import { NewsletterForm } from '@/components/marketing/newsletter-form';
 import { ProteinCalculator } from '@/components/marketing/protein-calculator';
 import { CaloriesCalculator } from '@/components/calculators/calories-calculator';
 import { BodyfatCalculator } from '@/components/calculators/bodyfat-calculator';
+import { BmiCalculator } from '@/components/calculators/bmi-calculator';
+import { OneRmCalculator } from '@/components/calculators/onerm-calculator';
 import { BloqueProducto } from '@/components/funnel/bloque-producto';
 import { CtaCoaching } from '@/components/funnel/cta-coaching';
 import type { CategoryId } from '@/content/taxonomy';
 
 /** Tema de cada herramienta, para elegir el producto relacionado. */
-const TOOL_CATEGORY: Record<ToolId, CategoryId> = { calories: 'perder-grasa', protein: 'nutricion', bodyfat: 'perder-grasa' };
+const TOOL_CATEGORY: Record<ToolId, CategoryId> = { calories: 'perder-grasa', protein: 'nutricion', bodyfat: 'perder-grasa', bmi: 'perder-grasa', onerm: 'fuerza-tecnica' };
 
 export function toolMetadata(locale: Locale, id: ToolId): Metadata {
   const c = TOOL_CONTENT[locale][id];
@@ -87,6 +89,8 @@ export async function ToolPage({ locale, id }: { locale: Locale; id: ToolId }) {
           <div className="animate-rise mt-10 rounded-[var(--radius-xl)] border border-border bg-surface/80 p-5 [animation-delay:100ms] sm:p-8">
             {id === 'calories' && <CaloriesCalculator ui={ui} />}
             {id === 'bodyfat' && <BodyfatCalculator ui={ui} />}
+            {id === 'bmi' && <BmiCalculator ui={ui} />}
+            {id === 'onerm' && <OneRmCalculator ui={ui} />}
             {id === 'protein' && (
               <div className="mx-auto max-w-xl">
                 <ProteinCalculator t={t.calculator} />
