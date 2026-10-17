@@ -56,7 +56,10 @@ Un archivo Markdown por artículo en `content/articulos/es/<slug>.md` (o `en/`).
 - `<slug>`: minúsculas y guiones, sin tildes (`como-romper-un-estancamiento`). Es la URL.
 - Cabecera YAML entre `---` con todos los campos de `docs/contenido.md`. Para el bot:
   - `borrador: false` (si es `true`, nunca se publica).
-  - `fechaPublicacion` y `fechaRevision` con la fecha del día (`AAAA-MM-DD`).
+  - `fechaPublicacion` = el **siguiente lunes o jueves libre** (`AAAA-MM-DD`): mira la fecha más alta de
+    `content/articulos/es/` y usa el lunes o jueves siguiente. Un artículo por hueco; la validación lo comprueba.
+    Hasta ese día no aparece en la web; el despliegue programado de lunes y jueves lo publica solo.
+  - `fechaRevision` = la misma fecha que `fechaPublicacion`.
   - `fuentes`: **reales y verificables** (`https://`), idealmente DOI o PubMed. Nunca inventadas.
 - Cuerpo con estas tres secciones exactas (en español):
   `## Qué dice la evidencia` · `## Errores comunes` · `## ¿Quieres saber cómo lo hago yo?`
