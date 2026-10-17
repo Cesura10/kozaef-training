@@ -15,17 +15,33 @@ const en: Dictionary = {
     login: 'Log in',
     apply: 'Free audit',
     learn: 'Learn',
-    programs: 'Programs',
+    programs: 'Guides',
     about: 'About',
     diagnosis: 'Free assessment',
     menu: 'Menu',
     language: 'Language',
   },
   hero: {
-    titleA: 'Train with intent.',
-    titleB: 'Progress with data.',
-    subtitle: 'Free tools, clear guides and 1:1 coaching for people who train hard but stopped seeing results.',
+    titleA: 'Your online',
+    titleB: 'personal trainer.',
+    subtitle: 'I build a training and nutrition plan for you and we review it every week, so you lose fat, build muscle or start strength training without guessing.',
     ctaTools: 'See the tools',
+    ctaHow: 'How I work',
+    stepsTitle: 'How we start',
+    steps: [
+      { h: 'Free audit', p: 'Tell me about your case in 2 minutes and we review it together in a 20-minute video call.' },
+      { h: 'Your plan', p: 'Training and nutrition built around your life, schedule and the food you like.' },
+      { h: 'Weekly check-in', p: 'We look at your data and adjust. If you stall, we know why.' },
+    ],
+  },
+  paths: {
+    eyebrow: 'How I can help',
+    title: 'Choose how you want to progress.',
+    items: [
+      { tag: 'Main', h: '1:1 coaching', p: 'I build your plan and check in every week. We start with a free audit to see if we are a fit.', cta: 'Get your free audit' },
+      { tag: 'On your own', h: 'PDF guides', p: 'If you prefer to train alone, step-by-step guides for your goal, from €17. In Spanish.', cta: 'See the guides' },
+      { tag: 'Free', h: 'Calculators and articles', p: 'Work out your calories and protein and learn what the evidence says, no sign-up.', cta: 'See the tools' },
+    ],
   },
   calculator: {
     title: 'Protein calculator',
@@ -57,11 +73,11 @@ const en: Dictionary = {
     ],
   },
   guides: {
-    title: 'Guides to break your plateau.',
+    title: 'Articles to break your plateau.',
   },
   coaching: {
     eyebrow: '1:1 coaching',
-    title: 'Limited spots. Real work.',
+    title: 'A plan for you. Weekly check-ins.',
     photo: 'Your training photo goes here',
     items: [
       'Training and nutrition plan built around your life',

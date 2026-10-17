@@ -11,7 +11,6 @@ import {
   Ruler,
 } from '@phosphor-icons/react/dist/ssr';
 import { ButtonLink } from '@/components/ui/button';
-import { ProteinCalculator } from '@/components/marketing/protein-calculator';
 import { NewsletterForm } from '@/components/marketing/newsletter-form';
 import { Reveal } from '@/components/marketing/reveal';
 import { KineticTitle } from '@/components/motion/kinetic-title';
@@ -22,6 +21,7 @@ import { FondoFoto, Foto } from '@/components/site/foto';
 import { hasLocale } from '@/i18n/config';
 import Link from 'next/link';
 import { toolPath } from '@/content/tools';
+import { sectionPath } from '@/content/routes';
 import { CATEGORIES, CATEGORY_IDS } from '@/content/taxonomy';
 import { articlesFor, categoryPath } from '@/content/articles';
 import { SiteHeader } from '@/components/site/site-header';
@@ -44,33 +44,152 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
       <SiteHeader locale={locale} t={t} />
 
       <main className="flex-1">
-        {/* Hero: mensaje a la izquierda, herramienta real a la derecha */}
-        <section className="mx-auto grid w-full max-w-7xl items-center gap-12 px-4 pb-20 pt-12 sm:px-6 md:pt-20 lg:min-h-[calc(100dvh-4rem)] lg:grid-cols-[1.25fr_1fr] lg:gap-14 lg:pb-24">
+        {/* Hero: qué es Kozaef en una frase (entrenador personal online 1:1) y cómo empezamos */}
+        <section className="mx-auto grid w-full max-w-7xl items-center gap-12 px-4 pb-20 pt-12 sm:px-6 md:pt-20 lg:min-h-[calc(100dvh-4rem)] lg:grid-cols-[1.2fr_1fr] lg:gap-14 lg:pb-24">
           {/* Hero con animación CSS: visible antes de hidratar (LCP) */}
           <div>
             <KineticTitle
               lines={[t.hero.titleA, { text: t.hero.titleB, accent: true }]}
               className="display text-[2.4rem] font-bold leading-[1.02] sm:text-6xl lg:text-[3.25rem] xl:text-[3.6rem]"
             />
-            <p className="animate-rise mt-6 max-w-[46ch] text-lg leading-relaxed text-muted [animation-delay:400ms]">
+            <p className="animate-rise mt-6 max-w-[48ch] text-lg leading-relaxed text-muted [animation-delay:400ms]">
               {t.hero.subtitle}
             </p>
             <div className="animate-rise mt-9 flex flex-wrap gap-3 [animation-delay:500ms]">
-              <ButtonLink href="#herramientas" className="h-12 px-6" data-track="cta_click" data-cta="tools" data-location="hero">
-                {t.hero.ctaTools}
+              <ButtonLink href={applyPath(locale as Locale)} className="h-12 px-6" data-track="cta_click" data-cta="apply" data-location="hero">
+                {t.nav.apply}
                 <ArrowRight size={16} weight="bold" />
               </ButtonLink>
-              <ButtonLink href={applyPath(locale as Locale)} variant="outline" className="h-12 px-6" data-track="cta_click" data-cta="apply" data-location="hero">
-                {t.nav.apply}
+              <ButtonLink href={sectionPath('coaching', locale)} variant="outline" className="h-12 px-6" data-track="cta_click" data-cta="coaching" data-location="hero">
+                {t.hero.ctaHow}
               </ButtonLink>
             </div>
           </div>
-          <div className="animate-rise [animation-delay:250ms]">
-            <ProteinCalculator t={t.calculator} />
-          </div>
+          <ol className="animate-rise space-y-0 overflow-hidden rounded-[var(--radius-xl)] border border-primary/25 gold-sheen [animation-delay:250ms]">
+            <li className="px-7 pt-7 font-mono text-xs uppercase tracking-[0.2em] text-primary sm:px-8">{t.hero.stepsTitle}</li>
+            {t.hero.steps.map((st, i) => (
+              <li key={st.h} className="flex gap-5 border-b border-border/60 px-7 py-6 last:border-b-0 sm:px-8">
+                <span className="display text-4xl font-bold leading-none text-primary">{String(i + 1).padStart(2, '0')}</span>
+                <div>
+                  <p className="text-lg font-semibold text-fg">{st.h}</p>
+                  <p className="mt-1 text-sm leading-relaxed text-muted">{st.p}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
         </section>
 
         <Marquee items={[...t.method.items.map((m) => m.word.replace(/\.$/, '')), 'Kozaef Training']} />
+
+        {/* Tres caminos, en orden de importancia: coaching, guías, gratis */}
+        <section id="como-ayudo" className="scroll-mt-20 border-t border-border/60 py-24">
+          <div className="mx-auto w-full max-w-7xl px-4 sm:px-6">
+            <Reveal>
+              <p className="text-xs font-medium uppercase tracking-[0.18em] text-primary">{t.paths.eyebrow}</p>
+              <h2 className="display mt-4 max-w-[20ch] text-4xl font-bold leading-[1.02] md:text-5xl">{t.paths.title}</h2>
+            </Reveal>
+            <div className="mt-12 grid gap-4 lg:grid-cols-[1.3fr_1fr_1fr]">
+              {t.paths.items.map((it, i) => {
+                const href = i === 0 ? applyPath(locale as Locale) : i === 1 ? sectionPath('programs', locale) : sectionPath('tools', locale);
+                const cta = i === 0 ? 'apply' : i === 1 ? 'product' : 'tools';
+                return (
+                  <Reveal key={it.h} delay={i * 0.08}>
+                    <Link
+                      href={href}
+                      data-track="cta_click"
+                      data-cta={cta}
+                      data-location="paths"
+                      className={`group flex h-full flex-col justify-between gap-10 rounded-[var(--radius-xl)] border p-7 transition-colors sm:p-8 ${
+                        i === 0 ? 'gold-sheen border-primary/40 hover:border-primary' : 'border-border bg-surface hover:border-primary/50'
+                      }`}
+                    >
+                      <div>
+                        <p className="font-mono text-xs uppercase tracking-[0.2em] text-primary">{it.tag}</p>
+                        <h3 className={`display mt-4 font-bold leading-[1.05] ${i === 0 ? 'text-4xl' : 'text-2xl'}`}>{it.h}</h3>
+                        <p className="mt-3 max-w-[44ch] text-muted">{it.p}</p>
+                      </div>
+                      <span className={`inline-flex items-center gap-2 text-sm font-semibold ${i === 0 ? 'text-primary' : 'text-fg'}`}>
+                        {it.cta}
+                        <ArrowRight size={16} weight="bold" className="transition-transform group-hover:translate-x-1" />
+                      </span>
+                    </Link>
+                  </Reveal>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        {/* Método: filas tipográficas */}
+        <section className="border-t border-border/60 py-24">
+          <div className="mx-auto w-full max-w-7xl px-4 sm:px-6">
+            <Reveal>
+              <h2 className="display max-w-[22ch] text-4xl font-bold leading-[1.02] md:text-5xl">
+                {t.method.title}
+              </h2>
+            </Reveal>
+            <Reveal className="mt-12">
+              <Foto
+                name="portada"
+                alt={locale === 'es' ? 'Entrenador corrigiendo la técnica de una sentadilla con mancuerna' : 'Coach correcting a dumbbell squat'}
+                className="aspect-[4/3] sm:aspect-[16/9] lg:aspect-[21/9]"
+              />
+            </Reveal>
+            <div className="mt-14 divide-y divide-border">
+              {t.method.items.map((m, i) => (
+                <Reveal key={m.word} delay={i * 0.06}>
+                  <div className="group grid gap-3 py-8 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:items-center md:gap-12 md:py-10">
+                    <p className="display text-6xl font-bold leading-none text-fg/90 transition-colors duration-300 group-hover:text-primary md:text-8xl">
+                      {m.word}
+                    </p>
+                    <p className="max-w-[42ch] text-lg leading-relaxed text-muted">{m.body}</p>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Coaching: zona de venta, sin anuncios */}
+        <section id="coaching" className="scroll-mt-20 border-t border-border/60 py-24">
+          <div className="mx-auto grid w-full max-w-7xl items-center gap-12 px-4 sm:px-6 lg:grid-cols-[5fr_7fr] lg:gap-20">
+            <Reveal>
+              {/* Foto provisional (generada); sustituir por una foto real de Manu entrenando cuando la haya. */}
+              <Spotlight className="group relative flex aspect-[4/5] w-full flex-col justify-between overflow-hidden rounded-[var(--radius-xl)] border border-primary/20 bg-surface p-8">
+                <FondoFoto name="coaching-llamada" sizes="(min-width: 1024px) 40vw, 90vw" />
+                <LogoMark className="relative h-10 w-10" />
+                <p className="display foil-text relative text-[9rem] font-bold leading-[0.8] tracking-[-0.05em] sm:text-[11rem]" aria-hidden>
+                  1:1
+                </p>
+                <p className="relative font-mono text-xs uppercase tracking-[0.2em] text-fg/80">{t.coaching.eyebrow}</p>
+              </Spotlight>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <p className="text-xs font-medium uppercase tracking-[0.18em] text-primary">{t.coaching.eyebrow}</p>
+              <h2 className="display mt-4 max-w-[16ch] text-4xl font-bold leading-[1.02] md:text-6xl">
+                {t.coaching.title}
+              </h2>
+              <ul className="mt-8 space-y-4">
+                {t.coaching.items.map((c) => (
+                  <li key={c} className="flex items-start gap-3 text-lg text-fg/90">
+                    <Check size={22} weight="bold" className="mt-0.5 shrink-0 text-primary" />
+                    {c}
+                  </li>
+                ))}
+              </ul>
+              <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3">
+                <ButtonLink href={applyPath(locale as Locale)} className="h-12 px-7" data-track="cta_click" data-cta="apply" data-location="coaching">
+                  {t.nav.apply}
+                  <ArrowRight size={16} weight="bold" />
+                </ButtonLink>
+                <p className="flex items-center gap-2 text-sm text-muted">
+                  <ChatsCircle size={18} className="text-faint" />
+                  {t.coaching.note}
+                </p>
+              </div>
+            </Reveal>
+          </div>
+        </section>
 
         {/* Herramientas: bento de 3 celdas */}
         <section id="herramientas" className="scroll-mt-20 border-t border-border/60 py-24">
@@ -154,36 +273,6 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
           </div>
         </section>
 
-        {/* Método: filas tipográficas */}
-        <section className="border-t border-border/60 py-24">
-          <div className="mx-auto w-full max-w-7xl px-4 sm:px-6">
-            <Reveal>
-              <h2 className="display max-w-[22ch] text-4xl font-bold leading-[1.02] md:text-5xl">
-                {t.method.title}
-              </h2>
-            </Reveal>
-            <Reveal className="mt-12">
-              <Foto
-                name="portada"
-                alt={locale === 'es' ? 'Entrenador corrigiendo la técnica de una sentadilla con mancuerna' : 'Coach correcting a dumbbell squat'}
-                className="aspect-[4/3] sm:aspect-[16/9] lg:aspect-[21/9]"
-              />
-            </Reveal>
-            <div className="mt-14 divide-y divide-border">
-              {t.method.items.map((m, i) => (
-                <Reveal key={m.word} delay={i * 0.06}>
-                  <div className="group grid gap-3 py-8 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:items-center md:gap-12 md:py-10">
-                    <p className="display text-6xl font-bold leading-none text-fg/90 transition-colors duration-300 group-hover:text-primary md:text-8xl">
-                      {m.word}
-                    </p>
-                    <p className="max-w-[42ch] text-lg leading-relaxed text-muted">{m.body}</p>
-                  </div>
-                </Reveal>
-              ))}
-            </div>
-          </div>
-        </section>
-
         {/* Guías: carrusel horizontal con scroll-snap */}
         <section id="aprende" className="scroll-mt-20 border-t border-border/60 py-24">
           <div className="mx-auto w-full max-w-7xl px-4 sm:px-6">
@@ -211,47 +300,6 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
                 <h3 className="display relative text-2xl font-bold leading-[1.1]">{g.title}</h3>
               </Link>
             ))}
-          </div>
-        </section>
-
-        {/* Coaching: zona de venta, sin anuncios */}
-        <section id="coaching" className="scroll-mt-20 border-t border-border/60 py-24">
-          <div className="mx-auto grid w-full max-w-7xl items-center gap-12 px-4 sm:px-6 lg:grid-cols-[5fr_7fr] lg:gap-20">
-            <Reveal>
-              {/* Foto provisional (generada); sustituir por una foto real de Manu entrenando cuando la haya. */}
-              <Spotlight className="group relative flex aspect-[4/5] w-full flex-col justify-between overflow-hidden rounded-[var(--radius-xl)] border border-primary/20 bg-surface p-8">
-                <FondoFoto name="coaching-llamada" sizes="(min-width: 1024px) 40vw, 90vw" />
-                <LogoMark className="relative h-10 w-10" />
-                <p className="display foil-text relative text-[9rem] font-bold leading-[0.8] tracking-[-0.05em] sm:text-[11rem]" aria-hidden>
-                  1:1
-                </p>
-                <p className="relative font-mono text-xs uppercase tracking-[0.2em] text-fg/80">{t.coaching.eyebrow}</p>
-              </Spotlight>
-            </Reveal>
-            <Reveal delay={0.1}>
-              <p className="text-xs font-medium uppercase tracking-[0.18em] text-primary">{t.coaching.eyebrow}</p>
-              <h2 className="display mt-4 max-w-[16ch] text-4xl font-bold leading-[1.02] md:text-6xl">
-                {t.coaching.title}
-              </h2>
-              <ul className="mt-8 space-y-4">
-                {t.coaching.items.map((c) => (
-                  <li key={c} className="flex items-start gap-3 text-lg text-fg/90">
-                    <Check size={22} weight="bold" className="mt-0.5 shrink-0 text-primary" />
-                    {c}
-                  </li>
-                ))}
-              </ul>
-              <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3">
-                <ButtonLink href={applyPath(locale as Locale)} className="h-12 px-7" data-track="cta_click" data-cta="apply" data-location="coaching">
-                  {t.nav.apply}
-                  <ArrowRight size={16} weight="bold" />
-                </ButtonLink>
-                <p className="flex items-center gap-2 text-sm text-muted">
-                  <ChatsCircle size={18} className="text-faint" />
-                  {t.coaching.note}
-                </p>
-              </div>
-            </Reveal>
           </div>
         </section>
 

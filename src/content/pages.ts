@@ -48,7 +48,7 @@ export const PAGES = {
     programs: {
       metaTitle: 'Programas y guías de entrenamiento',
       metaDescription: 'Guías y programas para entrenar por tu cuenta con un método claro. Prueba la demo gratis antes de comprar.',
-      h1: 'Programas',
+      h1: 'Guías',
       intro: 'Guías y programas para entrenar por tu cuenta. Cada uno tiene una demo gratis para que veas si te encaja.',
       all: 'Todos',
       includes: 'Qué incluye',
@@ -194,7 +194,7 @@ export const PAGES = {
     programs: {
       metaTitle: 'Training programmes and guides',
       metaDescription: 'Guides and programmes to train on your own with a clear method. Try the free demo before buying.',
-      h1: 'Programmes',
+      h1: 'Guides',
       intro: 'Guides and programmes to train on your own. Each one has a free demo so you can see if it fits.',
       all: 'All',
       includes: 'What is included',

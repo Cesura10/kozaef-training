@@ -13,18 +13,34 @@ const es = {
     login: 'Entrar',
     apply: 'Auditoría gratis',
     learn: 'Aprende',
-    programs: 'Programas',
+    programs: 'Guías',
     about: 'Sobre mí',
     diagnosis: 'Diagnóstico gratis',
     menu: 'Menú',
     language: 'Idioma',
   },
   hero: {
-    titleA: 'Entrena con criterio.',
-    titleB: 'Progresa con datos.',
+    titleA: 'Tu entrenador',
+    titleB: 'personal online.',
     subtitle:
-      'Herramientas gratis, guías claras y coaching 1:1 para quien lleva meses entrenando sin ver cambios.',
+      'Te hago un plan de entrenamiento y nutrición para ti y lo revisamos cada semana, para que pierdas grasa, ganes músculo o empieces a entrenar fuerza sin adivinar.',
     ctaTools: 'Ver herramientas',
+    ctaHow: 'Cómo trabajo',
+    stepsTitle: 'Así empezamos',
+    steps: [
+      { h: 'Auditoría gratis', p: 'Me cuentas tu caso en 2 minutos y lo revisamos juntos en una videollamada de 20.' },
+      { h: 'Tu plan', p: 'Entrenamiento y nutrición ajustados a tu vida, tu horario y lo que te gusta comer.' },
+      { h: 'Revisión cada semana', p: 'Miramos tus datos y ajustamos. Si no avanzas, sabemos por qué.' },
+    ],
+  },
+  paths: {
+    eyebrow: 'Cómo puedo ayudarte',
+    title: 'Elige cómo quieres avanzar.',
+    items: [
+      { tag: 'Lo principal', h: 'Coaching 1:1', p: 'Te hago el plan y te acompaño cada semana. Empezamos con una auditoría gratis para ver si encajamos.', cta: 'Pedir auditoría gratis' },
+      { tag: 'Por tu cuenta', h: 'Guías en PDF', p: 'Si prefieres entrenar solo, guías con un plan paso a paso para tu objetivo, desde 17 €.', cta: 'Ver guías' },
+      { tag: 'Gratis', h: 'Calculadoras y artículos', p: 'Calcula tus calorías y tu proteína, y aprende lo que dice la evidencia, sin registrarte.', cta: 'Ver herramientas' },
+    ],
   },
   calculator: {
     title: 'Calculadora de proteína',
@@ -57,11 +73,11 @@ const es = {
     ],
   },
   guides: {
-    title: 'Guías para dejar de estancarte.',
+    title: 'Artículos para dejar de estancarte.',
   },
   coaching: {
     eyebrow: 'Coaching 1:1',
-    title: 'Plazas limitadas. Trabajo de verdad.',
+    title: 'Un plan para ti. Revisión cada semana.',
     photo: 'Aquí va tu foto entrenando',
     items: [
       'Plan de entrenamiento y nutrición ajustado a tu vida',
