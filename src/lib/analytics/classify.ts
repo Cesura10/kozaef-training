@@ -84,6 +84,6 @@ export function channelFor(referringDomain: string | null | undefined, utmSource
   if (utm) return UTM_CHANNELS[utm] ?? { id: utm, label: utm };
   const host = (referringDomain ?? '').toLowerCase().replace(/^www\./, '');
   if (!host || host === '$direct') return DIRECT;
-  if (host.endsWith('kozaeftraining.com')) return DIRECT; // navegación interna sin primera página registrada
+  if (host === 'kozaeftraining.com' || host.endsWith('.kozaeftraining.com')) return DIRECT; // navegación interna sin primera página registrada
   return CHANNELS.find(([re]) => re.test(host))?.[1] ?? { id: host, label: host };
 }
