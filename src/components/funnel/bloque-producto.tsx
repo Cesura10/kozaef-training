@@ -39,7 +39,7 @@ export async function BloqueProducto({
     <section className={`gold-sheen rounded-[var(--radius-xl)] border border-primary/30 p-6 sm:p-8 ${p.imagen ? 'grid gap-6 sm:grid-cols-[11rem_minmax(0,1fr)] sm:items-center' : ''}`}>
       {p.imagen && (
         <div className="group relative aspect-[4/3] overflow-hidden rounded-[var(--radius-lg,1rem)] border border-primary/20 sm:aspect-[3/4]">
-          <FondoFoto name={p.imagen} sizes="(min-width: 640px) 176px, 90vw" />
+          <FondoFoto name={p.imagen} alt={p.nombre[locale]} sizes="(min-width: 640px) 176px, 90vw" />
         </div>
       )}
       <div>

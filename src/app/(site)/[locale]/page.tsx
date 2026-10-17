@@ -199,7 +199,7 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
             <Reveal>
               {/* Foto provisional (generada); sustituir por una foto real de Manu entrenando cuando la haya. */}
               <Spotlight className="group relative flex aspect-[4/5] w-full flex-col justify-between overflow-hidden rounded-[var(--radius-xl)] border border-primary/20 bg-surface p-8">
-                <FondoFoto name="coaching-llamada" sizes="(min-width: 1024px) 40vw, 90vw" />
+                <FondoFoto name="coaching-llamada" alt={locale === 'es' ? 'Videollamada de coaching 1:1 online' : '1:1 online coaching video call'} sizes="(min-width: 1024px) 40vw, 90vw" />
                 <LogoMark className="relative h-10 w-10" />
                 <p className="display foil-text relative text-[9rem] font-bold leading-[0.8] tracking-[-0.05em] sm:text-[11rem]" aria-hidden>
                   1:1
@@ -246,8 +246,8 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
           <div className="no-scrollbar mt-12 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-px-4 px-4 pb-2 sm:scroll-px-6 sm:px-6 xl:px-[calc((100vw_-_80rem)/2_+_1.5rem)] xl:scroll-px-[calc((100vw_-_80rem)/2_+_1.5rem)]">
             {/* Artículos reales más recientes; si aún no hay, las categorías como puerta de entrada. */}
             {(latest.length > 0
-              ? latest.map((a) => ({ key: a.url, href: a.url, tag: CATEGORIES[a.categoria].label[locale], title: a.titulo, image: a.imagen?.nombre }))
-              : CATEGORY_IDS.map((id) => ({ key: id, href: categoryPath(locale, id), tag: t.nav.learn, title: CATEGORIES[id].label[locale], image: undefined as string | undefined }))
+              ? latest.map((a) => ({ key: a.url, href: a.url, tag: CATEGORIES[a.categoria].label[locale], title: a.titulo, image: a.imagen?.nombre, alt: a.imagen?.alt }))
+              : CATEGORY_IDS.map((id) => ({ key: id, href: categoryPath(locale, id), tag: t.nav.learn, title: CATEGORIES[id].label[locale], image: undefined as string | undefined, alt: undefined as string | undefined }))
             ).map((g, i) => (
               <Link
                 key={g.key}
@@ -256,7 +256,7 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
                   g.image ? 'border-primary/20 bg-surface' : i % 2 === 0 ? 'gold-sheen border-primary/20' : 'border-border bg-surface'
                 }`}
               >
-                {g.image && <FondoFoto name={g.image} sizes="320px" fuerte />}
+                {g.image && <FondoFoto name={g.image} alt={g.alt ?? g.title} sizes="320px" fuerte />}
                 <span className="relative text-xs font-medium text-primary">{g.tag}</span>
                 <h3 className="display relative text-2xl font-bold leading-[1.1]">{g.title}</h3>
               </Link>
