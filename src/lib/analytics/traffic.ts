@@ -50,6 +50,8 @@ const CTA_LABELS: Record<string, string> = {
   'apply:nav': 'Solicitar plaza (menú)',
   'apply:hero': 'Solicitar plaza (portada)',
   'apply:coaching': 'Solicitar plaza (coaching)',
+  'apply:barra:plaza': 'Solicitar plaza (barra fija)',
+  'apply:barra:auditoria': 'Auditoría gratis (barra fija, hasta 2026-10-17)',
   'tools:hero': 'Ver herramientas (portada)',
   'login:nav': 'Entrar (menú)',
 };

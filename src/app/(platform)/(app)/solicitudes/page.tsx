@@ -69,7 +69,9 @@ export default async function ApplicationsPage({ searchParams }: PageProps<'/sol
       <ul className="space-y-3">
         {(rows ?? []).map((r) => {
           const a = (r.answers ?? {}) as Record<string, string | null>;
-          const source = (r.leads as { source: string | null } | null)?.source ?? 'directo';
+          // Origen de ESTA solicitud (desde 2026-10-17); si no, el del primer contacto del lead.
+          const origen = (r.answers as { origen?: { source?: string } } | null)?.origen;
+          const source = origen?.source ?? (r.leads as { source: string | null } | null)?.source ?? 'directo';
           return (
             <li key={r.id} className="card p-5">
               <div className="flex flex-wrap items-start justify-between gap-4">

@@ -21,12 +21,24 @@ export async function AboutPage({ locale }: { locale: Locale }) {
     <PageShell locale={locale}>
       <section className="mx-auto w-full max-w-3xl px-4 pb-16 pt-12 sm:px-6 md:pt-16">
         <h1 className="display animate-rise text-4xl font-bold leading-[1.02] md:text-6xl">{AUTHOR.name ?? c.h1}</h1>
-        {(AUTHOR.qualification || AUTHOR.city || social.length > 0) && (
+        {AUTHOR.photo && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={AUTHOR.photo} alt={AUTHOR.name ?? ''} width={160} height={160} className="mt-8 h-40 w-40 rounded-[var(--radius-xl)] border border-primary/30 object-cover" />
+        )}
+        {(AUTHOR.qualification || AUTHOR.city || AUTHOR.experienceYears !== null || social.length > 0) && (
           <dl className="mt-8 grid gap-4 rounded-[var(--radius-xl)] border border-border p-6 sm:grid-cols-2">
             {AUTHOR.qualification && (
               <div>
                 <dt className="text-xs text-faint">{c.qualification}</dt>
                 <dd className="mt-1 text-fg">{AUTHOR.qualification}</dd>
+              </div>
+            )}
+            {AUTHOR.experienceYears !== null && (
+              <div>
+                <dt className="text-xs text-faint">{locale === 'es' ? 'Experiencia' : 'Experience'}</dt>
+                <dd className="mt-1 text-fg">
+                  {AUTHOR.experienceYears} {locale === 'es' ? 'años entrenando a clientes' : 'years coaching clients'}
+                </dd>
               </div>
             )}
             {AUTHOR.city && (

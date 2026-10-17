@@ -69,6 +69,13 @@ export async function LearnIndexPage({ locale }: { locale: Locale }) {
           <AdSlot locale={locale} />
           <CtaCoaching locale={locale} location="learn" />
         </div>
+        {/* Las guías salieron del menú principal: aquí, discretas, debajo del coaching. */}
+        <p className="mt-8 text-sm text-muted">
+          {locale === 'es' ? '¿Prefieres entrenar por tu cuenta? ' : 'Prefer to train on your own? '}
+          <Link href={sectionPath('programs', locale)} data-track="cta_click" data-cta="product" data-location="learn-guides" className="text-fg underline decoration-primary/50 underline-offset-4 hover:decoration-primary">
+            {locale === 'es' ? 'Mira las guías en PDF' : 'See the PDF guides'}
+          </Link>
+        </p>
       </section>
     </PageShell>
   );
@@ -162,12 +169,12 @@ export async function TopicPage({ locale, topic }: { locale: Locale; topic: Topi
         )}
 
         <div className="mt-14 space-y-6">
+          <CtaCoaching locale={locale} location="topic" />
           {topic.kind === 'category' ? (
             <BloqueProducto locale={locale} categoria={topic.id} location="topic" />
           ) : (
             <BloqueProducto locale={locale} perfiles={[topic.id]} location="topic" />
           )}
-          <CtaCoaching locale={locale} location="topic" />
         </div>
       </section>
     </PageShell>

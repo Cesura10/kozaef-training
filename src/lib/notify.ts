@@ -28,10 +28,19 @@ async function send(html: string) {
 const STATUS: Record<string, string> = {
   qualified: '🟢 Pasa a videollamada',
   waitlist: '🟡 Cualificado, cupo semanal lleno (lista de espera)',
-  new: '⚪️ No llega al mínimo (se le sugieren los programas)',
+  new: '⚪️ No llega al mínimo (se le sugieren las herramientas)',
 };
 
-export function notifyApplication(a: { name: string; email: string; score: number; status: string; answers: Record<string, string>; tried?: string | null }) {
+export function notifyApplication(a: {
+  name: string;
+  email: string;
+  score: number;
+  status: string;
+  answers: Record<string, string>;
+  tried?: string | null;
+  /** Origen de la visita (utm_source o referrer): instagram, google, directo… */
+  source?: string | null;
+}) {
   const q = APPLY_COPY.es.questions;
   const label = (k: string) => (q as Record<string, { options: Record<string, string> }>)[k]?.options[a.answers[k]] ?? a.answers[k] ?? '—';
   const lines = [
@@ -42,6 +51,7 @@ export function notifyApplication(a: { name: string; email: string; score: numbe
     `Objetivo: ${esc(label('goal'))}`,
     `Entrenando: ${esc(label('experience'))} · Estancado: ${esc(label('stuck'))}`,
     `Días: ${esc(label('days'))} · Compromiso: <b>${esc(a.answers.commitment ?? '—')}/10</b>`,
+    `Invertir ahora: <b>${esc(label('invest'))}</b> · Origen: ${esc(a.source ?? 'directo')}`,
     ...(a.tried ? [``, `Ha probado: ${esc(a.tried.slice(0, 400))}`] : []),
     ``,
     `<a href="${SITE_URL}/solicitudes">Ver en el panel</a>`,

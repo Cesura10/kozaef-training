@@ -10,7 +10,11 @@ import { MobileMenu } from './mobile-menu';
 import { SiteNavLink } from './site-nav-link';
 import { DIAGNOSIS_APPROVED } from '@/content/diagnosis';
 
-export function SiteHeader({ locale, t }: { locale: string; t: Dictionary }) {
+/**
+ * minimal: solo logo + botón (páginas de venta /coaching y /solicitar), sin enlaces que saquen
+ * a Herramientas, Aprende o Guías.
+ */
+export function SiteHeader({ locale, t, minimal = false }: { locale: string; t: Dictionary; minimal?: boolean }) {
   const l = locale as Locale;
   const nav = mainNav(l, t);
   // Hasta aprobar el diagnóstico, el botón destacado lleva a la solicitud.
@@ -24,6 +28,7 @@ export function SiteHeader({ locale, t }: { locale: string; t: Dictionary }) {
         <Link href={`/${locale}`} aria-label={t.nav.home} className="shrink-0">
           <Wordmark />
         </Link>
+        {!minimal && (
         <nav className="hidden items-center gap-7 lg:flex" aria-label={t.nav.main}>
           {nav.map((n) => (
             <SiteNavLink key={n.href} href={n.href}>
@@ -31,6 +36,7 @@ export function SiteHeader({ locale, t }: { locale: string; t: Dictionary }) {
             </SiteNavLink>
           ))}
         </nav>
+        )}
         <div className="flex items-center gap-1">
           {PLATFORM_OPEN && (
             <ButtonLink href="/login" variant="ghost" size="sm" className="hidden sm:inline-flex" data-track="cta_click" data-cta="login" data-location="nav">
@@ -41,6 +47,7 @@ export function SiteHeader({ locale, t }: { locale: string; t: Dictionary }) {
             {cta.label}
           </ButtonLink>
           {/* Menú móvil: <details> nativo, accesible con teclado y funcional sin JavaScript. */}
+          {!minimal && (
           <MobileMenu label={t.nav.menu}>
             <nav
               aria-label={t.nav.main}
@@ -53,6 +60,7 @@ export function SiteHeader({ locale, t }: { locale: string; t: Dictionary }) {
               ))}
             </nav>
           </MobileMenu>
+          )}
         </div>
       </div>
     </header>

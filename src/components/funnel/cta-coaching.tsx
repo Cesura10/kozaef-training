@@ -5,7 +5,7 @@ import { FUNNEL } from '@/content/funnel';
 import { sectionPath } from '@/content/routes';
 import { Spotlight } from '@/components/motion/spotlight';
 
-/** Siguiente paso hacia la videollamada. Va siempre DEBAJO del producto relacionado. */
+/** Llamada principal: solicitar plaza de coaching 1:1 (formulario → videollamada gratis). Va ANTES de la guía relacionada. */
 export function CtaCoaching({
   locale,
   location = 'page',

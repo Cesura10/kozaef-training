@@ -21,7 +21,7 @@ export async function ApplyPage({ locale }: { locale: Locale }) {
   const c = APPLY_COPY[locale];
   return (
     <div className="flex min-h-full flex-1 flex-col">
-      <SiteHeader locale={locale} t={t} />
+      <SiteHeader locale={locale} t={t} minimal />
       <main className="mx-auto grid w-full max-w-7xl flex-1 gap-12 px-4 py-12 sm:px-6 md:py-16 lg:grid-cols-[minmax(0,1fr)_20rem]">
         <div className="max-w-3xl">
           <h1 className="display animate-rise text-4xl font-bold leading-[1.02] md:text-6xl">{c.h1}</h1>

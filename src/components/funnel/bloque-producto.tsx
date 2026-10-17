@@ -13,7 +13,8 @@ const price = (p: Product, locale: Locale) =>
 
 /**
  * Producto relacionado (por id, o por categoría/perfil). Comprable -> ficha con enlace a su
- * página (demo + compra). Sin enlace de pago -> lista de espera. Sin productos -> lista general.
+ * página (demo + compra). Sin enlace de pago -> lista de espera. Sin producto relacionado -> nada
+ * (ya hay guías a la venta: el antiguo aviso "Los programas están en camino" ya no es verdad).
  */
 export async function BloqueProducto({
   locale,
@@ -29,7 +30,7 @@ export async function BloqueProducto({
   location?: string;
 }) {
   const p = relatedProduct({ id: productId, categoria, perfiles });
-  if (!p) return <ListaEspera locale={locale} />;
+  if (!p) return null;
   if (!isBuyable(p)) return <ListaEspera locale={locale} productId={p.id} productName={p.nombre[locale]} service={p.tipo === 'servicio'} />;
 
   const f = FUNNEL[locale];

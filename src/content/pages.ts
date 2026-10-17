@@ -16,13 +16,13 @@ export const PAGES = {
       intro: 'Un plan de entrenamiento y nutrición hecho para ti, con seguimiento cada semana y contacto directo conmigo.',
       howTitle: 'Cómo empezamos',
       how: [
-        { h: 'Solicitas tu plaza', p: 'Un formulario de 2 minutos sobre tu objetivo, tu experiencia y tu disponibilidad.' },
-        { h: 'Hablamos por videollamada', p: 'Si encajamos, reservas una llamada. Vemos tu caso y te explico cómo trabajaríamos y cuánto cuesta.' },
+        { h: 'Solicitas plaza', p: 'Un formulario de 2 minutos sobre tu objetivo, tu experiencia y tu disponibilidad.' },
+        { h: 'Videollamada gratis de 20 minutos', p: 'En 20 minutos revisamos tu caso, qué está fallando y cuál sería tu siguiente paso. Si te encaja, te explico cómo trabajaríamos.' },
         { h: 'Empezamos tu plan', p: 'Recibes tu planificación y la ajustamos cada semana según tus datos.' },
       ],
       faqTitle: 'Preguntas frecuentes',
       faq: [
-        { q: '¿Cuánto cuesta?', a: 'Depende de la duración que elijas. Te lo explico en la videollamada, sin compromiso.' },
+        { q: '¿Cuánto cuesta?', a: 'La primera videollamada es gratis. El coaching depende de la duración que elijas; te lo explico en esa videollamada, sin compromiso.' },
         { q: '¿Tengo que ir a un gimnasio?', a: 'No necesariamente. El plan se adapta al material y al tiempo que tengas.' },
         { q: '¿Es todo online?', a: 'Sí. Trabajamos a distancia con revisiones semanales y contacto directo.' },
         { q: '¿Para quién es?', a: 'Para adultos que quieren perder grasa, ganar músculo o ponerse en forma con un método claro: personas que empiezan, que vuelven después de un tiempo parados o mujeres a partir de los 45 que quieren entrenar fuerza.' },
@@ -48,7 +48,7 @@ export const PAGES = {
     programs: {
       metaTitle: 'Programas y guías de entrenamiento',
       metaDescription: 'Guías y programas para entrenar por tu cuenta con un método claro. Prueba la demo gratis antes de comprar.',
-      h1: 'Programas',
+      h1: 'Guías',
       intro: 'Guías y programas para entrenar por tu cuenta. Cada uno tiene una demo gratis para que veas si te encaja.',
       all: 'Todos',
       includes: 'Qué incluye',
@@ -168,8 +168,8 @@ export const PAGES = {
       intro: 'A training and nutrition plan built for you, with weekly check-ins and direct contact with me.',
       howTitle: 'How we start',
       how: [
-        { h: 'Apply for a spot', p: 'A 2-minute form about your goal, experience and availability.' },
-        { h: 'We talk on a video call', p: 'If we are a fit, you book a call. We go over your case and I explain how we would work and the price.' },
+        { h: 'You apply', p: 'A 2-minute form about your goal, experience and availability.' },
+        { h: 'Free 20-minute video call', p: 'In 20 minutes we review your case, what is not working and your next step. If it fits, I explain how we would work.' },
         { h: 'Your plan begins', p: 'You get your plan and we adjust it every week based on your data.' },
       ],
       faqTitle: 'FAQ',
@@ -194,7 +194,7 @@ export const PAGES = {
     programs: {
       metaTitle: 'Training programmes and guides',
       metaDescription: 'Guides and programmes to train on your own with a clear method. Try the free demo before buying.',
-      h1: 'Programmes',
+      h1: 'Guides',
       intro: 'Guides and programmes to train on your own. Each one has a free demo so you can see if it fits.',
       all: 'All',
       includes: 'What is included',

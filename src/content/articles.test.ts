@@ -17,6 +17,12 @@ const REQUIRED: Record<'es' | 'en', string[]> = {
  */
 const FORBIDDEN_SECTIONS = ['Cómo lo aplico yo', 'How I apply it'];
 
+/**
+ * Decisión de Manu (2026-10-17): el bloque final solo lleva al coaching. La guía sale aparte, como
+ * tarjeta, más abajo; ofrecerla junto al botón del coaching le quita ventas al coaching.
+ */
+const FORBIDDEN_IN_ENDING = [/si prefieres hacerlo por tu cuenta/i, /\/(es|en)\/(programas|programs)\b/, /if you('d)? prefer to do it on your own/i];
+
 const all = [...articlesFor('es'), ...articlesFor('en')];
 
 /**
@@ -38,6 +44,8 @@ describe('artículos', () => {
     expect(a.slug, 'el nombre del archivo debe ser minúsculas-con-guiones').toMatch(/^[a-z0-9]+(-[a-z0-9]+)*$/);
     for (const h of REQUIRED[a.locale]) expect(a.headings, `falta la sección "## ${h}"`).toContain(h);
     for (const h of FORBIDDEN_SECTIONS) expect(a.headings, `sección prohibida "## ${h}": no se explica el método propio`).not.toContain(h);
+    const ending = a.html.join('\n').split(/<h2[^>]*>/).at(-1) ?? '';
+    for (const re of FORBIDDEN_IN_ENDING) expect(ending, `el bloque final solo invita al coaching (${re})`).not.toMatch(re);
     for (const f of a.fuentes) expect(f.url, 'las fuentes deben ser https').toMatch(/^https:\/\//);
     expect(a.fechaRevision >= a.fechaPublicacion, 'fechaRevision no puede ser anterior a fechaPublicacion').toBe(true);
   });

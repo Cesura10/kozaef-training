@@ -15,6 +15,7 @@ import { ProteinCalculator } from '@/components/marketing/protein-calculator';
 import { CaloriesCalculator } from '@/components/calculators/calories-calculator';
 import { BodyfatCalculator } from '@/components/calculators/bodyfat-calculator';
 import { BloqueProducto } from '@/components/funnel/bloque-producto';
+import { isBuyable, relatedProduct } from '@/content/products';
 import { CtaCoaching } from '@/components/funnel/cta-coaching';
 import type { CategoryId } from '@/content/taxonomy';
 
@@ -39,6 +40,8 @@ export async function ToolPage({ locale, id }: { locale: Locale; id: ToolId }) {
   const c = TOOL_CONTENT[locale][id];
   const ui = CALC_UI[locale];
   const others = TOOL_IDS.filter((x) => x !== id);
+  const related = relatedProduct({ categoria: TOOL_CATEGORY[id] });
+  const guide = related && isBuyable(related) ? related : null;
 
   const jsonLd = [
     {
@@ -103,10 +106,10 @@ export async function ToolPage({ locale, id }: { locale: Locale; id: ToolId }) {
             <NewsletterForm t={t.newsletter} locale={locale} />
           </div>
 
-          {/* Embudo (brief): resultado sin email -> extra por email -> producto -> coaching */}
-          <div className="mt-6 grid gap-6 lg:grid-cols-2">
-            <BloqueProducto locale={locale} categoria={TOOL_CATEGORY[id]} location={`tool-${id}`} />
+          {/* Embudo (puerta de Google): resultado -> email (arriba) -> coaching; la guía solo si hay una a la venta. */}
+          <div className={`mt-6 grid gap-6 ${guide ? 'lg:grid-cols-2' : ''}`}>
             <CtaCoaching locale={locale} location={`tool-${id}`} />
+            {guide && <BloqueProducto locale={locale} productId={guide.id} location={`tool-${id}`} />}
           </div>
         </section>
 
