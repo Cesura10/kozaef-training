@@ -9,7 +9,28 @@ import 'server-only';
  * Caché de 5 minutos: abrir el panel muchas veces no gasta cuota.
  */
 
+import { channelFor } from './classify';
+
 export type Point = { day: string; views: number; visitors: number };
+/** Una visita (sesión) de una persona: de dónde llegó, por dónde entró y qué hizo. */
+export type Visit = {
+  at: string;
+  channel: string;
+  channelId: string;
+  /** Página exacta de la que venía (si el navegador la envía). */
+  referrer: string | null;
+  campaign: string | null;
+  landing: string;
+  paths: string[];
+  device: string;
+  browser: string;
+  place: string;
+  pages: number;
+  tools: number;
+  emails: number;
+  applyClicks: number;
+  applied: number;
+};
 export type Bar = { label: string; value: number };
 
 export type Traffic = {
@@ -23,6 +44,9 @@ export type Traffic = {
   countries: Bar[];
   ctas: Bar[];
   tools: Bar[];
+  /** Personas: páginas vistas (PostHog no cuenta bots, monitores ni las visitas de Manu). */
+  humanViews: number;
+  visits: Visit[];
 };
 
 const HOST = process.env.POSTHOG_API_HOST ?? 'https://eu.posthog.com';
@@ -77,8 +101,25 @@ export async function getTraffic(days: number): Promise<Traffic> {
                   countIf(event = 'calculator_email_click' or event = 'newsletter_submit') as emails
            from events where ${since} and event in ('calculator_used', 'calculator_email_click', 'newsletter_submit')
            group by day order by day`),
-    hogql(`select properties.source as s, count(distinct $session_id) as n from events where ${pv}
-           group by s order by n desc limit 8`),
+    hogql(`select $session_id,
+                  min(timestamp) as t,
+                  argMinIf(properties.$pathname, timestamp, event = '$pageview') as landing,
+                  argMinIf(properties.$referring_domain, timestamp, event = '$pageview') as ref,
+                  argMinIf(properties.$referrer, timestamp, event = '$pageview') as refurl,
+                  any(properties.utm_source) as utm,
+                  any(properties.utm_campaign) as campaign,
+                  any(properties.$device_type) as device,
+                  any(properties.$browser) as browser,
+                  any(properties.$geoip_city_name) as city,
+                  any(properties.$geoip_country_name) as country,
+                  countIf(event = '$pageview') as pages,
+                  countIf(event = 'calculator_used') as tools,
+                  countIf(event in ('newsletter_submit', 'calculator_email_click')) as emails,
+                  countIf(event = 'cta_click' and properties.cta = 'apply') as apply_clicks,
+                  countIf(event = 'application_submitted') as applied,
+                  groupUniqArrayIf(properties.$pathname, event = '$pageview') as paths
+           from events where ${since} and $session_id is not null
+           group by $session_id having pages > 0 order by t desc limit 2000`),
     hogql(`select properties.$pathname as p, count() as n from events where ${pv} group by p order by n desc limit 8`),
     hogql(`select properties.$device_type as t, count(distinct $session_id) as n from events where ${pv}
            group by t order by n desc limit 4`),
@@ -91,6 +132,34 @@ export async function getTraffic(days: number): Promise<Traffic> {
   ]);
 
   if (daily === null) return demoTraffic(d);
+
+  const visits: Visit[] = (channels ?? []).map((r) => {
+    const [, at, landing, ref, refurl, utm, campaign, device, browser, city, country, pages, tools, emails, applyClicks, applied, paths] = r as [
+      string, string, string | null, string | null, string | null, string | null, string | null, string | null, string | null,
+      string | null, string | null, number, number, number, number, number, string[] | null,
+    ];
+    const ch = channelFor(ref, utm);
+    const url = refurl && refurl !== '$direct' ? refurl : null;
+    return {
+      at: String(at),
+      channel: ch.label,
+      channelId: ch.id,
+      referrer: url,
+      campaign: campaign || null,
+      landing: landing ?? '/',
+      paths: (paths ?? []).slice(0, 8),
+      device: DEVICE_LABELS[device ?? ''] ?? device ?? 'Desconocido',
+      browser: browser ?? '',
+      place: [city, country].filter(Boolean).join(', ') || 'Desconocido',
+      pages: Number(pages),
+      tools: Number(tools),
+      emails: Number(emails),
+      applyClicks: Number(applyClicks),
+      applied: Number(applied),
+    };
+  });
+  const byChannel = new Map<string, number>();
+  for (const v of visits) byChannel.set(v.channel, (byChannel.get(v.channel) ?? 0) + 1);
 
   const dailyPoints: Point[] = daily.map(([day, views, visitors]) => ({
     day: String(day),
@@ -106,12 +175,14 @@ export async function getTraffic(days: number): Promise<Traffic> {
     },
     daily: dailyPoints,
     interactions: (interactions ?? []).map(([day, t, e]) => ({ day: String(day), tools: Number(t), emails: Number(e) })),
-    channels: toBars(channels),
+    channels: [...byChannel].map(([label, value]) => ({ label, value })).sort((a, b) => b.value - a.value),
     pages: toBars(pages),
     devices: toBars(devices, (k) => DEVICE_LABELS[k] ?? k),
     countries: toBars(countries),
     ctas: toBars(ctas, (k) => CTA_LABELS[k] ?? k),
     tools: toBars(tools, (k) => TOOL_LABELS[k] ?? k),
+    humanViews: dailyPoints.reduce((a, p) => a + p.views, 0),
+    visits: visits.slice(0, 60),
   };
 }
 
@@ -175,5 +246,7 @@ function demoTraffic(days: number): Traffic {
       { label: 'Calorías', value: 1940 },
       { label: 'Grasa corporal', value: 760 },
     ],
+    humanViews: daily.reduce((a, p) => a + p.views, 0),
+    visits: [],
   };
 }

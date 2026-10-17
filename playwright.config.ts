@@ -11,8 +11,9 @@ export default defineConfig({
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
   },
+  // "KozaefMonitor" en el user agent: el panel de analítica lo cuenta como bot propio, no como persona.
   projects: [
-    { name: 'escritorio', use: { ...devices['Desktop Chrome'] } },
-    { name: 'movil', use: { ...devices['Pixel 7'] } },
+    { name: 'escritorio', use: { ...devices['Desktop Chrome'], userAgent: `${devices['Desktop Chrome'].userAgent} KozaefMonitor` } },
+    { name: 'movil', use: { ...devices['Pixel 7'], userAgent: `${devices['Pixel 7'].userAgent} KozaefMonitor` } },
   ],
 });

@@ -16,7 +16,8 @@ type PostHog = typeof import('posthog-js').default;
  * Tráfico que NO se mide, para que la analítica cuente solo personas:
  * - navegadores automatizados (navigator.webdriver: Playwright, Puppeteer, Selenium, monitores, muchos bots);
  * - agentes que se identifican (bots, rastreadores, IA, vistas previas de enlaces, Lighthouse);
- * - visitas internas de Manu: abrir una vez la web con ?kz_interno=1 en cada dispositivo (?kz_interno=0 lo quita).
+ * - visitas internas de Manu: se marcan solas al entrar al panel (components/panel/marca-interno.tsx), o abriendo
+ *   una vez la web con ?kz_interno=1 (navegador de Instagram/TikTok); ?kz_interno=0 lo quita.
  */
 const BOT_UA = /bot|crawl|spider|slurp|headless|lighthouse|pagespeed|preview|claude|gpt|perplexity|facebookexternalhit|whatsapp|telegram|curl|wget|python|axios/i;
 function excludedTraffic(): boolean {

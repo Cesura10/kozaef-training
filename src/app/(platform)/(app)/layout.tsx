@@ -4,6 +4,7 @@ import { getSupabaseEnv } from '@/lib/supabase/env';
 import { getSessionProfile } from '@/lib/auth';
 import { Wordmark } from '@/components/brand';
 import { NavLink } from '@/components/nav-link';
+import { MarcaInterno } from '@/components/panel/marca-interno';
 
 export default async function AppLayout({
   children,
@@ -37,6 +38,7 @@ export default async function AppLayout({
 
   return (
     <div className="flex min-h-full flex-1 flex-col">
+      {role === 'trainer' && <MarcaInterno />}
       <header className="sticky top-0 z-20 border-b border-border bg-bg/80 backdrop-blur">
         <div className="mx-auto flex w-full max-w-6xl items-center gap-6 px-5 py-3">
           <Link href="/dashboard" className="shrink-0">
