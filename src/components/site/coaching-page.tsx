@@ -23,7 +23,7 @@ export async function CoachingPage({ locale }: { locale: Locale }) {
   const c = pagesCopy(locale).coaching;
   const technique = PRODUCTS.find((p) => p.id === 'revision-tecnica' && p.publicado);
   return (
-    <PageShell locale={locale}>
+    <PageShell locale={locale} minimalHeader>
       <PageHero
         index="04"
         label={t.coaching.eyebrow}

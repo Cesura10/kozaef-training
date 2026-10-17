@@ -77,14 +77,14 @@ export default async function SiteLayout({
             {children}
             <AnalyticsProvider locale={locale} />
             <ConsentBanner locale={locale} />
-            {/* Llamada principal en toda la web: auditoría 1:1 gratuita (formulario → videollamada). */}
+            {/* Llamada principal en toda la web: solicitar plaza de coaching 1:1 (formulario → videollamada gratis). */}
             <BarraCompra
-              id="auditoria"
+              id="plaza"
               href={sectionPath("apply", locale)}
-              name={locale === "es" ? "Revisamos tu caso" : "We review your case"}
+              name={locale === "es" ? "Primera videollamada gratis" : "First video call free"}
               priceText={null}
-              kicker={locale === "es" ? "Auditoría 1:1 gratis · 20 min" : "Free 1:1 audit · 20 min"}
-              cta={locale === "es" ? "Pedirla" : "Get it"}
+              kicker={locale === "es" ? "Coaching 1:1 online" : "1:1 online coaching"}
+              cta={locale === "es" ? "Solicitar plaza" : "Apply now"}
               closeLabel={locale === "es" ? "Cerrar" : "Close"}
             />
         </MotionProvider>

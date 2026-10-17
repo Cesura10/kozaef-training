@@ -13,7 +13,7 @@ const en: Dictionary = {
     guides: 'Guides',
     coaching: 'Coaching',
     login: 'Log in',
-    apply: 'Free audit',
+    apply: 'Apply now',
     learn: 'Learn',
     programs: 'Guides',
     about: 'About',
@@ -29,18 +29,9 @@ const en: Dictionary = {
     ctaHow: 'How I work',
     stepsTitle: 'How we start',
     steps: [
-      { h: 'Free audit', p: 'Tell me about your case in 2 minutes and we review it together in a 20-minute video call.' },
+      { h: 'You apply', p: 'Tell me about your case in 2 minutes and we review it together in a free 20-minute video call.' },
       { h: 'Your plan', p: 'Training and nutrition built around your life, schedule and the food you like.' },
       { h: 'Weekly check-in', p: 'We look at your data and adjust. If you stall, we know why.' },
-    ],
-  },
-  paths: {
-    eyebrow: 'How I can help',
-    title: 'Choose how you want to progress.',
-    items: [
-      { tag: 'Main', h: '1:1 coaching', p: 'I build your plan and check in every week. We start with a free audit to see if we are a fit.', cta: 'Get your free audit' },
-      { tag: 'On your own', h: 'PDF guides', p: 'If you prefer to train alone, step-by-step guides for your goal, from €17. In Spanish.', cta: 'See the guides' },
-      { tag: 'Free', h: 'Calculators and articles', p: 'Work out your calories and protein and learn what the evidence says, no sign-up.', cta: 'See the tools' },
     ],
   },
   calculator: {

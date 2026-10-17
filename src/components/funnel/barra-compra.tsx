@@ -13,7 +13,7 @@ const KEY = 'kz-barra-compra-cerrada';
 const bannerOpen = () => (document.querySelector('.kz-consent')?.getClientRects().length ?? 0) > 0;
 
 /**
- * Barra fija de la llamada principal (hoy: auditoría 1:1 gratuita → /solicitar). Aparece al bajar,
+ * Barra fija de la llamada principal (hoy: solicitar plaza de coaching 1:1 → /solicitar). Aparece al bajar,
  * se oculta en zonas de compra (#comprar, packs), con el aviso de cookies y en formularios,
  * y se puede cerrar (solo durante la visita).
  */

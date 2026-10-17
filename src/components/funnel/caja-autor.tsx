@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import type { Locale } from '@/i18n/config';
-import { AUTHOR } from '@/content/author';
+import { AUTHOR, bylineReady } from '@/content/author';
 import { FUNNEL } from '@/content/funnel';
 import { sectionPath } from '@/content/routes';
 
@@ -23,5 +23,24 @@ export function CajaAutor({ locale }: { locale: Locale }) {
         </Link>
       </div>
     </aside>
+  );
+}
+
+/**
+ * Firma bajo el título del artículo: foto, nombre y enlace a "Sobre mí".
+ * Solo aparece con nombre, foto y página "Sobre mí" publicada (nada de huecos a la vista).
+ */
+export function FirmaAutor({ locale }: { locale: Locale }) {
+  if (!bylineReady() || !AUTHOR.name || !AUTHOR.photo) return null;
+  return (
+    <Link href={sectionPath('about', locale)} className="group mt-5 inline-flex items-center gap-3" rel="author">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={AUTHOR.photo} alt="" width={40} height={40} className="h-10 w-10 rounded-full border border-primary/30 object-cover" />
+      <span className="text-sm text-muted">
+        {locale === 'es' ? 'Por ' : 'By '}
+        <span className="font-semibold text-fg group-hover:text-primary">{AUTHOR.name}</span>
+        {AUTHOR.qualification && <span className="block text-xs text-faint">{AUTHOR.qualification}</span>}
+      </span>
+    </Link>
   );
 }

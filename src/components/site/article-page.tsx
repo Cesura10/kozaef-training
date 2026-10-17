@@ -11,7 +11,7 @@ import { categoryPath, profilePath, related, type Article } from '@/content/arti
 import { CtaHerramienta } from '@/components/funnel/cta-herramienta';
 import { BloqueProducto } from '@/components/funnel/bloque-producto';
 import { CtaCoaching } from '@/components/funnel/cta-coaching';
-import { CajaAutor } from '@/components/funnel/caja-autor';
+import { CajaAutor, FirmaAutor } from '@/components/funnel/caja-autor';
 import { BloqueMetodo } from '@/components/funnel/bloque-metodo';
 import { RecomendacionAfiliado } from '@/components/funnel/recomendacion-afiliado';
 import { JsonLd, PageShell } from './page-shell';
@@ -77,6 +77,7 @@ export async function ArticlePage({ article: a }: { article: Article }) {
         </nav>
 
         <h1 className="display mt-6 text-4xl font-bold leading-[1.05] md:text-5xl">{a.titulo}</h1>
+        <FirmaAutor locale={locale} />
 
         <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted">
           <span>

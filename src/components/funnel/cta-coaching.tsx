@@ -5,7 +5,7 @@ import { FUNNEL } from '@/content/funnel';
 import { sectionPath } from '@/content/routes';
 import { Spotlight } from '@/components/motion/spotlight';
 
-/** Llamada principal: auditoría 1:1 gratuita (formulario de solicitud → videollamada). Va ANTES de la guía relacionada. */
+/** Llamada principal: solicitar plaza de coaching 1:1 (formulario → videollamada gratis). Va ANTES de la guía relacionada. */
 export function CtaCoaching({
   locale,
   location = 'page',

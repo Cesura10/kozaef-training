@@ -54,6 +54,10 @@ export function SiteFooter({ locale, t }: { locale: string; t: Dictionary }) {
                 {n.label}
               </Link>
             ))}
+            {/* Las guías salen del menú principal pero siguen aquí (plan B, mismas URL). */}
+            <Link href={sectionPath('programs', locale as Locale)} className="hover:text-fg">
+              {t.nav.programs}
+            </Link>
             <Link href={sectionPath('recommendations', locale as Locale)} className="hover:text-fg">
               {locale === 'es' ? 'Recomendaciones' : 'Recommendations'}
             </Link>

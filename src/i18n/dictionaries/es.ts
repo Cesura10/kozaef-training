@@ -11,7 +11,7 @@ const es = {
     guides: 'Guías',
     coaching: 'Coaching',
     login: 'Entrar',
-    apply: 'Auditoría gratis',
+    apply: 'Solicitar plaza',
     learn: 'Aprende',
     programs: 'Guías',
     about: 'Sobre mí',
@@ -28,18 +28,9 @@ const es = {
     ctaHow: 'Cómo trabajo',
     stepsTitle: 'Así empezamos',
     steps: [
-      { h: 'Auditoría gratis', p: 'Me cuentas tu caso en 2 minutos y lo revisamos juntos en una videollamada de 20.' },
+      { h: 'Solicitas plaza', p: 'Me cuentas tu caso en 2 minutos y lo revisamos juntos en una videollamada gratis de 20.' },
       { h: 'Tu plan', p: 'Entrenamiento y nutrición ajustados a tu vida, tu horario y lo que te gusta comer.' },
       { h: 'Revisión cada semana', p: 'Miramos tus datos y ajustamos. Si no avanzas, sabemos por qué.' },
-    ],
-  },
-  paths: {
-    eyebrow: 'Cómo puedo ayudarte',
-    title: 'Elige cómo quieres avanzar.',
-    items: [
-      { tag: 'Lo principal', h: 'Coaching 1:1', p: 'Te hago el plan y te acompaño cada semana. Empezamos con una auditoría gratis para ver si encajamos.', cta: 'Pedir auditoría gratis' },
-      { tag: 'Por tu cuenta', h: 'Guías en PDF', p: 'Si prefieres entrenar solo, guías con un plan paso a paso para tu objetivo, desde 17 €.', cta: 'Ver guías' },
-      { tag: 'Gratis', h: 'Calculadoras y artículos', p: 'Calcula tus calorías y tu proteína, y aprende lo que dice la evidencia, sin registrarte.', cta: 'Ver herramientas' },
     ],
   },
   calculator: {

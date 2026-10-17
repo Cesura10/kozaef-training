@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { ANSWERS, QUESTION_KEYS, type QuestionKey } from '@/content/apply';
 import { bookingUrl, scoreApplication } from '@/lib/applications';
 import { guardPublicWrite } from '@/lib/guard';
+import { planBFor } from '@/content/plan-b';
 import { escapeLike } from '@/lib/like';
 import { createAdminClient } from '@/lib/supabase/admin';
 import type { Json } from '@/types/database';
@@ -27,6 +28,9 @@ const Body = z.object({
   locale: z.enum(['es', 'en']).default('es'),
   source: z.string().max(40).optional(),
   utm: z.record(z.string().max(40), z.string().max(100)).optional(),
+  /** Primera visita: de dónde llegó y a qué página (para medir Instagram frente a Google). */
+  referrer: z.string().max(300).nullable().optional(),
+  landing: z.string().max(200).optional(),
   /** Campo trampa antibots. */
   website: z.string().max(200).optional(),
   turnstileToken: z.string().max(4096).optional(),
@@ -45,7 +49,7 @@ export async function POST(req: Request) {
   if (!parsed.success) return fail(400, 'invalid_body');
   const b = parsed.data;
   // Bot detectado por el campo trampa: respuesta normal, sin guardar nada.
-  if (isBot(b.website)) return NextResponse.json({ ok: true, result: 'low', scoreBand: 'low', bookingUrl: null });
+  if (isBot(b.website)) return NextResponse.json({ ok: true, result: 'low', scoreBand: 'low', bookingUrl: null, planB: null });
 
   const guard = await guardPublicWrite(req.headers, {
     endpoint: 'applications',
@@ -93,7 +97,12 @@ export async function POST(req: Request) {
       lead_id: leadId,
       email: b.email,
       name: b.name,
-      answers: { ...answers, tried: b.tried ?? null } as Json,
+      // El origen va dentro de answers (jsonb) para no depender de una migración: answers->'origen'->>'source'.
+      answers: {
+        ...answers,
+        tried: b.tried ?? null,
+        origen: { source: b.source ?? 'directo', utm: b.utm ?? {}, referrer: b.referrer ?? null, landing: b.landing ?? null },
+      } as Json,
       score,
       status,
     })
@@ -102,7 +111,7 @@ export async function POST(req: Request) {
   if (error || !app) return fail(500, 'store_failed');
 
   if (leadId) await db.from('lead_events').insert({ lead_id: leadId, type: 'applied', data: { score, status } });
-  await notifyApplication({ name: b.name, email: b.email, score, status, answers, tried: b.tried ?? null });
+  await notifyApplication({ name: b.name, email: b.email, score, status, answers, tried: b.tried ?? null, source: b.source ?? null });
 
   const booking = status === 'qualified' ? bookingUrl(process.env.CALCOM_URL, b.name, b.email, app.booking_token) : null;
 
@@ -111,5 +120,7 @@ export async function POST(req: Request) {
     result: status === 'qualified' ? 'qualified' : status === 'waitlist' ? 'waitlist' : 'low',
     scoreBand,
     bookingUrl: booking,
+    // Solo si responde "Ahora mismo no": la guía adecuada como plan B (además del mensaje normal).
+    planB: planBFor(answers, b.locale),
   });
 }
