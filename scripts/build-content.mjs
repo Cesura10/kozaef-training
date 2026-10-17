@@ -44,6 +44,11 @@ const sources = [
   ...candidateDirs.map((c) => ({ locale: 'es', dir: c.dir, candidate: c.label })),
 ];
 
+// Publicación programada (lunes y jueves): un artículo con fechaPublicacion futura no sale en
+// producción hasta ese día (fecha de Madrid). El despliegue programado de deploy.yml lo publica.
+const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Madrid' }).format(new Date());
+let scheduled = 0;
+
 const articles = [];
 const seen = new Set();
 for (const { locale, dir, candidate } of sources) {
@@ -59,6 +64,10 @@ for (const { locale, dir, candidate } of sources) {
     }
     seen.add(key);
     if (data.borrador === true && !withDrafts) continue;
+    if (!withDrafts && typeof data.fechaPublicacion === 'string' && data.fechaPublicacion > today) {
+      scheduled++;
+      continue;
+    }
 
     // El aviso de herramienta va "a mitad del texto": tras la primera sección H2.
     const parts = content.split(/\n(?=## )/);
@@ -81,7 +90,7 @@ for (const { locale, dir, candidate } of sources) {
 mkdirSync(join(ROOT, 'src', 'content', 'generated'), { recursive: true });
 writeFileSync(OUT, JSON.stringify(articles, null, 0));
 const nCand = articles.filter((a) => a.candidate).length;
-console.log(`Contenido: ${articles.length} artículo(s)${withDrafts ? ` (con borradores${nCand ? `, ${nCand} candidato(s) del bot` : ''})` : ''} -> src/content/generated/articles.json`);
+console.log(`Contenido: ${articles.length} artículo(s)${withDrafts ? ` (con borradores${nCand ? `, ${nCand} candidato(s) del bot` : ''})` : ''} -> src/content/generated/articles.json${scheduled ? ` · ${scheduled} programado(s) para más adelante` : ''}`);
 
 // Informes del bot (SOLO en desarrollo, desde docs/privado): para la página "Artículos" del panel.
 const reports = [];

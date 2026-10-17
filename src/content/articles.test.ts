@@ -64,6 +64,22 @@ describe('artículos', () => {
     }
   });
 
+  /**
+   * Ritmo de publicación (decisión de Manu, 2026-10-17): 2 artículos por semana, lunes y jueves,
+   * para que el contenido de calidad dure. Se aplica a lo publicado desde esa fecha.
+   */
+  it('desde el 19-10-2026 se publica un artículo por idioma en lunes o jueves', () => {
+    const DESDE = '2026-10-19';
+    const seen = new Set<string>();
+    for (const a of all.filter((x) => !x.borrador && x.fechaPublicacion >= DESDE)) {
+      const day = new Date(`${a.fechaPublicacion}T12:00:00Z`).getUTCDay();
+      expect([1, 4], `${a.locale}/${a.slug}: fechaPublicacion ${a.fechaPublicacion} no es lunes ni jueves`).toContain(day);
+      const slot = `${a.locale}/${a.fechaPublicacion}`;
+      expect(seen.has(slot), `${a.locale}/${a.slug}: ya hay otro artículo el ${a.fechaPublicacion}; usa el siguiente hueco libre`).toBe(false);
+      seen.add(slot);
+    }
+  });
+
   it('no hay dos artículos con la misma URL', () => {
     const urls = all.map((a) => a.url);
     expect(new Set(urls).size).toBe(urls.length);

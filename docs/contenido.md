@@ -18,7 +18,7 @@ publica nada roto.
 | `categoria` | Una de: `perder-grasa`, `ganar-musculo`, `fuerza-tecnica`, `nutricion`, `recuperacion` |
 | `perfiles` | Uno o varios: `principiantes`, `mujeres-45`, `sobrepeso`, `cuesta-ganar-peso`, `entreno-casa` |
 | `nivel` | `basico`, `intermedio` o `avanzado` |
-| `fechaPublicacion` / `fechaRevision` | `AAAA-MM-DD`. Actualiza la de revisión cada vez que lo revises |
+| `fechaPublicacion` / `fechaRevision` | `AAAA-MM-DD`. Ritmo: lunes y jueves, uno por día. Con fecha futura no sale hasta ese día (el despliegue programado lo publica). Actualiza la de revisión cada vez que lo revises |
 | `herramientaRelacionada` | `calories`, `protein`, `bodyfat` o `null` |
 | `productoRelacionado` | `id` de un producto (p. ej. `revision-tecnica`) o `null` |
 | `fuentes` | Al menos una, con `titulo` y `url` |

@@ -6,6 +6,10 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  # Publicación programada: lunes y jueves a las 7:00 (Madrid, verano) salen los artículos
+  # cuya fechaPublicacion ya ha llegado (scripts/build-content.mjs) y se avisa a IndexNow.
+  schedule:
+    - cron: '0 5 * * 1,4'
 
 concurrency:
   group: deploy
