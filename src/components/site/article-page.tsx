@@ -20,9 +20,13 @@ import { Foto } from './foto';
 const fmtDate = (d: string, locale: Locale) =>
   new Date(`${d}T12:00:00Z`).toLocaleDateString(locale === 'es' ? 'es-ES' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 
+/** Bing avisa con títulos de más de 70 caracteres: si con " | Kozaef Training" se pasa, va sin la marca. */
+const TITLE_MAX = 70;
+const BRAND_SUFFIX = ' | Kozaef Training';
+
 export function articleMetadata(a: Article): Metadata {
   return {
-    title: a.titulo,
+    title: (a.titulo + BRAND_SUFFIX).length > TITLE_MAX ? { absolute: a.titulo } : a.titulo,
     description: a.descripcion,
     alternates: { canonical: a.url },
     openGraph: {

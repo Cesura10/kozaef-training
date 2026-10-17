@@ -104,7 +104,7 @@ export function ProductFilter({
                       p.infoproduct ? 'gold-sheen border-primary/25 hover:border-primary/60' : 'border-border bg-surface hover:border-primary/50'
                     }`}
                   >
-                    {p.image && <FondoFoto name={p.image} />}
+                    {p.image && <FondoFoto name={p.image} alt={p.name} />}
                     <span
                       aria-hidden
                       className="display pointer-events-none absolute -right-4 -top-8 select-none text-[11rem] font-bold leading-none text-transparent [-webkit-text-stroke:1px_rgba(214,169,69,0.18)] transition-transform duration-700 group-hover:-translate-x-3"

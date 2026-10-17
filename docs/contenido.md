@@ -12,7 +12,7 @@ publica nada roto.
 
 | Campo | Qué poner |
 |---|---|
-| `titulo` | La pregunta real que hace la gente (10-110 caracteres) |
+| `titulo` | La pregunta real que hace la gente (10-70 caracteres: Bing avisa con títulos más largos) |
 | `descripcion` | Resumen para Google (50-170 caracteres) |
 | `respuestaRapida` | La respuesta en 2-3 líneas |
 | `categoria` | Una de: `perder-grasa`, `ganar-musculo`, `fuerza-tecnica`, `nutricion`, `recuperacion` |
