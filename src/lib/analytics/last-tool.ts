@@ -5,7 +5,7 @@
 const KEY = 'kz_last_tool';
 
 export type LastToolResult = {
-  tool: 'protein' | 'calories' | 'bodyfat';
+  tool: 'protein' | 'calories' | 'bodyfat' | 'bmi' | 'onerm';
   inputs: Record<string, string | number>;
   outputs: Record<string, string | number>;
 };

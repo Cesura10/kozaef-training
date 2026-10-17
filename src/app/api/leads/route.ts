@@ -17,7 +17,7 @@ const Body = z.object({
   locale: z.enum(['es', 'en']).default('es'),
   source: z.string().max(40).optional(),
   utm: z.record(z.string().max(40), z.string().max(100)).optional(),
-  tool: z.enum(['protein', 'calories', 'bodyfat']).optional(),
+  tool: z.enum(['protein', 'calories', 'bodyfat', 'bmi', 'onerm']).optional(),
   toolInputs: z.record(z.string().max(40), z.union([z.string().max(40), z.number()])).optional(),
   toolOutputs: z.record(z.string().max(40), z.union([z.string().max(40), z.number()])).optional(),
   /** Alta en lista de espera de un producto (id de products.ts) o 'programas' (general). */
