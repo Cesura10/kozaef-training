@@ -12,13 +12,13 @@ publica nada roto.
 
 | Campo | Qué poner |
 |---|---|
-| `titulo` | La pregunta real que hace la gente (10-110 caracteres) |
+| `titulo` | La pregunta real que hace la gente (10-70 caracteres: Bing avisa con títulos más largos) |
 | `descripcion` | Resumen para Google (50-170 caracteres) |
 | `respuestaRapida` | La respuesta en 2-3 líneas |
 | `categoria` | Una de: `perder-grasa`, `ganar-musculo`, `fuerza-tecnica`, `nutricion`, `recuperacion` |
 | `perfiles` | Uno o varios: `principiantes`, `mujeres-45`, `sobrepeso`, `cuesta-ganar-peso`, `entreno-casa` |
 | `nivel` | `basico`, `intermedio` o `avanzado` |
-| `fechaPublicacion` / `fechaRevision` | `AAAA-MM-DD`. Actualiza la de revisión cada vez que lo revises |
+| `fechaPublicacion` / `fechaRevision` | `AAAA-MM-DD`. Ritmo: lunes y jueves, uno por día. Con fecha futura no sale hasta ese día (el despliegue programado lo publica). Actualiza la de revisión cada vez que lo revises |
 | `herramientaRelacionada` | `calories`, `protein`, `bodyfat` o `null` |
 | `productoRelacionado` | `id` de un producto (p. ej. `revision-tecnica`) o `null` |
 | `fuentes` | Al menos una, con `titulo` y `url` |
@@ -28,7 +28,7 @@ publica nada roto.
 3. Escribe el cuerpo con estas secciones (`## ` es un título de sección):
    `## Qué dice la evidencia`, `## Errores comunes`, `## ¿Quieres saber cómo lo hago yo?`.
    **Nunca expliques el método propio de Manu** (rutinas, menús, planes, "cómo lo aplico yo"): es su trabajo y lo que vende.
-   La última sección solo invita a [agendar una llamada](/es/solicitar) y a la guía relacionada.
+   La última sección solo invita a [solicitar plaza](/es/solicitar) (coaching). La guía relacionada sale sola como tarjeta aparte, más abajo.
    El aviso de herramienta, las preguntas frecuentes, las fuentes, tu caja de autor, el producto y el
    coaching se añaden solos.
 4. Tablas: usa tablas de Markdown (`| a | b |`). Cada cifra con su fuente enlazada al lado.

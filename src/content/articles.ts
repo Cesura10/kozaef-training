@@ -15,7 +15,8 @@ import { isIsoDate } from './dates';
 const date = z.string().refine(isIsoDate, 'fecha real en formato AAAA-MM-DD');
 
 const Frontmatter = z.object({
-  titulo: z.string().min(10).max(110),
+  /** Máx. 70: Bing avisa con títulos más largos (la marca se quita sola si no cabe). */
+  titulo: z.string().min(10).max(70),
   descripcion: z.string().min(50).max(170),
   /** Respuesta directa a la pregunta del título (2-3 líneas). Se muestra arriba del todo. */
   respuestaRapida: z.string().min(40).max(400),

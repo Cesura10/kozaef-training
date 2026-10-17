@@ -13,10 +13,9 @@ const KEY = 'kz-barra-compra-cerrada';
 const bannerOpen = () => (document.querySelector('.kz-consent')?.getClientRects().length ?? 0) > 0;
 
 /**
- * Barra de compra fija con el producto estrella (src/content/pack.ts). Aparece al bajar,
- * se oculta cuando ya se ve una zona de compra (#comprar o los packs) o el aviso de cookies,
- * y se puede cerrar (solo durante la visita). Lleva a la ficha, donde está la casilla de
- * desistimiento obligatoria antes de pagar.
+ * Barra fija de la llamada principal (hoy: solicitar plaza de coaching 1:1 → /solicitar). Aparece al bajar,
+ * se oculta en zonas de compra (#comprar, packs), con el aviso de cookies y en formularios,
+ * y se puede cerrar (solo durante la visita).
  */
 export function BarraCompra({
   id,
@@ -26,6 +25,7 @@ export function BarraCompra({
   kicker,
   cta,
   closeLabel,
+  cta_id = 'apply',
 }: {
   id: string;
   href: string;
@@ -34,6 +34,7 @@ export function BarraCompra({
   kicker: string;
   cta: string;
   closeLabel: string;
+  cta_id?: 'apply' | 'product';
 }) {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
@@ -100,8 +101,8 @@ export function BarraCompra({
               <Link
                 href={href}
                 data-track="cta_click"
-                data-cta="product"
-                data-location={`barra-compra:${id}`}
+                data-cta={cta_id}
+                data-location={`barra:${id}`}
                 className="inline-flex h-11 shrink-0 items-center gap-2 rounded-full bg-primary px-5 text-sm font-semibold text-primary-fg transition hover:bg-primary-hover active:scale-[0.98]"
               >
                 {cta}

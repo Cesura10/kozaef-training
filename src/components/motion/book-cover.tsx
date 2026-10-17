@@ -56,7 +56,7 @@ export function BookCover({ title, subtitle, image, photo }: { title: string; su
                     src={`/img/${photo}-800.webp`}
                     srcSet={`/img/${photo}-480.webp 480w, /img/${photo}-800.webp 800w`}
                     sizes="288px"
-                    alt=""
+                    alt={title}
                     className="absolute inset-0 h-full w-full object-cover"
                   />
                   <div aria-hidden className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,10,11,0.25)_0%,rgba(10,10,11,0.35)_35%,rgba(10,10,11,0.92)_70%,rgba(10,10,11,0.98)_100%)]" />

@@ -27,11 +27,20 @@ export function sectionMetadata(
 }
 
 /** Cabecera + contenido + pie, común a las páginas públicas. */
-export async function PageShell({ locale, children }: { locale: Locale; children: React.ReactNode }) {
+export async function PageShell({
+  locale,
+  children,
+  minimalHeader = false,
+}: {
+  locale: Locale;
+  children: React.ReactNode;
+  /** Cabecera solo con logo + botón (páginas de venta del coaching). */
+  minimalHeader?: boolean;
+}) {
   const t = await getDictionary(locale);
   return (
     <div className="flex min-h-full flex-1 flex-col">
-      <SiteHeader locale={locale} t={t} />
+      <SiteHeader locale={locale} t={t} minimal={minimalHeader} />
       <main className="flex-1">{children}</main>
       <SiteFooter locale={locale} t={t} />
     </div>

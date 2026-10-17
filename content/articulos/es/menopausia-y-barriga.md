@@ -65,6 +65,4 @@ La Organización Mundial de la Salud recomienda a los adultos entre 150 y 300 mi
 
 ## ¿Quieres saber cómo lo hago yo?
 
-Cómo aplico todo esto depende de cada persona: tu punto de partida, tu horario y cómo responde tu cuerpo. Si quieres saber cómo lo haría contigo, [agenda una llamada](/es/solicitar) y lo vemos juntos.
-
-Si prefieres hacerlo por tu cuenta, en la guía [Fuerte en la Menopausia](/es/programas/fuerte-en-la-menopausia) tienes el plan completo, paso a paso.
+Cómo aplico todo esto depende de cada persona: tu punto de partida, tu horario y cómo responde tu cuerpo. Si quieres saber cómo lo haría contigo, [solicita tu plaza](/es/solicitar) y lo vemos juntos.

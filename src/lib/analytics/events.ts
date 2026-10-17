@@ -17,7 +17,7 @@ export type AnalyticsEvents = {
   technique_request: { status: 'ok' | 'error' };
   newsletter_submit: { status: 'ok' | 'invalid' | 'error' };
   language_switch: { to: string };
-  application_submitted: { score_band: 'low' | 'mid' | 'high' };
+  application_submitted: { score_band: 'low' | 'mid' | 'high'; invest?: string; source?: string };
   call_booked: { source?: string };
   purchase: { product: string; value: number; currency: string };
 };

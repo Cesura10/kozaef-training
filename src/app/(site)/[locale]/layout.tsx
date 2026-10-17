@@ -11,9 +11,6 @@ import {
 } from "@/components/consent-banner";
 import { BarraCompra } from "@/components/funnel/barra-compra";
 import { MotionProvider } from "@/components/motion/motion-provider";
-import { formatProductPrice } from "@/components/funnel/bloque-producto";
-import { PRODUCTO_ESTRELLA } from "@/content/pack";
-import { isBuyable, visibleProducts } from "@/content/products";
 import { sectionPath } from "@/content/routes";
 import "../../globals.css";
 
@@ -71,9 +68,6 @@ export default async function SiteLayout({
 }: LayoutProps<"/[locale]">) {
   const { locale } = await params;
   if (!hasLocale(locale)) notFound();
-  const estrella = PRODUCTO_ESTRELLA.map((id) =>
-    visibleProducts().find((p) => p.id === id && isBuyable(p)),
-  ).find(Boolean);
   return (
     <html lang={locale} className={`${fontVariables} h-full antialiased`}>
       <body className="app-backdrop grain min-h-full flex flex-col">
@@ -83,17 +77,16 @@ export default async function SiteLayout({
             {children}
             <AnalyticsProvider locale={locale} />
             <ConsentBanner locale={locale} />
-            {estrella && (
-              <BarraCompra
-                id={estrella.id}
-                href={`${sectionPath("programs", locale, estrella.slug[locale])}#comprar`}
-                name={estrella.nombre[locale]}
-                priceText={formatProductPrice(estrella, locale)}
-                kicker={locale === "es" ? "Guía destacada" : "Featured guide"}
-                cta={locale === "es" ? "Comprar" : "Buy"}
-                closeLabel={locale === "es" ? "Cerrar" : "Close"}
-              />
-            )}
+            {/* Llamada principal en toda la web: solicitar plaza de coaching 1:1 (formulario → videollamada gratis). */}
+            <BarraCompra
+              id="plaza"
+              href={sectionPath("apply", locale)}
+              name={locale === "es" ? "Primera videollamada gratis" : "First video call free"}
+              priceText={null}
+              kicker={locale === "es" ? "Coaching 1:1 online" : "1:1 online coaching"}
+              cta={locale === "es" ? "Solicitar plaza" : "Apply now"}
+              closeLabel={locale === "es" ? "Cerrar" : "Close"}
+            />
         </MotionProvider>
         {/* Cloudflare Web Analytics: sin cookies, gratis e ilimitado. Solo si hay token. */}
         {process.env.NEXT_PUBLIC_CF_BEACON_TOKEN && (

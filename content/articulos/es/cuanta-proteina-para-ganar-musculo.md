@@ -66,6 +66,4 @@ En el metaanálisis de Morton, el efecto de la proteína extra sobre el músculo
 
 ## ¿Quieres saber cómo lo hago yo?
 
-Cómo aplico todo esto depende de cada persona: tu punto de partida, tu horario y cómo responde tu cuerpo. Si quieres saber cómo lo haría contigo, [agenda una llamada](/es/solicitar) y lo vemos juntos.
-
-Si prefieres hacerlo por tu cuenta, en la guía [Gana peso y músculo](/es/programas/gana-peso-y-musculo) tienes el plan completo, paso a paso.
+Cómo aplico todo esto depende de cada persona: tu punto de partida, tu horario y cómo responde tu cuerpo. Si quieres saber cómo lo haría contigo, [solicita tu plaza](/es/solicitar) y lo vemos juntos.
