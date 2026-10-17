@@ -7,6 +7,8 @@ export const AUTHOR = {
   /** Titulación exacta, p. ej. el nombre oficial del título de entrenador. */
   qualification: null as string | null,
   city: null as string | null,
+  /** Años entrenando a clientes (número real; null = no se muestra). */
+  experienceYears: null as number | null,
   /** Foto (ruta en /public o URL). */
   photo: null as string | null,
   /** Perfiles sociales (para sameAs). */
@@ -20,6 +22,9 @@ export const AUTHOR = {
 /** "Sobre mí" solo se muestra (menú, página, caja de autor) con nombre y titulación. */
 export const aboutReady = () => Boolean(AUTHOR.name && AUTHOR.qualification);
 
+/** Firma en los artículos: nombre + foto, y "Sobre mí" publicada para que el enlace funcione. */
+export const bylineReady = () => aboutReady() && Boolean(AUTHOR.photo);
+
 /** Lista de datos que faltan, para el informe de pendientes. */
 export function authorPending(): string[] {
   const missing: string[] = [];
@@ -27,6 +32,7 @@ export function authorPending(): string[] {
   if (!AUTHOR.qualification) missing.push('Titulación');
   if (!AUTHOR.city) missing.push('Ciudad');
   if (!AUTHOR.photo) missing.push('Foto');
+  if (AUTHOR.experienceYears === null) missing.push('Años de experiencia');
   if (!Object.values(AUTHOR.social).some(Boolean)) missing.push('Redes sociales');
   return missing;
 }

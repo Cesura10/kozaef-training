@@ -2,7 +2,9 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { ArrowSquareOut, CheckCircle, Info, Prohibit, WarningCircle } from '@phosphor-icons/react/dist/ssr';
-import { getTraffic } from '@/lib/analytics/traffic';
+import { getTraffic, type Visit } from '@/lib/analytics/traffic';
+import { CF_MAX_DAYS, getBotSplit, type BotSplit } from '@/lib/analytics/bots';
+import { getSearchQueries, type SearchData } from '@/lib/analytics/search-console';
 import { TimeSeries } from '@/components/charts/time-series';
 import { BarList } from '@/components/charts/bar-list';
 import { UsageBanner, UsagePanel } from '@/components/panel/usage-panel';
@@ -60,10 +62,12 @@ export default async function AnalyticsPage({ searchParams }: PageProps<'/analit
   const days = RANGES.find((r) => String(r) === sp.d) ?? 30;
 
   const supabase = await createClient();
-  const [{ data, error }, { data: flags }, traffic] = await Promise.all([
+  const [{ data, error }, { data: flags }, traffic, bots, search] = await Promise.all([
     supabase.rpc('analytics_overview', { p_days: days }),
     supabase.from('feature_flags').select('key, enabled').in('key', Object.keys(FLAG_LABELS)),
     getTraffic(days),
+    getBotSplit(days),
+    getSearchQueries(days),
   ]);
   const o = data as unknown as Overview | null;
 
@@ -120,6 +124,12 @@ export default async function AnalyticsPage({ searchParams }: PageProps<'/analit
             <Kpi label="Clientes nuevos" value={fmt(o.funnel.won)} />
           </section>
 
+          {/* Quién entra: personas frente a bots, de dónde viene cada persona y qué busca en Google */}
+          <h2 className="display pt-2 text-2xl font-bold">Quién entra</h2>
+          <BotsCard bots={bots} humanViews={traffic.demo ? null : traffic.humanViews} days={days} />
+          <VisitsCard visits={traffic.demo ? [] : traffic.visits} search={search} />
+          <SearchCard search={search} />
+
           {/* Tráfico */}
           <section aria-labelledby="visits-h" className="card p-6">
             <h2 id="visits-h" className="text-lg font-semibold">Visitas por día</h2>
@@ -134,7 +144,7 @@ export default async function AnalyticsPage({ searchParams }: PageProps<'/analit
           </section>
 
           <div className="grid gap-6 lg:grid-cols-2">
-            <ChartCard id="channels" title="De dónde vienen" subtitle="Visitantes por canal de origen.">
+            <ChartCard id="channels" title="De dónde vienen" subtitle="Personas por canal de origen (primera página de cada visita).">
               <BarList data={traffic.channels} total={traffic.channels.reduce((a, b) => a + b.value, 0)} />
             </ChartCard>
             <ChartCard id="devices" title="Dispositivo" subtitle="Si casi todo es móvil, diseña y prueba primero en móvil.">
@@ -442,4 +452,185 @@ function ExternalLink({ href, title, body }: { href: string; title: string; body
 
 function Empty({ children }: { children: React.ReactNode }) {
   return <p className="mt-5 rounded-2xl border border-dashed border-border p-5 text-center text-sm text-faint">{children}</p>;
+}
+
+/* ---------------------------------------------------------------------------
+ * Quién entra
+ * ------------------------------------------------------------------------- */
+
+function BotsCard({ bots, humanViews, days }: { bots: BotSplit; humanViews: number | null; days: number }) {
+  if (!bots.connected) {
+    return (
+      <section aria-labelledby="bots-h" className="card p-6">
+        <h2 id="bots-h" className="text-lg font-semibold">Personas frente a bots</h2>
+        <p className="mt-2 text-sm text-muted">
+          Falta conectar la analítica de Cloudflare (ve también a los bots, que no ejecutan JavaScript). Necesita
+          los secretos <code>CF_ANALYTICS_TOKEN</code> (token de solo lectura) y <code>CF_ZONE_ID</code> en el Worker.
+        </p>
+      </section>
+    );
+  }
+  const people = humanViews ?? 0;
+  const botTotal = bots.bots.reduce((a, b) => a + b.value, 0);
+  // Navegadores que no llegaron a PostHog: bots que se hacen pasar por navegador (o personas sin JavaScript).
+  const disguised = Math.max(0, bots.browsers - people);
+  const total = people + botTotal + disguised;
+  return (
+    <section aria-labelledby="bots-h" className="card p-6">
+      <h2 id="bots-h" className="text-lg font-semibold">Personas frente a bots</h2>
+      <p className="mt-1 text-sm text-muted">
+        Páginas servidas en {bots.days} días{days > CF_MAX_DAYS ? ` (Cloudflare guarda ${CF_MAX_DAYS} días en el plan gratis)` : ''}. Tus
+        visitas y las del monitor no cuentan como personas.
+      </p>
+      <div className="mt-5 grid grid-cols-3 gap-3">
+        <Kpi label="Personas" value={fmt(people)} hint={pct(people, total)} />
+        <Kpi label="Bots con nombre" value={fmt(botTotal)} hint={pct(botTotal, total)} />
+        <Kpi label="Bots disfrazados" value={fmt(disguised)} hint="Se hacen pasar por navegador" />
+      </div>
+      {bots.bots.length > 0 && (
+        <div className="mt-6">
+          <p className="mb-3 text-sm font-medium text-fg">Qué bots entran</p>
+          <BarList data={bots.bots.slice(0, 10)} total={botTotal} />
+        </div>
+      )}
+    </section>
+  );
+}
+
+const ACTION_CHIPS: Array<{ key: keyof Visit; label: string }> = [
+  { key: 'tools', label: 'Usó calculadora' },
+  { key: 'emails', label: 'Dejó email' },
+  { key: 'applyClicks', label: 'Clic en Solicitar plaza' },
+  { key: 'applied', label: 'Envió solicitud' },
+];
+
+function VisitsCard({ visits, search }: { visits: Visit[]; search: SearchData }) {
+  return (
+    <section aria-labelledby="visits-list-h" className="card p-6">
+      <h2 id="visits-list-h" className="text-lg font-semibold">Visitas una a una</h2>
+      <p className="mt-1 text-sm text-muted">
+        Cada persona (sin bots ni tus visitas): de dónde llegó, por qué página entró y qué hizo. «Directo» es quien
+        llega sin referencia: un enlace por WhatsApp, la app de Instagram o TikTok, o escribiendo la dirección. Para
+        distinguir Instagram, usa enlaces con <code>?utm_source=instagram</code>.
+      </p>
+      {visits.length === 0 ? (
+        <Empty>Sin visitas de personas en este periodo.</Empty>
+      ) : (
+        <div className="mt-5 overflow-x-auto">
+          <table className="w-full min-w-[46rem] text-sm">
+            <thead className="text-left text-xs text-faint">
+              <tr>
+                <th className="pb-2 font-medium">Cuándo</th>
+                <th className="pb-2 font-medium">De dónde</th>
+                <th className="pb-2 font-medium">Entró por</th>
+                <th className="pb-2 font-medium">Dispositivo</th>
+                <th className="pb-2 font-medium">Qué hizo</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-border align-top">
+              {visits.map((v, i) => {
+                const queries = v.channelId === 'google' && search.connected ? (search.byPage[v.landing] ?? []).slice(0, 3) : [];
+                const actions = ACTION_CHIPS.filter((a) => Number(v[a.key]) > 0);
+                return (
+                  <tr key={`${v.at}-${i}`}>
+                    <td className="whitespace-nowrap py-3 pr-4 text-muted tabular-nums">
+                      {new Date(v.at).toLocaleString('es-ES', { timeZone: 'Europe/Madrid', day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}
+                    </td>
+                    <td className="py-3 pr-4">
+                      <span className="text-fg">{v.channel}</span>
+                      {v.campaign && <span className="block text-xs text-faint">Campaña: {v.campaign}</span>}
+                      {v.referrer && (
+                        <span className="block max-w-[16rem] truncate text-xs text-faint" title={v.referrer}>
+                          {v.referrer}
+                        </span>
+                      )}
+                      {queries.length > 0 && (
+                        <span className="mt-1 block text-xs text-muted">
+                          Búsquedas que llevan a esta página: {queries.map((q) => `«${q.query}»`).join(', ')}
+                        </span>
+                      )}
+                    </td>
+                    <td className="py-3 pr-4">
+                      <span className="text-fg">{v.landing}</span>
+                      <span className="block text-xs text-faint">
+                        {v.pages} {v.pages === 1 ? 'página' : 'páginas'}
+                        {v.paths.length > 1 ? ` · ${v.paths.filter((p) => p !== v.landing).slice(0, 3).join(', ')}` : ''}
+                      </span>
+                    </td>
+                    <td className="py-3 pr-4 text-muted">
+                      {v.device}
+                      <span className="block text-xs text-faint">
+                        {v.browser}
+                        {v.place !== 'Desconocido' ? ` · ${v.place}` : ''}
+                      </span>
+                    </td>
+                    <td className="py-3">
+                      {actions.length === 0 ? (
+                        <span className="text-faint">Solo miró</span>
+                      ) : (
+                        <span className="flex flex-wrap gap-1.5">
+                          {actions.map((a) => (
+                            <span key={a.key} className="rounded-full bg-primary/15 px-2.5 py-0.5 text-xs text-fg">
+                              {a.label}
+                            </span>
+                          ))}
+                        </span>
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </section>
+  );
+}
+
+function SearchCard({ search }: { search: SearchData }) {
+  return (
+    <section aria-labelledby="search-h" className="card p-6">
+      <h2 id="search-h" className="text-lg font-semibold">Búsquedas de Google</h2>
+      <p className="mt-1 text-sm text-muted">
+        Por qué palabras apareces en Google y a qué página llevan. Google no dice qué buscó cada persona (lo oculta
+        desde 2011): son totales, con 2-3 días de retraso.
+      </p>
+      {!search.connected ? (
+        <p className="mt-4 text-sm text-muted">
+          Falta conectar Search Console: una cuenta de servicio de Google Cloud (gratis) añadida como usuario de la
+          propiedad, con los secretos <code>GSC_CLIENT_EMAIL</code>, <code>GSC_PRIVATE_KEY</code> y <code>GSC_SITE</code> en el Worker.
+        </p>
+      ) : search.queries.length === 0 ? (
+        <Empty>Google aún no te muestra por ninguna búsqueda en estos días.</Empty>
+      ) : (
+        <div className="mt-5 overflow-x-auto">
+          <table className="w-full min-w-[36rem] text-sm">
+            <thead className="text-left text-xs text-faint">
+              <tr>
+                <th className="pb-2 font-medium">Búsqueda</th>
+                <th className="pb-2 font-medium">Página</th>
+                <th className="pb-2 text-right font-medium">Clics</th>
+                <th className="pb-2 text-right font-medium">Veces que apareces</th>
+                <th className="pb-2 text-right font-medium">Posición</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-border tabular-nums">
+              {search.queries.slice(0, 25).map((q) => (
+                <tr key={`${q.query}-${q.page}`}>
+                  <td className="py-2.5 pr-4 text-fg">{q.query}</td>
+                  <td className="max-w-[14rem] truncate py-2.5 pr-4 text-muted" title={q.page}>
+                    {q.page}
+                  </td>
+                  <td className="py-2.5 text-right">{fmt(q.clicks)}</td>
+                  <td className="py-2.5 text-right">{fmt(q.impressions)}</td>
+                  <td className="py-2.5 text-right text-muted">{q.position}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </section>
+  );
 }

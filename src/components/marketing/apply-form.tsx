@@ -4,15 +4,15 @@ import { useState } from 'react';
 import { ArrowRight, CalendarCheck, Hourglass, Lightbulb } from '@phosphor-icons/react';
 import { ANSWERS, QUESTION_KEYS, type APPLY_COPY } from '@/content/apply';
 import { toolPath } from '@/content/tools';
-import { sectionPath } from '@/content/routes';
 import type { Locale } from '@/i18n/config';
+import type { PlanB } from '@/content/plan-b';
 import { track } from '@/lib/analytics/client';
 import { getAttribution } from '@/lib/analytics/attribution';
 import { Turnstile, resetTurnstile } from '@/components/turnstile';
 import { Honeypot } from '@/components/honeypot';
 
 type Copy = (typeof APPLY_COPY)[Locale];
-type Result = { result: 'qualified' | 'waitlist' | 'low'; bookingUrl: string | null };
+type Result = { result: 'qualified' | 'waitlist' | 'low'; bookingUrl: string | null; planB?: PlanB | null };
 type Status = 'idle' | 'sending' | 'missing' | 'limited' | 'failed';
 
 export function ApplyForm({ copy, locale }: { copy: Copy; locale: Locale }) {
@@ -53,6 +53,8 @@ export function ApplyForm({ copy, locale }: { copy: Copy; locale: Locale }) {
           locale,
           source: a?.source,
           utm: a?.utm,
+          referrer: a?.referrer ?? null,
+          landing: a?.landing,
           website: String(f.get('website') ?? ''),
           turnstileToken: f.get('cf-turnstile-response') ?? undefined,
         }),
@@ -63,7 +65,7 @@ export function ApplyForm({ copy, locale }: { copy: Copy; locale: Locale }) {
         return;
       }
       const data = (await res.json()) as Result & { scoreBand: 'low' | 'mid' | 'high' };
-      track('application_submitted', { score_band: data.scoreBand });
+      track('application_submitted', { score_band: data.scoreBand, invest: answers.invest, source: a?.source ?? 'directo' });
       setResult(data);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch {
@@ -80,7 +82,7 @@ export function ApplyForm({ copy, locale }: { copy: Copy; locale: Locale }) {
       {QUESTION_KEYS.map((k) => (
         <fieldset key={k}>
           <legend className="text-base font-medium text-fg">{copy.questions[k].label}</legend>
-          <div className={`mt-3 grid gap-2 ${ANSWERS[k].length > 4 ? 'grid-cols-5 sm:grid-cols-10' : 'grid-cols-2 sm:grid-cols-4'}`}>
+          <div className={`mt-3 grid gap-2 ${ANSWERS[k].length > 4 ? 'grid-cols-5 sm:grid-cols-10' : ANSWERS[k].length === 3 ? 'sm:grid-cols-3' : 'grid-cols-2 sm:grid-cols-4'}`}>
             {ANSWERS[k].map((v) => (
               <label
                 key={v}
@@ -180,6 +182,40 @@ export function ApplyForm({ copy, locale }: { copy: Copy; locale: Locale }) {
 }
 
 function ResultView({ copy, locale, result }: { copy: Copy; locale: Locale; result: Result }) {
+  return (
+    <div className="space-y-6">
+      <ResultMessage copy={copy} locale={locale} result={result} />
+      {result.planB && <PlanBCard copy={copy} plan={result.planB} />}
+    </div>
+  );
+}
+
+/** Plan B: solo para quien responde "Ahora mismo no" a invertir. Va aparte, debajo del mensaje del coaching. */
+function PlanBCard({ copy, plan }: { copy: Copy; plan: PlanB }) {
+  const r = copy.results.planB;
+  return (
+    <div className="animate-rise rounded-[var(--radius-xl)] border border-border bg-surface p-6 sm:p-8">
+      <p className="font-medium text-fg">{r.title}</p>
+      <p className="mt-1 max-w-[55ch] text-sm text-muted">{r.body}</p>
+      <a
+        href={plan.href}
+        data-track="cta_click"
+        data-cta="product"
+        data-location="apply-plan-b"
+        className="mt-4 flex items-center justify-between gap-4 rounded-2xl border border-border-strong px-5 py-4 transition-colors hover:border-primary/60"
+      >
+        <span className="font-semibold text-fg">{plan.name}</span>
+        <span className="inline-flex shrink-0 items-center gap-2 text-sm font-medium text-primary">
+          {plan.price !== null && <span className="text-fg">{plan.price} €</span>}
+          {r.cta}
+          <ArrowRight size={14} weight="bold" />
+        </span>
+      </a>
+    </div>
+  );
+}
+
+function ResultMessage({ copy, locale, result }: { copy: Copy; locale: Locale; result: Result }) {
   const r = copy.results;
   const box = 'animate-rise rounded-[var(--radius-xl)] border p-8';
   if (result.result === 'qualified') {
@@ -223,20 +259,6 @@ function ResultView({ copy, locale, result }: { copy: Copy; locale: Locale; resu
         {r.low.cta}
         <ArrowRight size={16} weight="bold" />
       </a>
-      {/* Quien no pasa a videollamada: alternativa autoguiada (programas). */}
-      <div className="mt-6 rounded-2xl border border-primary/30 bg-primary/5 p-5">
-        <p className="font-medium text-fg">{r.selfGuided.title}</p>
-        <p className="mt-1 text-sm text-muted">{r.selfGuided.body}</p>
-        <a
-          href={sectionPath('programs', locale)}
-          data-track="cta_click"
-          data-cta="product"
-          data-location="apply-self-guided"
-          className="mt-3 inline-flex text-sm font-medium text-primary hover:underline"
-        >
-          {r.selfGuided.cta}
-        </a>
-      </div>
     </div>
   );
 }

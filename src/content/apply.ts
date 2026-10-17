@@ -7,7 +7,7 @@ import { sectionPath } from './routes';
  */
 export const applyPath = (locale: Locale) => sectionPath('apply', locale);
 
-export const QUESTION_KEYS = ['goal', 'experience', 'stuck', 'days', 'commitment'] as const;
+export const QUESTION_KEYS = ['goal', 'experience', 'stuck', 'days', 'commitment', 'invest'] as const;
 export type QuestionKey = (typeof QUESTION_KEYS)[number];
 
 export const ANSWERS: Record<QuestionKey, readonly string[]> = {
@@ -16,6 +16,8 @@ export const ANSWERS: Record<QuestionKey, readonly string[]> = {
   stuck: ['starting', 'under3m', '3to12m', 'over1y'],
   days: ['1to2', '3to4', '5plus'],
   commitment: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+  /** Filtro sin importes (2026-10-17). Sin reglas en scoring_rules: no suma puntos; 'not_now' muestra el plan B. */
+  invest: ['yes', 'more_info', 'not_now'],
 };
 
 type Copy = {
@@ -41,17 +43,17 @@ type Copy = {
     qualified: { title: string; body: string; cta: string; noCalendar: string };
     waitlist: { title: string; body: string };
     low: { title: string; body: string; cta: string };
-    /** Sugerencia de programas autoguiados para quien no pasa a videollamada. */
-    selfGuided: { title: string; body: string; cta: string };
+    /** Plan B (guía en PDF): solo si responde "Ahora mismo no" a invertir en su entrenamiento. */
+    planB: { title: string; body: string; cta: string };
   };
 };
 
 export const APPLY_COPY: Record<Locale, Copy> = {
   es: {
-    metaTitle: 'Solicitar plaza de coaching 1:1',
-    metaDescription: 'Cuéntame tu situación en 2 minutos y vemos si puedo ayudarte con un plan de entrenamiento y nutrición hecho para ti.',
+    metaTitle: 'Solicitar plaza de coaching 1:1 online',
+    metaDescription: 'Solicita tu plaza de coaching 1:1: cuéntame tu caso en 2 minutos y lo revisamos juntos en una videollamada gratuita de 20 minutos.',
     h1: 'Solicita tu plaza',
-    intro: 'Dos minutos para ver si encajamos. Trabajo con pocas personas a la vez para dedicar a cada una el tiempo que necesita.',
+    intro: 'Cuéntame tu caso en 2 minutos. Si puedo ayudarte, lo revisamos juntos en una videollamada de 20 minutos. Gratis y sin compromiso.',
     questions: {
       goal: {
         label: '¿Cuál es tu objetivo principal?',
@@ -74,6 +76,10 @@ export const APPLY_COPY: Record<Locale, Copy> = {
         options: { '1': '1', '2': '2', '3': '3', '4': '4', '5': '5', '6': '6', '7': '7', '8': '8', '9': '9', '10': '10' },
         scale: ['1 = Solo estoy mirando', '10 = Voy a por todas'],
       },
+      invest: {
+        label: '¿Puedes invertir ahora en tu entrenamiento?',
+        options: { yes: 'Sí', more_info: 'Quiero más información', not_now: 'Ahora mismo no' },
+      },
     },
     tried: '¿Qué has probado hasta ahora y qué no ha funcionado? (opcional)',
     triedHint: 'Cuanto más concreto, mejor puedo valorar tu caso.',
@@ -89,8 +95,8 @@ export const APPLY_COPY: Record<Locale, Copy> = {
     failed: 'No se pudo enviar. Inténtalo de nuevo en un momento.',
     results: {
       qualified: {
-        title: 'Encajamos. Elige tu llamada.',
-        body: 'Por lo que me cuentas, puedo ayudarte. Reserva una videollamada de 20 minutos y vemos tu plan.',
+        title: 'Encajamos. Elige día para la videollamada.',
+        body: 'Por lo que me cuentas, puedo ayudarte. Reserva tu videollamada gratuita de 20 minutos y revisamos tu caso.',
         cta: 'Elegir día y hora',
         noCalendar: 'Te escribo en las próximas 48 horas para cerrar la llamada.',
       },
@@ -103,18 +109,18 @@ export const APPLY_COPY: Record<Locale, Copy> = {
         body: 'Ahora mismo te va a ayudar más empezar por lo básico. Usa las herramientas gratis y apúntate a la lista: cada semana mando lo que funciona.',
         cta: 'Ver herramientas gratis',
       },
-      selfGuided: {
-        title: 'Empieza por tu cuenta con un programa guiado',
-        body: 'Programas y guías para entrenar con un método claro, por mucho menos que un coaching personal.',
-        cta: 'Ver programas',
+      planB: {
+        title: 'Mientras tanto, puedes empezar por tu cuenta',
+        body: 'Si ahora no es el momento para el coaching, esta guía en PDF te da un plan paso a paso para tu objetivo.',
+        cta: 'Ver la guía',
       },
     },
   },
   en: {
-    metaTitle: 'Apply for 1:1 coaching',
+    metaTitle: 'Apply for 1:1 online coaching',
     metaDescription: 'Tell me about your situation in 2 minutes and we will see if I can help with a plan built for you.',
-    h1: 'Apply for a spot',
-    intro: 'Two minutes to see if we are a fit. I work with a small number of people so each one gets the time they need.',
+    h1: 'Apply for your spot',
+    intro: 'Tell me about your case in 2 minutes. If I can help, we review it together in a free 20-minute video call. No strings attached.',
     questions: {
       goal: {
         label: 'What is your main goal?',
@@ -136,6 +142,10 @@ export const APPLY_COPY: Record<Locale, Copy> = {
         label: 'From 1 to 10, how committed are you to reaching your goal?',
         options: { '1': '1', '2': '2', '3': '3', '4': '4', '5': '5', '6': '6', '7': '7', '8': '8', '9': '9', '10': '10' },
         scale: ['1 = Just looking', '10 = All in'],
+      },
+      invest: {
+        label: 'Can you invest in your training right now?',
+        options: { yes: 'Yes', more_info: 'I want more information', not_now: 'Not right now' },
       },
     },
     tried: 'What have you tried so far and what did not work? (optional)',
@@ -166,10 +176,10 @@ export const APPLY_COPY: Record<Locale, Copy> = {
         body: 'Right now the basics will help you most. Use the free tools and join the list: every week I send what works.',
         cta: 'See the free tools',
       },
-      selfGuided: {
-        title: 'Start on your own with a guided programme',
-        body: 'Programmes and guides to train with a clear method, for much less than 1:1 coaching.',
-        cta: 'See programmes',
+      planB: {
+        title: 'In the meantime, you can start on your own',
+        body: 'If now is not the time for coaching, this PDF guide gives you a step-by-step plan for your goal.',
+        cta: 'See the guide',
       },
     },
   },

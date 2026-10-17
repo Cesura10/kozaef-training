@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { bookingUrl, scoreApplication } from './applications';
+import { planBFor } from '@/content/plan-b';
 
-const answers = { goal: 'fat_loss', experience: 'over3', stuck: '3to12m', days: '3to4', commitment: '9' };
+const answers = { goal: 'fat_loss', experience: 'over3', stuck: '3to12m', days: '3to4', commitment: '9', invest: 'yes' };
 const rules = [
   { question: 'experience', answer: 'over3', points: 10 },
   { question: 'stuck', answer: '3to12m', points: 15 },
@@ -29,6 +30,20 @@ describe('puntuación de solicitudes', () => {
       { key: 'weekly_call_capacity', value: null },
     ];
     expect(scoreApplication(answers, rules, flags, 0)).toMatchObject({ threshold: 40, status: 'qualified' });
+  });
+});
+
+describe('plan B (guía) en la solicitud', () => {
+  it('solo aparece si responde "Ahora mismo no"', () => {
+    expect(planBFor({ ...answers, invest: 'yes' }, 'es')).toBeNull();
+    expect(planBFor({ ...answers, invest: 'more_info' }, 'es')).toBeNull();
+    expect(planBFor({ ...answers, invest: 'not_now' }, 'es')).not.toBeNull();
+  });
+  it('elige una guía publicada según el objetivo y la experiencia', () => {
+    const muscle = planBFor({ ...answers, goal: 'muscle', invest: 'not_now' }, 'es');
+    expect(muscle?.href).toBe('/es/programas/gana-peso-y-musculo');
+    const beginner = planBFor({ ...answers, experience: 'none', invest: 'not_now' }, 'es');
+    expect(beginner?.href).toBe('/es/programas/tu-primer-mes-en-el-gimnasio');
   });
 });
 

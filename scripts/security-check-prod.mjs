@@ -8,6 +8,8 @@
 // Variables: SITE_URL (obligatoria), NEXT_PUBLIC_SUPABASE_URL y NEXT_PUBLIC_SUPABASE_ANON_KEY
 // (opcionales: sin ellas se omite la prueba de la base de datos).
 const site = (process.env.SITE_URL ?? '').replace(/\/$/, '');
+// El panel de analítica reconoce este user agent como bot propio (no cuenta como persona).
+const UA = { 'User-Agent': 'KozaefMonitor/1.0 (security-check)' };
 if (!/^https:\/\//.test(site)) {
   console.error('SITE_URL debe ser la URL pública https://');
   process.exit(1);
@@ -17,13 +19,13 @@ const problems = [];
 // 1. Archivos internos: deben dar 404 (o al menos no servir su contenido).
 const PRIVATE_PATHS = ['/.env', '/.env.local', '/.env.production', '/.env.production.local', '/.dev.vars', '/.git/config', '/wrangler.jsonc', '/package.json', '/supabase/config.toml', '/next.config.ts'];
 for (const path of PRIVATE_PATHS) {
-  const res = await fetch(site + path, { redirect: 'manual' });
+  const res = await fetch(site + path, { redirect: 'manual', headers: UA });
   const body = res.status === 200 ? await res.text() : '';
   if (res.status === 200 && /=|\[core\]|"name"|"\$schema"|project_id/.test(body)) problems.push(`se puede descargar ${path}`);
 }
 
 // 2. Cabeceras de seguridad en la portada.
-const home = await fetch(`${site}/es`);
+const home = await fetch(`${site}/es`, { headers: UA });
 const h = home.headers;
 const need = {
   'strict-transport-security': (v) => /max-age=\d{7,}/.test(v),

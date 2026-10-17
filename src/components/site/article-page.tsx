@@ -11,7 +11,7 @@ import { categoryPath, profilePath, related, type Article } from '@/content/arti
 import { CtaHerramienta } from '@/components/funnel/cta-herramienta';
 import { BloqueProducto } from '@/components/funnel/bloque-producto';
 import { CtaCoaching } from '@/components/funnel/cta-coaching';
-import { CajaAutor } from '@/components/funnel/caja-autor';
+import { CajaAutor, FirmaAutor } from '@/components/funnel/caja-autor';
 import { BloqueMetodo } from '@/components/funnel/bloque-metodo';
 import { RecomendacionAfiliado } from '@/components/funnel/recomendacion-afiliado';
 import { JsonLd, PageShell } from './page-shell';
@@ -20,9 +20,13 @@ import { Foto } from './foto';
 const fmtDate = (d: string, locale: Locale) =>
   new Date(`${d}T12:00:00Z`).toLocaleDateString(locale === 'es' ? 'es-ES' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 
+/** Bing avisa con títulos de más de 70 caracteres: si con " | Kozaef Training" se pasa, va sin la marca. */
+const TITLE_MAX = 70;
+const BRAND_SUFFIX = ' | Kozaef Training';
+
 export function articleMetadata(a: Article): Metadata {
   return {
-    title: a.titulo,
+    title: (a.titulo + BRAND_SUFFIX).length > TITLE_MAX ? { absolute: a.titulo } : a.titulo,
     description: a.descripcion,
     alternates: { canonical: a.url },
     openGraph: {
@@ -77,6 +81,7 @@ export async function ArticlePage({ article: a }: { article: Article }) {
         </nav>
 
         <h1 className="display mt-6 text-4xl font-bold leading-[1.05] md:text-5xl">{a.titulo}</h1>
+        <FirmaAutor locale={locale} />
 
         <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted">
           <span>
@@ -168,8 +173,8 @@ export async function ArticlePage({ article: a }: { article: Article }) {
         </div>
 
         <div className="mt-12 space-y-6">
-          <BloqueProducto locale={locale} productId={a.productoRelacionado} categoria={a.categoria} perfiles={a.perfiles} location="article-end" />
           <CtaCoaching locale={locale} location="article-end" />
+          <BloqueProducto locale={locale} productId={a.productoRelacionado} categoria={a.categoria} perfiles={a.perfiles} location="article-end" />
         </div>
 
         {rel.length > 0 && (

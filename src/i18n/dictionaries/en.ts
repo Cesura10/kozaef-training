@@ -15,17 +15,24 @@ const en: Dictionary = {
     login: 'Log in',
     apply: 'Apply now',
     learn: 'Learn',
-    programs: 'Programs',
+    programs: 'Guides',
     about: 'About',
     diagnosis: 'Free assessment',
     menu: 'Menu',
     language: 'Language',
   },
   hero: {
-    titleA: 'Train with intent.',
-    titleB: 'Progress with data.',
-    subtitle: 'Free tools, clear guides and 1:1 coaching for people who train hard but stopped seeing results.',
+    titleA: 'Your online',
+    titleB: 'personal trainer.',
+    subtitle: 'I build a training and nutrition plan for you and we review it every week, so you lose fat, build muscle or start strength training without guessing.',
     ctaTools: 'See the tools',
+    ctaHow: 'How I work',
+    stepsTitle: 'How we start',
+    steps: [
+      { h: 'You apply', p: 'Tell me about your case in 2 minutes and we review it together in a free 20-minute video call.' },
+      { h: 'Your plan', p: 'Training and nutrition built around your life, schedule and the food you like.' },
+      { h: 'Weekly check-in', p: 'We look at your data and adjust. If you stall, we know why.' },
+    ],
   },
   calculator: {
     title: 'Protein calculator',
@@ -57,11 +64,11 @@ const en: Dictionary = {
     ],
   },
   guides: {
-    title: 'Guides to break your plateau.',
+    title: 'Articles to break your plateau.',
   },
   coaching: {
     eyebrow: '1:1 coaching',
-    title: 'Limited spots. Real work.',
+    title: 'A plan for you. Weekly check-ins.',
     photo: 'Your training photo goes here',
     items: [
       'Training and nutrition plan built around your life',

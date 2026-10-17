@@ -13,7 +13,8 @@ const price = (p: Product, locale: Locale) =>
 
 /**
  * Producto relacionado (por id, o por categoría/perfil). Comprable -> ficha con enlace a su
- * página (demo + compra). Sin enlace de pago -> lista de espera. Sin productos -> lista general.
+ * página (demo + compra). Sin enlace de pago -> lista de espera. Sin producto relacionado -> nada
+ * (ya hay guías a la venta: el antiguo aviso "Los programas están en camino" ya no es verdad).
  */
 export async function BloqueProducto({
   locale,
@@ -29,7 +30,7 @@ export async function BloqueProducto({
   location?: string;
 }) {
   const p = relatedProduct({ id: productId, categoria, perfiles });
-  if (!p) return <ListaEspera locale={locale} />;
+  if (!p) return null;
   if (!isBuyable(p)) return <ListaEspera locale={locale} productId={p.id} productName={p.nombre[locale]} service={p.tipo === 'servicio'} />;
 
   const f = FUNNEL[locale];
@@ -38,7 +39,7 @@ export async function BloqueProducto({
     <section className={`gold-sheen rounded-[var(--radius-xl)] border border-primary/30 p-6 sm:p-8 ${p.imagen ? 'grid gap-6 sm:grid-cols-[11rem_minmax(0,1fr)] sm:items-center' : ''}`}>
       {p.imagen && (
         <div className="group relative aspect-[4/3] overflow-hidden rounded-[var(--radius-lg,1rem)] border border-primary/20 sm:aspect-[3/4]">
-          <FondoFoto name={p.imagen} sizes="(min-width: 640px) 176px, 90vw" />
+          <FondoFoto name={p.imagen} alt={p.nombre[locale]} sizes="(min-width: 640px) 176px, 90vw" />
         </div>
       )}
       <div>
