@@ -105,6 +105,11 @@ export async function ArticlePage({ article: a }: { article: Article }) {
           ))}
         </ul>
 
+        {/* La guía relacionada, lo primero que se ve al abrir el artículo (decisión de Manu, 2026-10-18). */}
+        <div className="mt-6">
+          <BloqueProducto locale={locale} productId={a.productoRelacionado} categoria={a.categoria} perfiles={a.perfiles} location="article-top" compact />
+        </div>
+
         {a.imagen && (
           <Foto
             name={a.imagen.nombre}
@@ -172,9 +177,8 @@ export async function ArticlePage({ article: a }: { article: Article }) {
           <CajaAutor locale={locale} />
         </div>
 
-        <div className="mt-12 space-y-6">
+        <div className="mt-12">
           <CtaCoaching locale={locale} location="article-end" />
-          <BloqueProducto locale={locale} productId={a.productoRelacionado} categoria={a.categoria} perfiles={a.perfiles} location="article-end" />
         </div>
 
         {rel.length > 0 && (
