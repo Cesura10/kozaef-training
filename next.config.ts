@@ -4,8 +4,9 @@ import { securityHeaders } from "./src/lib/security-headers.mjs";
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
-  // Salida standalone: la empaqueta OpenNext para Cloudflare (scripts cf:*).
-  output: "standalone",
+  // Salida standalone: la empaqueta OpenNext para Cloudflare (scripts cf:*). En Netlify (NETLIFY=true
+  // al compilar) se usa la salida normal: la empaqueta su propio adaptador.
+  output: process.env.NETLIFY ? undefined : "standalone",
   async headers() {
     return [
       {
@@ -16,9 +17,9 @@ const nextConfig: NextConfig = {
         }),
       },
       {
-        // La dirección provisional de Cloudflare (*.workers.dev) no se indexa: solo el dominio propio.
+        // Las direcciones provisionales (*.workers.dev, *.netlify.app) no se indexan: solo el dominio propio.
         source: "/:path*",
-        has: [{ type: "host", value: "(?<sub>.*)\\.workers\\.dev" }],
+        has: [{ type: "host", value: "(?<sub>.*)\\.(workers\\.dev|netlify\\.app)" }],
         headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
       },
     ];
