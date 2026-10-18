@@ -26,19 +26,25 @@ test('salud: web y base de datos', async ({ request }) => {
   expect((await res.json()).db).toBe('ok');
 });
 
-test('portada en español: carga, calculadora funciona y sin errores', async ({ page }) => {
+test('portada en español: carga, botón principal y sin errores', async ({ page }) => {
   const errors = await noErrors(page, '/es');
-  await expect(page.locator('h1')).toContainText('Entrena con criterio');
-  const calc = page.locator('#calculadora');
-  const before = await calc.innerText();
-  await page.getByRole('button', { name: 'Perder grasa' }).click();
-  await expect.poll(async () => calc.innerText()).not.toBe(before);
+  await expect(page.locator('h1')).toContainText('Tu entrenador');
+  await expect(page.getByRole('main').getByRole('link', { name: 'Solicitar plaza' }).first()).toHaveAttribute('href', '/es/solicitar');
   expect(errors, errors.join('\n')).toEqual([]);
 });
 
 test('portada en inglés', async ({ page }) => {
   await noErrors(page, '/en');
-  await expect(page.locator('h1')).toContainText('Train with intent');
+  await expect(page.locator('h1')).toContainText('Your online');
+});
+
+test('calculadora de proteína calcula', async ({ page }) => {
+  const errors = await noErrors(page, '/es/herramientas/calculadora-proteina');
+  const calc = page.locator('#calculadora');
+  const before = await calc.innerText();
+  await page.getByRole('button', { name: 'Perder grasa' }).click();
+  await expect.poll(async () => calc.innerText()).not.toBe(before);
+  expect(errors, errors.join('\n')).toEqual([]);
 });
 
 test('calculadora de calorías calcula', async ({ page }) => {
