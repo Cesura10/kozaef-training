@@ -44,31 +44,59 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
       <SiteHeader locale={locale} t={t} />
 
       <main className="flex-1">
-        {/* Hero: la oferta principal es el coaching 1:1 (botón "Solicitar plaza"); nada de guías aquí */}
-        <section className="mx-auto grid w-full max-w-7xl items-center gap-12 px-4 pb-20 pt-12 sm:px-6 md:pt-20 lg:min-h-[calc(100dvh-4rem)] lg:grid-cols-[1.2fr_1fr] lg:gap-14 lg:pb-24">
-          {/* Hero con animación CSS: visible antes de hidratar (LCP) */}
-          <div>
-            <KineticTitle
-              lines={[t.hero.titleA, { text: t.hero.titleB, accent: true }]}
-              className="display text-[2.4rem] font-bold leading-[1.02] sm:text-6xl lg:text-[3.25rem] xl:text-[3.6rem]"
+        {/* Hero a todo lo ancho con foto: la oferta principal es el coaching 1:1 ("Solicitar plaza") */}
+        <section className="relative isolate overflow-hidden border-b border-border/60">
+          {/* Foto: en móvil arriba; en escritorio a la derecha, fundida con el negro por la izquierda. LCP: sin carga diferida. */}
+          <div className="absolute inset-x-0 top-0 -z-10 h-[62vh] sm:h-[70vh] lg:inset-y-0 lg:left-auto lg:h-auto lg:w-[64%]">
+            {/* eslint-disable-next-line @next/next/no-img-element -- WebP ya optimizados (ver components/site/foto.tsx) */}
+            <img
+              src="/img/portada-1200.webp"
+              srcSet="/img/portada-480.webp 480w, /img/portada-800.webp 800w, /img/portada-1200.webp 1200w, /img/portada-1600.webp 1600w"
+              sizes="(min-width: 1024px) 64vw, 100vw"
+              alt={locale === 'es' ? 'Entrenador corrigiendo la técnica de una sentadilla con mancuerna' : 'Coach correcting a dumbbell squat'}
+              width={1600}
+              height={900}
+              fetchPriority="high"
+              decoding="async"
+              className="h-full w-full object-cover object-[60%_center]"
             />
-            <p className="animate-rise mt-6 max-w-[48ch] text-lg leading-relaxed text-muted [animation-delay:400ms]">
-              {t.hero.subtitle}
-            </p>
-            <div className="animate-rise mt-9 flex flex-wrap gap-3 [animation-delay:500ms]">
-              <ButtonLink href={applyPath(locale as Locale)} className="h-12 px-6" data-track="cta_click" data-cta="apply" data-location="hero">
-                {t.nav.apply}
-                <ArrowRight size={16} weight="bold" />
-              </ButtonLink>
-              <ButtonLink href={sectionPath('coaching', locale)} variant="outline" className="h-12 px-6" data-track="cta_click" data-cta="coaching" data-location="hero">
-                {t.hero.ctaHow}
-              </ButtonLink>
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,10,11,0.15)_0%,rgba(10,10,11,0.35)_50%,rgba(10,10,11,1)_100%)] lg:bg-[linear-gradient(90deg,rgba(10,10,11,1)_0%,rgba(10,10,11,0.75)_22%,rgba(10,10,11,0.2)_55%,rgba(10,10,11,0.1)_100%)]" />
+            <div className="absolute inset-x-0 bottom-0 hidden h-40 bg-gradient-to-t from-bg to-transparent lg:block" />
+          </div>
+
+          <div className="mx-auto flex w-full max-w-7xl flex-col justify-end px-4 pb-14 pt-[44vh] sm:px-6 sm:pt-[52vh] lg:min-h-[calc(100dvh-4rem)] lg:justify-center lg:py-24">
+            <div className="max-w-xl">
+              <KineticTitle
+                lines={[t.hero.titleA, { text: t.hero.titleB, accent: true }]}
+                className="display text-[2.4rem] font-bold leading-[1.02] sm:text-6xl lg:text-[3.6rem] xl:text-[4rem]"
+              />
+              <p className="animate-rise mt-6 max-w-[44ch] text-lg leading-relaxed text-fg/80 [animation-delay:400ms]">{t.hero.subtitle}</p>
+              <div className="animate-rise mt-9 flex flex-wrap gap-3 [animation-delay:500ms]">
+                <ButtonLink href={applyPath(locale as Locale)} className="h-12 px-6" data-track="cta_click" data-cta="apply" data-location="hero">
+                  {t.nav.apply}
+                  <ArrowRight size={16} weight="bold" />
+                </ButtonLink>
+                <ButtonLink
+                  href={sectionPath('coaching', locale)}
+                  variant="outline"
+                  className="h-12 bg-bg/40 px-6 backdrop-blur-sm"
+                  data-track="cta_click"
+                  data-cta="coaching"
+                  data-location="hero"
+                >
+                  {t.hero.ctaHow}
+                </ButtonLink>
+              </div>
             </div>
           </div>
-          <ol className="animate-rise space-y-0 overflow-hidden rounded-[var(--radius-xl)] border border-primary/25 gold-sheen [animation-delay:250ms]">
-            <li className="px-7 pt-7 font-mono text-xs uppercase tracking-[0.2em] text-primary sm:px-8">{t.hero.stepsTitle}</li>
+        </section>
+
+        {/* Cómo empezamos: los 3 pasos, justo debajo de la foto */}
+        <section aria-labelledby="pasos-h" className="mx-auto w-full max-w-7xl px-4 py-14 sm:px-6">
+          <h2 id="pasos-h" className="font-mono text-xs uppercase tracking-[0.2em] text-primary">{t.hero.stepsTitle}</h2>
+          <ol className="mt-6 grid gap-px overflow-hidden rounded-[var(--radius-xl)] border border-primary/25 bg-border/60 md:grid-cols-3">
             {t.hero.steps.map((st, i) => (
-              <li key={st.h} className="flex gap-5 border-b border-border/60 px-7 py-6 last:border-b-0 sm:px-8">
+              <li key={st.h} className="flex gap-5 bg-bg p-7 sm:p-8">
                 <span className="display text-4xl font-bold leading-none text-primary">{String(i + 1).padStart(2, '0')}</span>
                 <div>
                   <p className="text-lg font-semibold text-fg">{st.h}</p>
@@ -173,8 +201,8 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
             </Reveal>
             <Reveal className="mt-12">
               <Foto
-                name="portada"
-                alt={locale === 'es' ? 'Entrenador corrigiendo la técnica de una sentadilla con mancuerna' : 'Coach correcting a dumbbell squat'}
+                name="coaching"
+                alt={locale === 'es' ? 'Seguimiento del entrenamiento desde el móvil en el gimnasio' : 'Tracking a workout on a phone at the gym'}
                 className="aspect-[4/3] sm:aspect-[16/9] lg:aspect-[21/9]"
               />
             </Reveal>

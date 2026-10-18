@@ -69,3 +69,17 @@ jobs:
           SITE_URL: ${{ vars.NEXT_PUBLIC_SITE_URL }}
       - name: Avisar a Bing (IndexNow)
         run: node scripts/indexnow.mjs
+
+  # La web se sirve desde Netlify (bloqueos de LaLiga, 2026-10-18). Netlify publica solo cada cambio
+  # en main; los lunes y jueves (y a mano) además se le pide una publicación para que salgan los
+  # artículos programados cuya fecha ya ha llegado.
+  netlify-programada:
+    if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pedir a Netlify una publicación nueva
+        env:
+          NETLIFY_BUILD_HOOK: ${{ secrets.NETLIFY_BUILD_HOOK }}
+        run: |
+          [ -n "$NETLIFY_BUILD_HOOK" ] || { echo "::warning::Falta el secreto NETLIFY_BUILD_HOOK"; exit 0; }
+          curl -fsS -X POST -d '{}' "$NETLIFY_BUILD_HOOK"

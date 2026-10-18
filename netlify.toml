@@ -1,0 +1,9 @@
+# Alojamiento en Netlify (plan gratis), fuera de las IPs de Cloudflare que LaLiga bloquea en España
+# durante los partidos. Cloudflare sigue llevando el dominio (DNS) y el Worker queda de reserva.
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "24"
+  NEXT_TELEMETRY_DISABLED = "1"
