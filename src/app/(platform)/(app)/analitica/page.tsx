@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { ArrowSquareOut, CheckCircle, Info, Prohibit, WarningCircle } from '@phosphor-icons/react/dist/ssr';
 import { getTraffic, type Visit } from '@/lib/analytics/traffic';
-import { CF_MAX_DAYS, getBotSplit, type BotSplit } from '@/lib/analytics/bots';
+import { getBotSplit, type BotSplit } from '@/lib/analytics/bots';
 import { getSearchQueries, type SearchData } from '@/lib/analytics/search-console';
 import { TimeSeries } from '@/components/charts/time-series';
 import { BarList } from '@/components/charts/bar-list';
@@ -458,14 +458,14 @@ function Empty({ children }: { children: React.ReactNode }) {
  * Quién entra
  * ------------------------------------------------------------------------- */
 
-function BotsCard({ bots, humanViews, days }: { bots: BotSplit; humanViews: number | null; days: number }) {
+function BotsCard({ bots, humanViews }: { bots: BotSplit; humanViews: number | null; days: number }) {
   if (!bots.connected) {
     return (
       <section aria-labelledby="bots-h" className="card p-6">
         <h2 id="bots-h" className="text-lg font-semibold">Personas frente a bots</h2>
         <p className="mt-2 text-sm text-muted">
-          Falta conectar la analítica de Cloudflare (ve también a los bots, que no ejecutan JavaScript). Necesita
-          los secretos <code>CF_ANALYTICS_TOKEN</code> (token de solo lectura) y <code>CF_ZONE_ID</code> en el Worker.
+          Aún no hay datos. Los cuenta una función de Netlify en cada página servida (desde el 18-oct-2026); si sigue
+          vacío, falta aplicar la migración <code>20261018200000_bot_hits.sql</code>.
         </p>
       </section>
     );
@@ -479,8 +479,8 @@ function BotsCard({ bots, humanViews, days }: { bots: BotSplit; humanViews: numb
     <section aria-labelledby="bots-h" className="card p-6">
       <h2 id="bots-h" className="text-lg font-semibold">Personas frente a bots</h2>
       <p className="mt-1 text-sm text-muted">
-        Páginas servidas en {bots.days} días{days > CF_MAX_DAYS ? ` (Cloudflare guarda ${CF_MAX_DAYS} días en el plan gratis)` : ''}. Tus
-        visitas y las del monitor no cuentan como personas.
+        Páginas servidas en {bots.days} días (se cuentan desde el 18-oct-2026). Tus visitas y las del monitor no
+        cuentan como personas.
       </p>
       <div className="mt-5 grid grid-cols-3 gap-3">
         <Kpi label="Personas" value={fmt(people)} hint={pct(people, total)} />
