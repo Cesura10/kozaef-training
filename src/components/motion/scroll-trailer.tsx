@@ -26,7 +26,7 @@ export function ScrollTrailer({ scenes, label }: { scenes: TrailerScene[]; label
         {scenes.map((s) => (
           <div key={s.t}>
             <p className="font-mono text-xs uppercase tracking-[0.2em] text-primary">{s.k}</p>
-            <h3 className="display mt-3 text-4xl font-bold md:text-6xl">{s.t}</h3>
+            <h2 className="display mt-3 text-4xl font-bold md:text-6xl">{s.t}</h2>
             <p className="mt-3 text-lg text-muted">{s.p}</p>
           </div>
         ))}
@@ -85,9 +85,9 @@ function Scene({ scene, index, total, progress }: { scene: TrailerScene; index: 
         <span className="display text-5xl font-bold tracking-tight text-primary/90 md:text-6xl">{String(index + 1).padStart(2, '0')}</span>
         {scene.k}
       </p>
-      <h3 className="display mt-6 max-w-[16ch] text-[2.6rem] font-bold leading-[0.98] sm:text-6xl lg:text-[5.5rem] [text-wrap:balance]">
+      <h2 className="display mt-6 max-w-[16ch] text-[2.6rem] font-bold leading-[0.98] sm:text-6xl lg:text-[5.5rem] [text-wrap:balance]">
         {scene.t}
-      </h3>
+      </h2>
       <p className="mt-6 max-w-[44ch] text-lg text-muted md:text-xl">{scene.p}</p>
     </m.div>
   );

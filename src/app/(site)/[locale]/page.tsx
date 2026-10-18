@@ -43,7 +43,7 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
     <div className="flex min-h-full flex-1 flex-col">
       <SiteHeader locale={locale} t={t} />
 
-      <main className="flex-1">
+      <main id="contenido" tabIndex={-1} className="flex-1">
         {/* Hero a todo lo ancho con foto: la oferta principal es el coaching 1:1 ("Solicitar plaza") */}
         <section className="relative isolate overflow-hidden border-b border-border/60">
           {/* Foto: en móvil arriba; en escritorio a la derecha, fundida con el negro por la izquierda. LCP: sin carga diferida. */}

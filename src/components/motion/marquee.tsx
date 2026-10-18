@@ -1,6 +1,9 @@
+import { MarqueePause } from './marquee-pause';
+
 /**
  * Banda en movimiento continuo (CSS puro). El contenido se duplica para que el bucle no tenga
- * corte; la copia va oculta a lectores de pantalla. Se para al pasar el cursor y con reduced motion.
+ * corte; la copia va oculta a lectores de pantalla. Se para al pasar el cursor, con reduced motion
+ * y con su botón de pausa (WCAG 2.2.2: todo lo que se mueve solo debe poder pararse).
  */
 export function Marquee({ items, className, seconds = 38 }: { items: string[]; className?: string; seconds?: number }) {
   const row = (hidden: boolean) => (
@@ -16,7 +19,8 @@ export function Marquee({ items, className, seconds = 38 }: { items: string[]; c
     </ul>
   );
   return (
-    <div className={`marquee overflow-hidden border-y border-border/70 py-5 md:py-7 ${className ?? ''}`}>
+    <div className={`marquee relative overflow-hidden border-y border-border/70 py-5 md:py-7 ${className ?? ''}`}>
+      <MarqueePause />
       <div className="marquee-track" style={{ '--dur': `${seconds}s` } as React.CSSProperties}>
         {row(false)}
         {row(true)}
