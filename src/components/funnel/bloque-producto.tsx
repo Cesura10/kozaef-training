@@ -22,12 +22,15 @@ export async function BloqueProducto({
   categoria,
   perfiles,
   location = 'page',
+  compact = false,
 }: {
   locale: Locale;
   productId?: string | null;
   categoria?: CategoryId | null;
   perfiles?: ProfileId[];
   location?: string;
+  /** Arriba del artículo: más bajo, con la foto pequeña al lado en vez de encima (en móvil no tapa la pantalla). */
+  compact?: boolean;
 }) {
   const p = relatedProduct({ id: productId, categoria, perfiles });
   if (!p) return null;
@@ -36,9 +39,13 @@ export async function BloqueProducto({
   const f = FUNNEL[locale];
   const priceText = price(p, locale);
   return (
-    <section className={`gold-sheen rounded-[var(--radius-xl)] border border-primary/30 p-6 sm:p-8 ${p.imagen ? 'grid gap-6 sm:grid-cols-[11rem_minmax(0,1fr)] sm:items-center' : ''}`}>
+    <section
+      className={`gold-sheen rounded-[var(--radius-xl)] border border-primary/30 ${compact ? 'p-5 sm:p-6' : 'p-6 sm:p-8'} ${
+        p.imagen ? (compact ? 'grid grid-cols-[5.5rem_minmax(0,1fr)] items-center gap-4 sm:grid-cols-[8rem_minmax(0,1fr)] sm:gap-6' : 'grid gap-6 sm:grid-cols-[11rem_minmax(0,1fr)] sm:items-center') : ''
+      }`}
+    >
       {p.imagen && (
-        <div className="group relative aspect-[4/3] overflow-hidden rounded-[var(--radius-lg,1rem)] border border-primary/20 sm:aspect-[3/4]">
+        <div className={`group relative overflow-hidden rounded-[var(--radius-lg,1rem)] border border-primary/20 ${compact ? 'aspect-[3/4] self-start' : 'aspect-[4/3] sm:aspect-[3/4]'}`}>
           <FondoFoto name={p.imagen} alt={p.nombre[locale]} sizes="(min-width: 640px) 176px, 90vw" />
         </div>
       )}
@@ -47,9 +54,9 @@ export async function BloqueProducto({
         <Package size={22} weight="duotone" aria-hidden />
         <span className="text-sm font-medium">{f.productEyebrow}</span>
       </div>
-      <h2 className="display mt-3 text-2xl font-bold">{p.nombre[locale]}</h2>
-      <p className="mt-2 max-w-[60ch] text-muted">{p.paraQuien[locale]}</p>
-      <div className="mt-5 flex flex-wrap items-center gap-4">
+      <h2 className={`display font-bold ${compact ? 'mt-2 text-xl sm:text-2xl' : 'mt-3 text-2xl'}`}>{p.nombre[locale]}</h2>
+      <p className={`mt-2 max-w-[60ch] text-muted ${compact ? 'line-clamp-2 text-sm sm:line-clamp-none sm:text-base' : ''}`}>{p.paraQuien[locale]}</p>
+      <div className={`flex flex-wrap items-center gap-4 ${compact ? 'mt-4' : 'mt-5'}`}>
         <Link
           href={sectionPath('programs', locale, p.slug[locale])}
           data-track="cta_click"
