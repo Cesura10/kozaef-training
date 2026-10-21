@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowUpRight } from '@phosphor-icons/react/dist/ssr';
 import type { Locale } from '@/i18n/config';
-import { LOCALES, SITE_URL } from '@/i18n/config';
+import { INDEXED_LOCALES, SITE_URL } from '@/i18n/config';
 import { pagesCopy } from '@/content/pages';
 import { RecomendacionAfiliado } from '@/components/funnel/recomendacion-afiliado';
 import { sectionPath } from '@/content/routes';
@@ -29,7 +29,7 @@ export function toolMetadata(locale: Locale, id: ToolId): Metadata {
     description: c.metaDescription,
     alternates: {
       canonical: toolPath(id, locale),
-      languages: Object.fromEntries(LOCALES.map((l) => [l, toolPath(id, l)])),
+      languages: Object.fromEntries(INDEXED_LOCALES.map((l) => [l, toolPath(id, l)])),
     },
     openGraph: { title: c.metaTitle, description: c.metaDescription, url: toolPath(id, locale) },
   };

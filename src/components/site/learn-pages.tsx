@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import type { Locale } from '@/i18n/config';
-import { LOCALES } from '@/i18n/config';
+import { INDEXED_LOCALES } from '@/i18n/config';
 import { pagesCopy } from '@/content/pages';
 import { sectionPath } from '@/content/routes';
 import { CATEGORIES, CATEGORY_IDS, LEVELS, LEVEL_IDS, PROFILES, PROFILE_IDS, type CategoryId, type ProfileId } from '@/content/taxonomy';
@@ -22,7 +22,7 @@ export function learnIndexMetadata(locale: Locale): Metadata {
     // hreflang solo hacia idiomas con artículos: si no, Google descubre páginas vacías (noindex) y las cuenta como excluidas.
     alternates: {
       canonical: sectionPath('learn', locale),
-      languages: Object.fromEntries(LOCALES.filter((l) => articlesFor(l).length > 0).map((l) => [l, sectionPath('learn', l)])),
+      languages: Object.fromEntries(INDEXED_LOCALES.filter((l) => articlesFor(l).length > 0).map((l) => [l, sectionPath('learn', l)])),
     },
     // Sin artículos, la portada de la biblioteca no se indexa (contenido vacío).
     ...(articlesFor(locale).length === 0 ? { robots: { index: false, follow: true } } : {}),
@@ -118,7 +118,7 @@ export function topicMetadata(locale: Locale, t: Topic): Metadata {
     alternates: {
       canonical: path(locale),
       // Solo idiomas donde este tema tiene artículos (ver learnIndexMetadata).
-      languages: Object.fromEntries(LOCALES.filter((l) => topicInfo(l, t).list.length > 0).map((l) => [l, path(l)])),
+      languages: Object.fromEntries(INDEXED_LOCALES.filter((l) => topicInfo(l, t).list.length > 0).map((l) => [l, path(l)])),
     },
     // Página real e indexable, pero solo cuando tenga artículos (evita páginas vacías en Google).
     ...(list.length === 0 ? { robots: { index: false, follow: true } } : {}),

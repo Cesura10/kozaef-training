@@ -17,6 +17,16 @@ const nextConfig: NextConfig = {
         }),
       },
       {
+        // Inglés aún sin indexar (ver INDEXED_LOCALES en src/i18n/config.ts): Google mostraba la
+        // portada en inglés al buscar la marca. Los enlaces se siguen.
+        source: "/en/:path*",
+        headers: [{ key: "X-Robots-Tag", value: "noindex, follow" }],
+      },
+      {
+        source: "/en",
+        headers: [{ key: "X-Robots-Tag", value: "noindex, follow" }],
+      },
+      {
         // Las direcciones provisionales (*.workers.dev, *.netlify.app) no se indexan: solo el dominio propio.
         source: "/:path*",
         has: [{ type: "host", value: "(?<sub>.*)\\.(workers\\.dev|netlify\\.app)" }],

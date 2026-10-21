@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Check } from '@phosphor-icons/react/dist/ssr';
-import { LOCALES, type Locale } from '@/i18n/config';
+import { INDEXED_LOCALES, type Locale } from '@/i18n/config';
 import { getDictionary } from '@/i18n/dictionaries';
 import { APPLY_COPY, applyPath } from '@/content/apply';
 import { ApplyForm } from '@/components/marketing/apply-form';
@@ -12,7 +12,7 @@ export function applyMetadata(locale: Locale): Metadata {
   return {
     title: c.metaTitle,
     description: c.metaDescription,
-    alternates: { canonical: applyPath(locale), languages: Object.fromEntries(LOCALES.map((l) => [l, applyPath(l)])) },
+    alternates: { canonical: applyPath(locale), languages: Object.fromEntries(INDEXED_LOCALES.map((l) => [l, applyPath(l)])) },
   };
 }
 

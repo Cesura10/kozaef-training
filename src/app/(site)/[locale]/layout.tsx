@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 import { fontVariables } from "../../fonts";
-import { LOCALES, SITE_URL, hasLocale } from "@/i18n/config";
+import { INDEXED_LOCALES, LOCALES, SITE_URL, hasLocale, isIndexedLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import Script from "next/script";
 import { AnalyticsProvider } from "@/components/analytics-provider";
@@ -43,11 +43,13 @@ export async function generateMetadata({
     alternates: {
       canonical: `/${locale}`,
       languages: {
-        ...Object.fromEntries(LOCALES.map((l) => [l, `/${l}`])),
+        ...Object.fromEntries(INDEXED_LOCALES.map((l) => [l, `/${l}`])),
         "x-default": "/es",
       },
     },
     openGraph: { siteName: "Kozaef Training", locale, type: "website" },
+    // Idioma aún no indexable (inglés): fuera de Google, pero sus enlaces se siguen.
+    ...(isIndexedLocale(locale) ? {} : { robots: { index: false, follow: true } }),
     appleWebApp: {
       capable: true,
       title: "Kozaef",
