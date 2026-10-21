@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { LOCALES, hasLocale } from '@/i18n/config';
+import { LOCALES, hasLocale, INDEXED_LOCALES } from '@/i18n/config';
 import { getDictionary } from '@/i18n/dictionaries';
 import { LEGAL } from '@/content/legal';
 import { LEGAL_OWNER, LEGAL_SLUGS, type LegalSlug } from '@/lib/legal';
@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: PageProps<'/[locale]/legal/[s
     description: `${LEGAL[locale][slug].title} · Kozaef Training. ${LEGAL[locale][slug].intro}`.slice(0, 155),
     alternates: {
       canonical: `/${locale}/legal/${slug}`,
-      languages: Object.fromEntries(LOCALES.map((l) => [l, `/${l}/legal/${slug}`])),
+      languages: Object.fromEntries(INDEXED_LOCALES.map((l) => [l, `/${l}/legal/${slug}`])),
     },
   };
 }

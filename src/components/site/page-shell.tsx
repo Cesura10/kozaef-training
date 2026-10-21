@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import type { Locale } from '@/i18n/config';
-import { LOCALES } from '@/i18n/config';
+import { INDEXED_LOCALES } from '@/i18n/config';
 import { getDictionary } from '@/i18n/dictionaries';
 import { sectionPath, type SectionId } from '@/content/routes';
 import { SiteHeader } from './site-header';
@@ -19,7 +19,7 @@ export function sectionMetadata(
     description: m.description,
     alternates: {
       canonical: sectionPath(section, locale, rest[locale] ?? ''),
-      languages: Object.fromEntries(LOCALES.map((l) => [l, sectionPath(section, l, rest[l] ?? '')])),
+      languages: Object.fromEntries(INDEXED_LOCALES.map((l) => [l, sectionPath(section, l, rest[l] ?? '')])),
     },
     openGraph: { title: m.title, description: m.description },
     ...(opts.noindex ? { robots: { index: false, follow: false } } : {}),
