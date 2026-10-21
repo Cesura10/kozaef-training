@@ -69,19 +69,20 @@ const es: Record<LegalSlug, LegalDoc> = {
         p: [
           'Email (y el resultado numérico de la calculadora que hayas usado, si es el caso), cuando te suscribes: para enviarte consejos de entrenamiento y nutrición y ofertas de mis servicios. Base legal: tu consentimiento.',
           'Datos de la solicitud de coaching (nombre, email, objetivos y las respuestas del formulario): para valorar si puedo ayudarte y contactar contigo. Base legal: aplicación de medidas precontractuales a petición tuya.',
+          'Si eres cliente, los datos de tu ficha (contacto, medidas, hábitos, entrenamiento y, si los indicas, datos de salud como lesiones, patologías, medicación o ciclo menstrual) y los de tus revisiones: para preparar y ajustar tu plan de entrenamiento y nutrición. Base legal: la ejecución del servicio contratado y, para los datos de salud, tu consentimiento expreso, que das al enviar el formulario y puedes retirar cuando quieras. Solo los ve el titular.',
           'Canal por el que llegaste (por ejemplo, TikTok o Google) y uso de la web de forma agregada: para saber qué contenido funciona. Base legal: interés legítimo en mejorar la web. La analítica se hace sin cookies de seguimiento.',
         ],
       },
       {
         h: 'Cuánto tiempo se guardan',
         p: [
-          'Los datos de la lista de correo, hasta que te des de baja. Las solicitudes de coaching que no acaben en contratación, un máximo de 12 meses. Después se borran o se anonimizan.',
+          'Los datos de la lista de correo, hasta que te des de baja. Las solicitudes de coaching que no acaben en contratación, un máximo de 12 meses. Las fichas de clientes, mientras dure el servicio y hasta 12 meses después (o antes, si pides que se borren). Después se borran o se anonimizan.',
         ],
       },
       {
         h: 'Quién trata los datos por encargo',
         p: [
-          'Proveedores que prestan servicios técnicos con contrato de encargado del tratamiento: Supabase (base de datos, alojada en la Unión Europea), Cloudflare (alojamiento web y protección anti-bots), PostHog (analítica, servidores en la UE), el proveedor de envío de emails y Telegram (para que el titular reciba en su móvil el aviso de cada solicitud o suscripción, con el nombre y el email indicados). Algunos pueden tratar datos fuera del Espacio Económico Europeo con las garantías del RGPD (cláusulas contractuales tipo o marco de privacidad UE-EE. UU.).',
+          'Proveedores que prestan servicios técnicos con contrato de encargado del tratamiento: Supabase (base de datos, alojada en la Unión Europea), Netlify y Cloudflare (alojamiento web, dominio y protección anti-bots), PostHog (analítica, servidores en la UE), el proveedor de envío de emails y Telegram (para que el titular reciba en su móvil el aviso de cada solicitud, suscripción o formulario de ficha, con el nombre indicado). Algunos pueden tratar datos fuera del Espacio Económico Europeo con las garantías del RGPD (cláusulas contractuales tipo o marco de privacidad UE-EE. UU.).',
           'No se venden ni se ceden tus datos a terceros.',
         ],
       },

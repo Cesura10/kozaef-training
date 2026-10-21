@@ -13,17 +13,22 @@ export const LIMITS = {
     applications: { max: 3, windowSeconds: 86_400 },
     magicLink: { max: 5, windowSeconds: 3600 },
     serviceRequests: { max: 3, windowSeconds: 86_400 },
+    /** Formularios de ficha (enlace privado de Manu): pocos envíos por persona. */
+    fichas: { max: 6, windowSeconds: 3600 },
   },
   /** Topes globales por día (se reinician a medianoche UTC). */
   daily: {
     leads: 2_000,
     applications: 150,
     serviceRequests: 60,
+    fichas: 100,
     /** Resend gratis: 100/día y 3.000/mes. Nos quedamos por debajo. */
     emails: 90,
   },
   /** Tamaño máximo del cuerpo de cualquier POST público. */
   maxBodyBytes: 8_192,
+  /** El formulario inicial de ficha tiene ~40 respuestas largas. */
+  maxFichaBytes: 65_536,
 } as const;
 
 export type RateLimitKey = keyof typeof LIMITS.perIp;

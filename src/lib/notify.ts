@@ -59,6 +59,16 @@ export function notifyApplication(a: {
   return send(lines.join('\n'));
 }
 
+export function notifyFicha(f: { nombre: string; tipo: 'inicial' | 'revision'; fichaId: string; peso: number | null }) {
+  const lines = [
+    f.tipo === 'inicial' ? `<b>🗂️ Ficha nueva: formulario inicial</b>` : `<b>🔁 Revisión recibida</b>`,
+    esc(f.nombre || 'Sin nombre') + (f.peso ? ` · ${f.peso} kg` : ''),
+    ``,
+    `<a href="${SITE_URL}/fichas/${f.fichaId}">Abrir la ficha</a>`,
+  ];
+  return send(lines.join('\n'));
+}
+
 export function notifyServiceRequest(r: { name: string; email: string; product: string; videos: number; notes?: string | null }) {
   const lines = [
     `<b>🎥 Revisión de técnica: vídeos recibidos</b>`,
