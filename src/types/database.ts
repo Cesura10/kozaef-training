@@ -1,6 +1,5 @@
 // GENERADO con: npx supabase gen types typescript --linked > src/types/database.ts
 // No editar a mano: regenerar tras cada migración y volver a añadir los atajos del final.
-
 export type Json =
   | string
   | number
@@ -13,7 +12,7 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "14.5"
+    PostgrestVersion: "13.0.5"
   }
   graphql_public: {
     Tables: {
@@ -94,6 +93,24 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      bot_hits: {
+        Row: {
+          day: string
+          hits: number
+          label: string
+        }
+        Insert: {
+          day?: string
+          hits?: number
+          label: string
+        }
+        Update: {
+          day?: string
+          hits?: number
+          label?: string
+        }
+        Relationships: []
       }
       check_in_photos: {
         Row: {
@@ -512,6 +529,118 @@ export type Database = {
           key?: string
           updated_at?: string
           value?: Json | null
+        }
+        Relationships: []
+      }
+      ficha_enlaces: {
+        Row: {
+          caduca_at: string
+          created_at: string
+          etiqueta: string
+          ficha_id: string | null
+          token: string
+          usado_at: string | null
+        }
+        Insert: {
+          caduca_at?: string
+          created_at?: string
+          etiqueta?: string
+          ficha_id?: string | null
+          token: string
+          usado_at?: string | null
+        }
+        Update: {
+          caduca_at?: string
+          created_at?: string
+          etiqueta?: string
+          ficha_id?: string | null
+          token?: string
+          usado_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ficha_enlaces_ficha_id_fkey"
+            columns: ["ficha_id"]
+            isOneToOne: false
+            referencedRelation: "fichas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ficha_respuestas: {
+        Row: {
+          created_at: string
+          ficha_id: string
+          id: string
+          peso: number | null
+          respuestas: Json
+          tipo: string
+        }
+        Insert: {
+          created_at?: string
+          ficha_id: string
+          id?: string
+          peso?: number | null
+          respuestas: Json
+          tipo: string
+        }
+        Update: {
+          created_at?: string
+          ficha_id?: string
+          id?: string
+          peso?: number | null
+          respuestas?: Json
+          tipo?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ficha_respuestas_ficha_id_fkey"
+            columns: ["ficha_id"]
+            isOneToOne: false
+            referencedRelation: "fichas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      fichas: {
+        Row: {
+          created_at: string
+          edad: number | null
+          email: string | null
+          estado: string
+          id: string
+          nombre: string
+          notas: string
+          telefono: string | null
+          token_revision: string | null
+          ultima_actividad: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          edad?: number | null
+          email?: string | null
+          estado?: string
+          id?: string
+          nombre?: string
+          notas?: string
+          telefono?: string | null
+          token_revision?: string | null
+          ultima_actividad?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          edad?: number | null
+          email?: string | null
+          estado?: string
+          id?: string
+          nombre?: string
+          notas?: string
+          telefono?: string | null
+          token_revision?: string | null
+          ultima_actividad?: string
+          updated_at?: string
         }
         Relationships: []
       }
@@ -1031,6 +1160,7 @@ export type Database = {
     }
     Functions: {
       analytics_overview: { Args: { p_days?: number }; Returns: Json }
+      bump_bot_hit: { Args: { p_label: string }; Returns: undefined }
       bump_daily_counter: {
         Args: { p_cap: number; p_name: string }
         Returns: boolean

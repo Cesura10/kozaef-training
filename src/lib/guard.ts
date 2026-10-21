@@ -23,10 +23,10 @@ export function clientIp(headers: Headers): string {
  */
 export async function guardPublicWrite(
   headers: Headers,
-  opts: { endpoint: RateLimitKey; daily: DailyCounter; flag: string; turnstileToken?: string | null },
+  opts: { endpoint: RateLimitKey; daily: DailyCounter; flag: string; turnstileToken?: string | null; maxBytes?: number },
 ): Promise<GuardResult> {
   const length = Number(headers.get('content-length') ?? 0);
-  if (length > LIMITS.maxBodyBytes) return { ok: false, status: 413, reason: 'payload_too_large' };
+  if (length > (opts.maxBytes ?? LIMITS.maxBodyBytes)) return { ok: false, status: 413, reason: 'payload_too_large' };
 
   const db = createAdminClient();
 

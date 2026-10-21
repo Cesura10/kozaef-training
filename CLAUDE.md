@@ -46,6 +46,9 @@ check-ins con fotos, chat 1:1 y (Fase 3) comunidad. Roles `trainer` / `client`.
 - Rutas privadas cuelgan de `src/app/(platform)/(app)/` (su layout hace de guard).
 - Migraciones: un archivo por área en `supabase/migrations/`, prefijo timestamp
   `AAAAMMDDHHMMSS_nombre.sql`. Nunca editar una migración ya aplicada: añadir otra.
+  **Desde el 30-oct-2026, cada `create table` en `public` lleva sus `grant` en la misma migración**
+  (Supabase ya no los pone solo; sin ellos la web recibe "permission denied"). Lo comprueba
+  `src/lib/migrations.test.ts`.
 - Tipos de BD en `src/types/database.ts` (regenerar con
   `npx supabase gen types typescript --linked` cuando cambie el esquema).
 - Textos de UI en español. Paleta y tokens en `src/app/globals.css`
