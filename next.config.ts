@@ -35,6 +35,10 @@ const nextConfig: NextConfig = {
       },
       // Permanente: Google consolida la portada en /es en vez de marcarla como "página con redirección temporal".
       { source: "/", destination: "/es", permanent: true },
+      // Calculadora de calorías oculta por ahora (VISIBLE_TOOL_IDS en src/content/tools.ts): temporal,
+      // para no romper enlaces ni lo que ya tiene Google.
+      { source: "/es/herramientas/calculadora-calorias", destination: "/es/herramientas/calculadora-proteina", permanent: false },
+      { source: "/en/tools/calorie-calculator", destination: "/en/tools/protein-calculator", permanent: false },
       // /solicitud pasó a /solicitar (brief biblioteca y embudo)
       { source: "/es/solicitud", destination: "/es/solicitar", permanent: true },
     ];

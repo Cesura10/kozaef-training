@@ -1,13 +1,13 @@
 import { notFound } from 'next/navigation';
 import { hasLocale } from '@/i18n/config';
-import { TOOL_IDS, TOOL_SLUGS, toolBySlug } from '@/content/tools';
+import { TOOL_SLUGS, VISIBLE_TOOL_IDS, toolBySlug } from '@/content/tools';
 import { ToolPage, toolMetadata } from '@/components/site/tool-page';
 
 // /en/tools/<slug>: páginas estáticas de herramientas (solo idioma "en").
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return TOOL_IDS.map((id) => ({ locale: 'en', slug: TOOL_SLUGS[id].en }));
+  return VISIBLE_TOOL_IDS.map((id) => ({ locale: 'en', slug: TOOL_SLUGS[id].en }));
 }
 
 export async function generateMetadata({ params }: PageProps<'/[locale]/tools/[slug]'>) {

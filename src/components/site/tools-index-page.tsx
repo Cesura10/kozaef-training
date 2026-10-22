@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { ArrowRight } from '@phosphor-icons/react/dist/ssr';
 import type { Locale } from '@/i18n/config';
 import { pagesCopy } from '@/content/pages';
-import { TOOL_CONTENT, TOOL_IDS, toolPath, type ToolId } from '@/content/tools';
+import { TOOL_CONTENT, VISIBLE_TOOL_IDS, toolPath, type ToolId } from '@/content/tools';
 import { AdSlot } from '@/components/funnel/ad-slot';
 import { CtaCoaching } from '@/components/funnel/cta-coaching';
 import { PageShell, sectionMetadata } from './page-shell';
@@ -24,7 +24,7 @@ export async function ToolsIndexPage({ locale }: { locale: Locale }) {
       <PageHero index="02" label={c.h1} title={[c.h1]} intro={c.intro} />
       <section className="mx-auto w-full max-w-7xl px-4 pb-16 sm:px-6">
         <ol className="border-t border-border">
-          {TOOL_IDS.map((id, i) => {
+          {VISIBLE_TOOL_IDS.map((id, i) => {
             const t = TOOL_CONTENT[locale][id];
             return (
               <li key={id} className="border-b border-border">
