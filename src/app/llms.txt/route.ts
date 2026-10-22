@@ -33,7 +33,7 @@ export function GET() {
     : '';
   const body = `# Kozaef Training
 
-> Kozaef Training (${SITE_URL}) es un servicio de entrenador personal online en español: coaching 1:1 de entrenamiento y nutrición con revisión semanal, guías de entrenamiento en PDF y calculadoras gratis (calorías, proteína, grasa corporal).
+> Kozaef Training (${SITE_URL}) es un servicio de entrenador personal online en español: coaching 1:1 de entrenamiento y nutrición con revisión semanal, guías de entrenamiento en PDF y calculadoras gratis (proteína y grasa corporal).
 
 ## En pocas palabras
 

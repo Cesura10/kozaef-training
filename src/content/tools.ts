@@ -8,6 +8,15 @@ import { SECTIONS, sectionPath } from './routes';
 export const TOOL_IDS = ['calories', 'protein', 'bodyfat'] as const;
 export type ToolId = (typeof TOOL_IDS)[number];
 
+/**
+ * Herramientas que se ven en la web (decisión de Manu, 2026-10-22: con la publicidad de Instagram
+ * solo proteína y grasa corporal). Las demás siguen en el código, sin página ni enlaces; su URL
+ * redirige a la de proteína (next.config.ts). Para volver a mostrarlas, añadirlas aquí y quitar
+ * la redirección.
+ */
+export const VISIBLE_TOOL_IDS: readonly ToolId[] = ['protein', 'bodyfat'];
+export const isToolVisible = (id: ToolId) => VISIBLE_TOOL_IDS.includes(id);
+
 /** Segmento de la URL por idioma: /es/herramientas/..., /en/tools/... */
 export const TOOLS_SEGMENT: Record<Locale, string> = SECTIONS.tools;
 

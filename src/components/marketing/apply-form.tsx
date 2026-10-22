@@ -253,7 +253,7 @@ function ResultMessage({ copy, locale, result }: { copy: Copy; locale: Locale; r
       <h2 className="display mt-4 text-3xl font-bold">{r.low.title}</h2>
       <p className="mt-3 max-w-[55ch] text-lg text-muted">{r.low.body}</p>
       <a
-        href={toolPath('calories', locale)}
+        href={toolPath('protein', locale)}
         className="mt-6 inline-flex h-12 items-center gap-2 rounded-full bg-primary px-7 text-sm font-semibold text-primary-fg hover:bg-primary-hover"
       >
         {r.low.cta}

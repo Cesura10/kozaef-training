@@ -7,7 +7,6 @@ import {
   ChatsCircle,
   Check,
   Drop,
-  Fire,
   Ruler,
 } from '@phosphor-icons/react/dist/ssr';
 import { ButtonLink } from '@/components/ui/button';
@@ -119,74 +118,38 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
               </h2>
             </Reveal>
 
-            <div className="mt-12 grid gap-4 md:grid-cols-3 md:grid-rows-2">
-              <Reveal className="md:col-span-2 md:row-span-2">
-                <Spotlight className="h-full rounded-[var(--radius-xl)]">
-                <Link
-                  href={toolPath('calories', locale)}
-                  className="group gold-sheen relative flex h-full min-h-[22rem] flex-col justify-between overflow-hidden rounded-[var(--radius-xl)] border border-primary/25 p-8 transition-colors hover:border-primary/60 md:p-10"
-                >
-                  <div className="flex items-center justify-between">
-                    <Fire size={28} weight="duotone" className="text-primary" />
-                    <ArrowUpRight
-                      size={22}
-                      className="text-primary/70 transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-primary"
-                    />
-                  </div>
-                  <div>
-                    <p className="display text-[5.5rem] font-bold leading-none text-fg/10 sm:text-[8rem]" aria-hidden>
-                      kcal
-                    </p>
-                    <h3 className="display mt-2 text-3xl font-bold md:text-4xl">{t.tools.calories.title}</h3>
-                    <p className="mt-3 max-w-[44ch] text-muted">
-                      {t.tools.calories.body}
-                    </p>
-                  </div>
-                </Link>
-                </Spotlight>
-              </Reveal>
-
-              <Reveal delay={0.08}>
-                <Spotlight className="h-full rounded-[var(--radius-xl)]">
-                <Link
-                  href={toolPath('protein', locale)}
-                  className="group flex h-full flex-col justify-between gap-10 rounded-[var(--radius-xl)] border border-border bg-surface p-7 transition-colors hover:border-primary/50"
-                >
-                  <div className="flex items-center justify-between">
-                    <Drop size={26} weight="duotone" className="text-primary" />
-                    <ArrowUpRight
-                      size={20}
-                      className="text-faint transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-primary"
-                    />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold">{t.tools.protein.title}</h3>
-                    <p className="mt-2 text-sm text-muted">{t.tools.protein.body}</p>
-                  </div>
-                </Link>
-                </Spotlight>
-              </Reveal>
-
-              <Reveal delay={0.16}>
-                <Spotlight className="h-full rounded-[var(--radius-xl)]">
-                <Link
-                  href={toolPath('bodyfat', locale)}
-                  className="group flex h-full flex-col justify-between gap-10 rounded-[var(--radius-xl)] border border-border bg-surface-2 p-7 transition-colors hover:border-primary/50"
-                >
-                  <div className="flex items-center justify-between">
-                    <Ruler size={26} weight="duotone" className="text-primary" />
-                    <ArrowUpRight
-                      size={20}
-                      className="text-faint transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-primary"
-                    />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold">{t.tools.bodyfat.title}</h3>
-                    <p className="mt-2 text-sm text-muted">{t.tools.bodyfat.body}</p>
-                  </div>
-                </Link>
-                </Spotlight>
-              </Reveal>
+            {/* Solo proteína y grasa corporal por ahora (VISIBLE_TOOL_IDS en src/content/tools.ts). */}
+            <div className="mt-12 grid gap-4 md:grid-cols-2">
+              {([
+                { id: 'protein', icon: Drop, big: 'g/kg', title: t.tools.protein.title, body: t.tools.protein.body, gold: true },
+                { id: 'bodyfat', icon: Ruler, big: '%', title: t.tools.bodyfat.title, body: t.tools.bodyfat.body, gold: false },
+              ] as const).map((c, i) => (
+                <Reveal key={c.id} delay={i * 0.08}>
+                  <Spotlight className="h-full rounded-[var(--radius-xl)]">
+                    <Link
+                      href={toolPath(c.id, locale)}
+                      className={`group relative flex h-full min-h-[20rem] flex-col justify-between overflow-hidden rounded-[var(--radius-xl)] border p-8 transition-colors md:p-10 ${
+                        c.gold ? 'gold-sheen border-primary/25 hover:border-primary/60' : 'border-border bg-surface hover:border-primary/50'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between">
+                        <c.icon size={28} weight="duotone" className="text-primary" />
+                        <ArrowUpRight
+                          size={22}
+                          className="text-primary/70 transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-primary"
+                        />
+                      </div>
+                      <div>
+                        <p className="display text-[5rem] font-bold leading-none text-fg/10 sm:text-[7rem]" aria-hidden>
+                          {c.big}
+                        </p>
+                        <h3 className="display mt-2 text-3xl font-bold md:text-4xl">{c.title}</h3>
+                        <p className="mt-3 max-w-[44ch] text-muted">{c.body}</p>
+                      </div>
+                    </Link>
+                  </Spotlight>
+                </Reveal>
+              ))}
             </div>
           </div>
         </section>

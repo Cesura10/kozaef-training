@@ -7,7 +7,7 @@ import { pagesCopy } from '@/content/pages';
 import { RecomendacionAfiliado } from '@/components/funnel/recomendacion-afiliado';
 import { sectionPath } from '@/content/routes';
 import { getDictionary } from '@/i18n/dictionaries';
-import { CALC_UI, TOOL_CONTENT, TOOL_IDS, toolPath, type ToolId } from '@/content/tools';
+import { CALC_UI, TOOL_CONTENT, VISIBLE_TOOL_IDS, toolPath, type ToolId } from '@/content/tools';
 import { SiteHeader } from './site-header';
 import { SiteFooter } from './site-footer';
 import { NewsletterForm } from '@/components/marketing/newsletter-form';
@@ -39,7 +39,7 @@ export async function ToolPage({ locale, id }: { locale: Locale; id: ToolId }) {
   const t = await getDictionary(locale);
   const c = TOOL_CONTENT[locale][id];
   const ui = CALC_UI[locale];
-  const others = TOOL_IDS.filter((x) => x !== id);
+  const others = VISIBLE_TOOL_IDS.filter((x) => x !== id);
   const related = relatedProduct({ categoria: TOOL_CATEGORY[id] });
   const guide = related && isBuyable(related) ? related : null;
 

@@ -1,7 +1,7 @@
 import type { Locale } from '@/i18n/config';
 import { LOCALES } from '@/i18n/config';
 import { sectionPath } from '@/content/routes';
-import { TOOL_CONTENT, TOOL_IDS, toolPath } from '@/content/tools';
+import { TOOL_CONTENT, VISIBLE_TOOL_IDS, toolPath } from '@/content/tools';
 import { visibleProducts } from '@/content/products';
 import { AUTHOR } from '@/content/author';
 import { DIAGNOSIS_APPROVED } from '@/content/diagnosis';
@@ -30,7 +30,7 @@ export function indexablePages(): IndexablePage[] {
   for (const l of LOCALES) {
     out.push({ path: `/${l}`, alternates: each((x) => `/${x}`), priority: 1, group: 'home' });
     out.push({ path: sectionPath('tools', l), alternates: each((x) => sectionPath('tools', x)), priority: 0.9, group: 'tools' });
-    for (const id of TOOL_IDS) out.push({ path: toolPath(id, l), alternates: each((x) => toolPath(id, x)), priority: 0.9, group: 'tools', title: TOOL_CONTENT[l][id].h1 });
+    for (const id of VISIBLE_TOOL_IDS) out.push({ path: toolPath(id, l), alternates: each((x) => toolPath(id, x)), priority: 0.9, group: 'tools', title: TOOL_CONTENT[l][id].h1 });
     out.push({ path: sectionPath('coaching', l), alternates: each((x) => sectionPath('coaching', x)), priority: 0.8, group: 'coaching' });
     out.push({ path: sectionPath('apply', l), alternates: each((x) => sectionPath('apply', x)), priority: 0.7, group: 'coaching' });
     out.push({ path: sectionPath('programs', l), alternates: each((x) => sectionPath('programs', x)), priority: 0.8, group: 'programs' });

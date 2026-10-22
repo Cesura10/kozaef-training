@@ -2,10 +2,12 @@ import Link from 'next/link';
 import { Calculator } from '@phosphor-icons/react/dist/ssr';
 import type { Locale } from '@/i18n/config';
 import { FUNNEL } from '@/content/funnel';
-import { TOOL_CONTENT, toolPath, type ToolId } from '@/content/tools';
+import { TOOL_CONTENT, toolPath, type ToolId, isToolVisible } from '@/content/tools';
 
 /** Aviso suave hacia una herramienta gratis (a mitad de artículo o en páginas de tema). */
 export function CtaHerramienta({ locale, tool, location = 'article' }: { locale: Locale; tool: ToolId; location?: string }) {
+  // Herramienta oculta por ahora (VISIBLE_TOOL_IDS): el artículo no la anuncia.
+  if (!isToolVisible(tool)) return null;
   const f = FUNNEL[locale];
   const c = TOOL_CONTENT[locale][tool];
   return (
