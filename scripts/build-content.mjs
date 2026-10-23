@@ -25,7 +25,9 @@ const md = unified().use(remarkParse).use(remarkGfm).use(remarkRehype).use(rehyp
 const toHtml = (text) =>
   String(md.processSync(text))
     // Enlaces externos: nueva pestaña segura.
-    .replace(/<a href="(https?:\/\/[^"]+)"/g, '<a href="$1" target="_blank" rel="noopener noreferrer"');
+    .replace(/<a href="(https?:\/\/[^"]+)"/g, '<a href="$1" target="_blank" rel="noopener noreferrer"')
+    // Accesibilidad: en móvil las tablas se desplazan en horizontal; con tabindex se puede con teclado.
+    .replace(/<table>/g, '<table tabindex="0">');
 
 // Candidatos del bot (SOLO en desarrollo): carpetas privadas de simulacros y borradores.
 // Nunca existen en producción ni en GitHub (docs/privado/ está fuera del repositorio público).

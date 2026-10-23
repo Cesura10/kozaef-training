@@ -73,6 +73,13 @@ export default async function SiteLayout({
       <body className="app-backdrop grain min-h-full flex flex-col">
         {/* Antes del contenido: decide si se ve el aviso de cookies sin esperar a JavaScript. */}
         <script dangerouslySetInnerHTML={{ __html: CONSENT_HIDE_SCRIPT }} />
+        {/* Accesibilidad: primer elemento al tabular, para saltar el menú e ir directo al contenido. */}
+        <a
+          href="#contenido"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-full focus:bg-primary focus:px-5 focus:py-3 focus:text-sm focus:font-semibold focus:text-primary-fg"
+        >
+          {locale === "es" ? "Saltar al contenido" : "Skip to content"}
+        </a>
         <MotionProvider>
             {children}
             <AnalyticsProvider locale={locale} />

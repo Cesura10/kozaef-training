@@ -103,14 +103,14 @@ export function CaloriesCalculator({ ui }: { ui: CalcUi }) {
             </div>
           ))}
         </dl>
-        <dl className="mt-5 flex flex-wrap gap-x-6 gap-y-1 text-sm text-muted">
-          <div>
+        <div className="mt-5 flex flex-wrap gap-x-6 gap-y-1 text-sm text-muted">
+          <p>
             {ui.maintenance}: <span className="text-fg">{r.tdee.toLocaleString('es-ES')} kcal</span>
-          </div>
-          <div>
+          </p>
+          <p>
             {ui.bmr}: <span className="text-fg">{r.bmr.toLocaleString('es-ES')} kcal</span>
-          </div>
-        </dl>
+          </p>
+        </div>
       </div>
     </div>
   );

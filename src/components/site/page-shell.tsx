@@ -41,7 +41,7 @@ export async function PageShell({
   return (
     <div className="flex min-h-full flex-1 flex-col">
       <SiteHeader locale={locale} t={t} minimal={minimalHeader} />
-      <main className="flex-1">{children}</main>
+      <main id="contenido" tabIndex={-1} className="flex-1">{children}</main>
       <SiteFooter locale={locale} t={t} />
     </div>
   );

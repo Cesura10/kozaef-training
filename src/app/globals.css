@@ -213,6 +213,11 @@ html.kz-consented .kz-consent { display: none; }
   .foil-text { animation: none; }
 }
 
+/* Accesibilidad: foco de teclado siempre visible (dorado sobre negro, buen contraste). */
+:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+main:focus { outline: none; }
+.marquee.is-paused .marquee-track { animation-play-state: paused; }
+
 /* Utilidades pequeñas ------------------------------------------------------- */
 .card {
   background-color: var(--color-surface);

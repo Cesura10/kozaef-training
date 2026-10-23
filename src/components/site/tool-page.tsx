@@ -74,7 +74,7 @@ export async function ToolPage({ locale, id }: { locale: Locale; id: ToolId }) {
   return (
     <div className="flex min-h-full flex-1 flex-col">
       <SiteHeader locale={locale} t={t} />
-      <main className="flex-1">
+      <main id="contenido" tabIndex={-1} className="flex-1">
         <section className="mx-auto w-full max-w-7xl px-4 pb-16 pt-12 sm:px-6 md:pt-16">
           <div className="animate-rise max-w-3xl">
             <h1 className="display text-4xl font-bold leading-[1.02] md:text-6xl">{c.h1}</h1>
@@ -127,7 +127,8 @@ export async function ToolPage({ locale, id }: { locale: Locale; id: ToolId }) {
                 <h2 className="text-2xl font-semibold text-fg">{c.example.title}</h2>
                 <p className="mt-3 text-lg leading-relaxed text-muted">{c.example.intro}</p>
                 <div className="prose-kz mt-4">
-                  <table>
+                  {/* tabIndex: en móvil la tabla se desplaza en horizontal y debe poder hacerse con teclado. */}
+                  <table tabIndex={0}>
                     <thead>
                       <tr>
                         {c.example.head.map((h) => (

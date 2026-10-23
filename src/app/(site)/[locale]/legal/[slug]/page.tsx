@@ -38,7 +38,7 @@ export default async function LegalPage({ params }: PageProps<'/[locale]/legal/[
   return (
     <div className="flex min-h-full flex-1 flex-col">
       <SiteHeader locale={locale} t={t} />
-      <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-16 sm:px-6">
+      <main id="contenido" tabIndex={-1} className="mx-auto w-full max-w-3xl flex-1 px-4 py-16 sm:px-6">
         <h1 className="display text-4xl font-bold leading-[1.05] md:text-5xl">{doc.title}</h1>
         <p className="mt-4 text-lg text-muted">{doc.intro}</p>
         <div className="mt-12 space-y-10">
