@@ -7,7 +7,7 @@ import { ArrowRight, X } from '@phosphor-icons/react';
 import { AnimatePresence, MotionConfig, m } from 'motion/react';
 
 /** Rutas donde la barra estorba: formularios, gracias, legal y la propia página de pago. */
-const HIDDEN = /\/(solicitar|apply|gracias|thanks|legal|diagnostico|diagnosis|enviar|send)(\/|$)/;
+const HIDDEN = /\/(solicitar|apply|gracias|thanks|legal|diagnostico|diagnosis|enviar|send|enlaces)(\/|$)/;
 const KEY = 'kz-barra-compra-cerrada';
 /** ¿Se ve el aviso de cookies? (es fixed: offsetParent no sirve; display:none deja 0 rectángulos). */
 const bannerOpen = () => (document.querySelector('.kz-consent')?.getClientRects().length ?? 0) > 0;
