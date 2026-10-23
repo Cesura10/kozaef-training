@@ -75,3 +75,37 @@ describe('grasa corporal (Navy)', () => {
     expect(() => calculateBodyfat({ sex: 'female', heightCm: 165, weightKg: 80, neckCm: 38, waistCm: 20, hipCm: 98 })).toThrow(InvalidMeasurementsError);
   });
 });
+
+import { calculateBmi } from './bmi';
+import { calculateOneRm } from './onerm';
+
+describe('IMC', () => {
+  it('calcula el IMC y la categoría de la OMS', () => {
+    const r = calculateBmi({ heightCm: 175, weightKg: 70 });
+    expect(r.bmi).toBe(22.9);
+    expect(r.category).toBe('normal');
+    expect(r.healthyMinKg).toBe(56.7);
+    expect(r.healthyMaxKg).toBe(76.3);
+  });
+  it('clasifica los extremos', () => {
+    expect(calculateBmi({ heightCm: 170, weightKg: 50 }).category).toBe('under');
+    expect(calculateBmi({ heightCm: 170, weightKg: 80 }).category).toBe('over');
+    expect(calculateBmi({ heightCm: 170, weightKg: 120 }).category).toBe('obese3');
+  });
+});
+
+describe('1RM', () => {
+  it('con 1 repetición el 1RM es el propio peso', () => {
+    expect(calculateOneRm({ weightKg: 100, reps: 1 }).oneRm).toBe(100);
+  });
+  it('media de Epley y Brzycki', () => {
+    // Epley 80×(1+5/30)=93,3 · Brzycki 80×36/32=90 → media 91,7 → 91,5
+    const r = calculateOneRm({ weightKg: 80, reps: 5 });
+    expect(r.oneRm).toBe(91.5);
+    expect(r.imprecise).toBe(false);
+    expect(r.table[0]).toEqual({ percent: 95, kg: 87 });
+  });
+  it('avisa por encima de 10 repeticiones', () => {
+    expect(calculateOneRm({ weightKg: 60, reps: 12 }).imprecise).toBe(true);
+  });
+});

@@ -10,7 +10,7 @@ import { PageHero } from './page-hero';
 import { Reveal } from '@/components/marketing/reveal';
 
 /** Unidad que devuelve cada herramienta: se ve gigante y hueca, como anticipo del resultado. */
-const UNIT: Record<ToolId, string> = { calories: 'kcal', protein: 'g/kg', bodyfat: '%' };
+const UNIT: Record<ToolId, string> = { calories: 'kcal', protein: 'g/kg', bodyfat: '%', bmi: 'IMC', onerm: '1RM' };
 
 export const toolsIndexMetadata = (locale: Locale) => {
   const c = pagesCopy(locale).tools;
