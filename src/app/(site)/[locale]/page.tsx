@@ -322,7 +322,7 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
             name: 'Kozaef Training',
             alternateName: ['Kozaef', 'KozaefTraining'],
             url: SITE_URL,
-            logo: `${SITE_URL}/icon.svg`,
+            logo: `${SITE_URL}/icons/icon-512.png`,
             description:
               'Entrenador personal online en español: coaching 1:1 de entrenamiento y nutrición, guías de entrenamiento en PDF y calculadoras gratis.',
             email: 'contacto@kozaeftraining.com',
