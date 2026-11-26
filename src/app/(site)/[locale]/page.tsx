@@ -20,6 +20,7 @@ import { LogoMark } from '@/components/brand';
 import { FondoFoto, Foto } from '@/components/site/foto';
 import { hasLocale } from '@/i18n/config';
 import Link from 'next/link';
+import { preload } from 'react-dom';
 import { toolPath } from '@/content/tools';
 import { sectionPath } from '@/content/routes';
 import { CATEGORIES, CATEGORY_IDS } from '@/content/taxonomy';
@@ -32,12 +33,19 @@ import { JsonLd } from '@/components/site/page-shell';
 import { SITE_URL } from '@/i18n/config';
 import { authorSameAs } from '@/content/author';
 
+const HERO_SRC = '/img/portada-1200.webp';
+const HERO_SRCSET =
+  '/img/portada-480.webp 480w, /img/portada-800.webp 800w, /img/portada-1200.webp 1200w, /img/portada-1600.webp 1600w';
+const HERO_SIZES = '(min-width: 1024px) 64vw, 100vw';
+
 // Página estática por idioma: todos los textos salen de src/i18n/dictionaries.
 export default async function HomePage({ params }: PageProps<'/[locale]'>) {
   const { locale } = await params;
   if (!hasLocale(locale)) notFound();
   const t = await getDictionary(locale);
   const latest = articlesFor(locale).slice(0, 6);
+  // La foto del hero es el LCP: se pide desde el <head> en vez de esperar a leer todo el HTML.
+  preload(HERO_SRC, { as: 'image', imageSrcSet: HERO_SRCSET, imageSizes: HERO_SIZES, fetchPriority: 'high' });
 
   return (
     <div className="flex min-h-full flex-1 flex-col">
@@ -50,9 +58,9 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
           <div className="absolute inset-x-0 top-0 -z-10 h-[62vh] sm:h-[70vh] lg:inset-y-0 lg:left-auto lg:h-auto lg:w-[64%]">
             {/* eslint-disable-next-line @next/next/no-img-element -- WebP ya optimizados (ver components/site/foto.tsx) */}
             <img
-              src="/img/portada-1200.webp"
-              srcSet="/img/portada-480.webp 480w, /img/portada-800.webp 800w, /img/portada-1200.webp 1200w, /img/portada-1600.webp 1600w"
-              sizes="(min-width: 1024px) 64vw, 100vw"
+              src={HERO_SRC}
+              srcSet={HERO_SRCSET}
+              sizes={HERO_SIZES}
               alt={locale === 'es' ? 'Entrenador corrigiendo la técnica de una sentadilla con mancuerna' : 'Coach correcting a dumbbell squat'}
               width={1600}
               height={900}
